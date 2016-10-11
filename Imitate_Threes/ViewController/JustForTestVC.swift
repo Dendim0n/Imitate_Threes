@@ -13,6 +13,7 @@ class JustForTestVC: UIViewController {
     var swipe = UISwipeGestureRecognizer.init()
     let testModel = BoardModel()
     let testBoard = BoardView.init()
+    var swipeDirection = BoardModel.direction.None
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +25,10 @@ class JustForTestVC: UIViewController {
             for ges in (weakSelf?.testBoard.gestureRecognizers!)! {
                 ges.isEnabled = false
             }
-            }) { (Void) in
-                for ges in (weakSelf?.testBoard.gestureRecognizers!)! {
-                    ges.isEnabled = true
-                }
+        }) { (Void) in
+            for ges in (weakSelf?.testBoard.gestureRecognizers!)! {
+                ges.isEnabled = true
+            }
         }
         
         view.addSubview(testBoard)
@@ -37,21 +38,15 @@ class JustForTestVC: UIViewController {
             make.top.equalToSuperview().offset(50)
             make.bottom.equalToSuperview().offset(-50)
         }
-        testBoard.addSwipeGesture(direction: UISwipeGestureRecognizerDirection.up) { (swipe) in
-            weakSelf?.testModel.move(direction: .Up)
-            weakSelf?.sync()
-        }
-        testBoard.addSwipeGesture(direction: UISwipeGestureRecognizerDirection.down) { (swipe) in
-            weakSelf?.testModel.move(direction: .Down)
-            weakSelf?.sync()
-        }
-        testBoard.addSwipeGesture(direction: UISwipeGestureRecognizerDirection.left) { (swipe) in
-            weakSelf?.testModel.move(direction: .Left)
-            weakSelf?.sync()
-        }
-        testBoard.addSwipeGesture(direction: UISwipeGestureRecognizerDirection.right) { (swipe) in
-            weakSelf?.testModel.move(direction: .Right)
-            weakSelf?.sync()
+        testBoard.addPanGesture { (gesture) in
+            if (gesture.state == UIGestureRecognizerState.began) {
+                weakSelf?.swipeDirection = .None
+            } else if (gesture.state == UIGestureRecognizerState.changed && weakSelf?.swipeDirection == BoardModel.direction.None) {
+                weakSelf?.swipeDirection = (weakSelf?.determineSwipeDirection(translation: gesture.translation(in: weakSelf?.testBoard)))!
+            } else if (gesture.state == UIGestureRecognizerState.ended) {
+                weakSelf?.testModel.move(direction: (weakSelf?.swipeDirection)!)
+                weakSelf?.sync()
+            }
         }
         sync()
         
@@ -65,5 +60,39 @@ class JustForTestVC: UIViewController {
             }
         }
     }
-
+    
+    func determineSwipeDirection(translation:CGPoint) ->
+        BoardModel.direction {
+            let gestureMinimumTranslation = 20.0
+            
+            if swipeDirection != .None {
+                return swipeDirection
+            }
+            if (fabs(translation.x) > CGFloat(gestureMinimumTranslation)) {
+                
+                var gestureHorizontal = false
+                
+                if translation.y == 0.0 {
+                    gestureHorizontal = true
+                } else {
+                    gestureHorizontal = (fabs(translation.x / translation.y) > 5.0)
+                }
+                
+                if gestureHorizontal {
+                    if translation.x > 0.0 {
+                        return .Right
+                    } else {
+                        return .Left
+                    }
+                }
+            } else if (fabs(translation.y) > CGFloat(gestureMinimumTranslation)) {
+                if translation.y > 0.0 {
+                    return .Down
+                } else {
+                    return .Up
+                }
+            }
+            return swipeDirection
+    }
+    
 }

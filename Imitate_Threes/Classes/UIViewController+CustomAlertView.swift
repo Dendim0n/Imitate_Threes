@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController {
     func showAlert() {
-        let alert = CustomAlertView.init(frame: CGRect.zero, title: "Test", detailText: "DetailTest", buttonTitle: [""])
+        let alert = CustomAlertView.init(frame: CGRect.zero, title: "Test", detailText: "DetailTest", buttonTitles: ["1","2"])
         alert.show()
         
     }
@@ -21,15 +21,15 @@ class CustomAlertView: UIView {
     var lblTitle = UILabel()
     var lblDetail = UILabel()
     var stackButton = UIStackView()
-    var btnTitle = Array<String>()
+    var btnTitles = Array<String>()
     
     var overlayView = UIView()
     
-    init(frame:CGRect,title:String,detailText:String,buttonTitle:Array<String>?) {
+    init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?) {
         super.init(frame: frame)
         lblTitle.text = title
         lblDetail.text = detailText
-        btnTitle = buttonTitle!
+        btnTitles = buttonTitles!
         
         setView()
     }
@@ -48,6 +48,7 @@ class CustomAlertView: UIView {
         stackButton.distribution = UIStackViewDistribution.fillEqually
         stackButton.backgroundColor = UIColor.blue
         overlayView = UIView.init(frame: (window?.bounds)!)
+        self.clipsToBounds = true
         
         addSubview(lblTitle)
         addSubview(lblDetail)
@@ -62,9 +63,15 @@ class CustomAlertView: UIView {
         stackButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.height.equalTo(40)
         }
-        
+        for btnTitle in btnTitles {
+            let button = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: "hide")
+            button.backgroundColor = UIColor.blue
+            button.setTitle(btnTitle, for: UIControlState.normal)
+            stackButton.addArrangedSubview(button)
+        }
     }
     
     func show() {

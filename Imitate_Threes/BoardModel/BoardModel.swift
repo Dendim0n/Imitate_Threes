@@ -19,6 +19,7 @@ class BoardModel: NSObject {
         case Down
         case Left
         case Right
+        case None
     }
     
     var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
@@ -28,7 +29,7 @@ class BoardModel: NSObject {
     var addedLine = Array<Int>()
     var addedCol = Array<Int>()
     
-    var moveDirection:direction = .Up
+    var moveDirection:direction = .None
     
     func initBoard() {
         
@@ -55,6 +56,8 @@ class BoardModel: NSObject {
             moveRight()
         case .Up:
             moveUp()
+        default:
+            break;
         }
         moveDirection = direction
         if addChess() {
@@ -195,6 +198,8 @@ class BoardModel: NSObject {
                 location = 3
             case .Right,.Down:
                 location = 0
+            case .None:
+                return false
             }
             
             if !addedLine.isEmpty {
