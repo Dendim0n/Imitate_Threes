@@ -52,6 +52,11 @@ class JustForTestVC: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        testBoard.setRealChess()
+    }
+    
     func sync() {
         for i in 0...3 {
             for j in 0...3 {

@@ -55,5 +55,21 @@ class BoardView: UIView {
         }
     }
     
+    func setRealChess() {
+        for i in 0...3 {
+            for j in 0...3 {
+                chesses[i][j] = ChessView.init(frame: hiddenChesses[i][j].frame)
+                print(hiddenChesses[i][j].frame)
+                chesses[i][j].backgroundColor = UIColor.black
+                chesses[i][j].alpha = 0.5
+                addSubview(chesses[i][j])
+                
+                chesses[i][j].snp.makeConstraints { (make) in
+                    make.edges.equalTo(hiddenChesses[i][j])
+                }
+
+            }
+        }
+    }
     
 }
