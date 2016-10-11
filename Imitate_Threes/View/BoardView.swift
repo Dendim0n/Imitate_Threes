@@ -10,6 +10,7 @@ import UIKit
 
 class BoardView: UIView {
     
+
     let spacing = 10
     
     var chesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
@@ -70,6 +71,10 @@ class BoardView: UIView {
 
             }
         }
+    }
+    
+    func moveRealChesses(transform:CGAffineTransform){
+        chesses[1][1].transform = transform
     }
     
 }

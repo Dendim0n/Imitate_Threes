@@ -178,13 +178,13 @@ class BoardModel: NSObject {
     
     func canAdd(a:Int,b:Int) -> Bool {
         if (a == 1 && b == 2) || (a == 2 && b == 1) {
-            print("a:\(a),b:\(b),=\(a+b)")
+//            print("a:\(a),b:\(b),=\(a+b)")
             return true
         } else if a != 1 && a != 2 && b != 2 && b != 1 && a == b {
-            print("a:\(a),b:\(b),=\(a+b)")
+//            print("a:\(a),b:\(b),=\(a+b)")
             return true
         } else {
-            print("a:\(a),b:\(b),CANT")
+//            print("a:\(a),b:\(b),CANT")
             return false
         }
     }

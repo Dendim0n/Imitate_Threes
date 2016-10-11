@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert() {
-        let alert = CustomAlertView.init(frame: CGRect.zero, title: "Test", detailText: "DetailTest", buttonTitles: ["1","2"])
+    func showAlert(title:String,detailText:String,buttonTitles:Array<String>) {
+        let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles)
         alert.show()
         
     }
