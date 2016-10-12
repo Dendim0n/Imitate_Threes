@@ -10,7 +10,10 @@ import UIKit
 
 class BoardView: UIView {
     
-
+    typealias closure = (Void) -> Void
+    
+    var finishedClosure:closure?
+    
     let spacing = 10
     
     var chesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
@@ -74,11 +77,32 @@ class BoardView: UIView {
         }
     }
     
-    func moveRealChesses(transform:CGAffineTransform,movableChesses:Array<Array<Bool>>){
+    func moveRealChesses(transform:CGAffineTransform,movableChesses:Array<Array<Bool>>,finished:Bool){
+        if !finished {
         for line in 0...3 {
             for col in 0...3 {
                 if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
                     chesses[line][col].transform = transform
+                }
+            }
+        }
+        } else {
+            for line in 0...3 {
+                for col in 0...3 {
+                    if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.chesses[line][col].transform = transform
+                        }, completion: { (Bool) in
+                            
+                        })
+                        UIView.animate(withDuration: 0.3, animations: { 
+                            
+                            }, completion: { (Bool) in
+                                self.moveChessesToOrigin(animated: false)
+                                self.finishedClosure?()
+                        })
+                        
+                    }
                 }
             }
         }

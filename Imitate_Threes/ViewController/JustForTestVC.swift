@@ -17,6 +17,8 @@ class JustForTestVC: UIViewController {
     var swipeDirection = BoardModel.direction.None
     var currentPoint = CGPoint.init(x: 0, y: 0)
     var currentTranslationPercent = 0.0
+    var movableChesses = Array<Array<Bool>>()
+    var transform = CGAffineTransform()
     
     override func viewDidLoad() {
         
@@ -26,7 +28,10 @@ class JustForTestVC: UIViewController {
         
         chessModel.initBoard()
         weak var weakSelf = self
-        
+        gameBoard.finishedClosure = {
+            Void in
+            self.sync()
+        }
         view.addSubview(gameBoard)
         gameBoard.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
@@ -46,8 +51,32 @@ class JustForTestVC: UIViewController {
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
                 if self.currentTranslationPercent > 0.6 || self.currentTranslationPercent < -0.6 {
                     weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
-                    weakSelf?.sync()
-                    weakSelf?.gameBoard.moveChessesToOrigin(animated: false)
+                    
+//                    let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
+//                    let padding = 10.0
+//                    let horizontal = Double((chessFrame?.size.width)!) + padding
+//                    let vertical = Double((chessFrame?.size.height)!) + padding
+//                    
+//                    switch self.swipeDirection {
+//                    case .Up:
+//                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
+//                        weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
+//                    case .Down:
+//                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
+//                        weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
+//                    case .Left:
+//                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
+//                        weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
+//                    case .Right:
+//                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
+//                        weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
+//                    default:
+//                        break
+//                    }
+//                    weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+                    self.sync()
+                    self.gameBoard.moveChessesToOrigin(animated: false)
+                    
                 } else {
                     weakSelf?.gameBoard.moveChessesToOrigin(animated: true)
                 }
@@ -71,8 +100,8 @@ class JustForTestVC: UIViewController {
         let point = panGesture.translation(in: gameBoard)
         
         let chessFrame = gameBoard.chesses[0][0].frame
-        var transform:CGAffineTransform
-        var movableChesses = Array<Array<Bool>>()
+        
+        
         let padding = 10.0
         let horizontal = Double(chessFrame.size.width) + padding
         let vertical = Double(chessFrame.size.height) + padding
@@ -97,16 +126,17 @@ class JustForTestVC: UIViewController {
             return
         }
         
-        gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses)
+        gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
         
     }
     
     func sync() {
         for i in 0...3 {
             for j in 0...3 {
-                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j])
+                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: false)
             }
         }
+        chessModel.resetAdded()
     }
     
     func determineSwipeDirection(translation:CGPoint) ->

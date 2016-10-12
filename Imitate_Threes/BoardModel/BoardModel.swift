@@ -19,6 +19,8 @@ class BoardModel: NSObject {
     var upMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
     var downMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
     
+    var addedPosition = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    
     enum direction {
         case Up
         case Down
@@ -94,6 +96,7 @@ class BoardModel: NSObject {
                     if canAdd(a: board[line][col], b: board[line+1][col]) {
                         board[line][col] += board[line+1][col]
                         board[line+1][col] = 0
+                        addedPosition[line][col] = true
                         added = true
                         if !addedCol.contains(col) {
                             addedCol.append(col)
@@ -119,6 +122,7 @@ class BoardModel: NSObject {
                 if !added {
                     if canAdd(a: board[actualLine][col], b: board[actualLine-1][col]) {
                         board[actualLine][col] += board[actualLine-1][col]
+                        addedPosition[actualLine][col] = true
                         board[actualLine-1][col] = 0
                         added = true
                         if !addedCol.contains(col) {
@@ -144,6 +148,7 @@ class BoardModel: NSObject {
                 if !added {
                     if canAdd(a: board[line][col], b: board[line][col+1]) {
                         board[line][col] += board[line][col+1]
+                        addedPosition[line][col] = true
                         board[line][col+1] = 0
                         added = true
                         if !addedLine.contains(line) {
@@ -170,6 +175,7 @@ class BoardModel: NSObject {
                 if !added {
                     if canAdd(a: board[line][actualCol], b: board[line][actualCol-1]) {
                         board[line][actualCol] += board[line][actualCol-1]
+                        addedPosition[line][actualCol] = true
                         board[line][actualCol-1] = 0
                         added = true
                         if !addedLine.contains(line) {
@@ -411,6 +417,10 @@ class BoardModel: NSObject {
             break
         }
         return movableChesses
+    }
+    
+    func resetAdded() {
+        addedPosition = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
     }
 }
 
