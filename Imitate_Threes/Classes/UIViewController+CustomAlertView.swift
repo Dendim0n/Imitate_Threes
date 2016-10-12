@@ -67,7 +67,7 @@ class CustomAlertView: UIView {
             make.height.equalTo(40)
         }
         for btnTitle in btnTitles {
-            let button = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: "hide")
+            let button = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(CustomAlertView.hide))
             button.backgroundColor = UIColor.blue
             button.setTitle(btnTitle, for: UIControlState.normal)
             stackButton.addArrangedSubview(button)

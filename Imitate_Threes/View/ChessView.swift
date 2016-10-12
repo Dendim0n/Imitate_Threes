@@ -11,6 +11,7 @@ import UIKit
 class ChessView: UIView {
     
     var lblChessNumber = UILabel.init()
+    var chessNum = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,12 +35,15 @@ class ChessView: UIView {
     }
     
     func setNumber(number:Int) {
+        chessNum = number
         if number == 0 {
             lblChessNumber.text = ""
              self.layer.shadowOpacity = 0
+            self.alpha = 0
         } else {
             lblChessNumber.text = "\(number)"
              self.layer.shadowOpacity = 0.8
+            self.alpha = 1
         }
         if number == 1 {
             self.backgroundColor = UIColor.init(colorLiteralRed: 86/255.0, green: 192/255.0, blue: 254/255.0, alpha: 1)

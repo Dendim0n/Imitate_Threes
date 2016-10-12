@@ -31,7 +31,7 @@ class BoardView: UIView {
     func commonInit() {
         for i in 0...3 {
             for j in 0...3 {
-                hiddenChesses[i][j].backgroundColor = UIColor.brown
+                hiddenChesses[i][j].backgroundColor = UIColor.clear
             }
         }
         let mainStackView = UIStackView.init()
@@ -61,8 +61,8 @@ class BoardView: UIView {
             for j in 0...3 {
                 chesses[i][j] = ChessView.init(frame: hiddenChesses[i][j].frame)
                 print(hiddenChesses[i][j].frame)
-                chesses[i][j].backgroundColor = UIColor.black
-                chesses[i][j].alpha = 0.5
+//                chesses[i][j].backgroundColor = UIColor.black
+//                chesses[i][j].alpha = 0.5
                 addSubview(chesses[i][j])
                 
                 chesses[i][j].snp.makeConstraints { (make) in
@@ -73,8 +73,28 @@ class BoardView: UIView {
         }
     }
     
-    func moveRealChesses(transform:CGAffineTransform){
-        chesses[1][1].transform = transform
+    func moveRealChesses(transform:CGAffineTransform,movableChesses:Array<Array<Bool>>){
+        for line in 0...3 {
+            for col in 0...3 {
+                if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
+                    chesses[line][col].transform = transform
+                }
+            }
+        }
     }
     
+    func moveChessesToOrigin(animated:Bool) {
+        for line in 0...3 {
+            for col in 0...3 {
+                if animated {
+                    UIView.animate(withDuration: 0.3, animations: { 
+                        self.chesses[line][col].transform = CGAffineTransform.init(translationX: 0, y: 0)
+                    })
+                } else {
+                    chesses[line][col].transform = CGAffineTransform.init(translationX: 0, y: 0)
+                }
+                
+            }
+        }
+    }
 }

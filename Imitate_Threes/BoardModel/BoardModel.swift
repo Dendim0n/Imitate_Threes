@@ -14,12 +14,22 @@ class BoardModel: NSObject {
     var doFinish:finishClosure?
     var doStart:finishClosure?
     
+    var leftMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    var rightMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    var upMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    var downMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    
     enum direction {
         case Up
         case Down
         case Left
         case Right
         case None
+    }
+    
+    enum moveType {
+        case Line
+        case Col
     }
     
     var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
@@ -41,6 +51,7 @@ class BoardModel: NSObject {
             }
         }
         //        board = [[1,2,1,2],[2,1,2,1],[0,0,0,0],[0,0,0,0]]
+        evaluateBoard()
     }
     
     func move(direction:direction) {
@@ -72,6 +83,7 @@ class BoardModel: NSObject {
         if (doFinish != nil){
             doFinish!()
         }
+        evaluateBoard()
     }
     
     func moveUp() {
@@ -178,13 +190,28 @@ class BoardModel: NSObject {
     
     func canAdd(a:Int,b:Int) -> Bool {
         if (a == 1 && b == 2) || (a == 2 && b == 1) {
-//            print("a:\(a),b:\(b),=\(a+b)")
+            //            print("a:\(a),b:\(b),=\(a+b)")
             return true
         } else if a != 1 && a != 2 && b != 2 && b != 1 && a == b {
-//            print("a:\(a),b:\(b),=\(a+b)")
+            //            print("a:\(a),b:\(b),=\(a+b)")
             return true
         } else {
-//            print("a:\(a),b:\(b),CANT")
+            //            print("a:\(a),b:\(b),CANT")
+            return false
+        }
+    }
+    
+    func canMove(a:Int,b:Int) -> Bool {
+        if (a == 1 && b == 2) || (a == 2 && b == 1) {
+            //            print("a:\(a),b:\(b),=\(a+b)")
+            return true
+        } else if (a != 1 && a != 2 && b != 2 && b != 1 && a == b) {
+            //            print("a:\(a),b:\(b),=\(a+b)")
+            return true
+        } else if (a == 0 && b != 0) || (a != 0 && b == 0) {
+            //            print("a:\(a),b:\(b),CANT")
+            return true
+        } else {
             return false
         }
     }
@@ -244,7 +271,7 @@ class BoardModel: NSObject {
     
     func newChess(line:Int,col:Int) {
         let arr = [1,2,3,6]
-//        return arr[Int(arc4random() % UInt32(4))]
+        //        return arr[Int(arc4random() % UInt32(4))]
         if board[line][col] == 0 {
             board[line][col] = arr[Int(arc4random() % UInt32(4))]
         }
@@ -271,4 +298,119 @@ class BoardModel: NSObject {
         doFinish = finishClosure
         doStart = startClosure
     }
+    
+    func evaluateBoard() {
+        //        let testMovable = [[true,false,false,false],[false,true,false,false],[false,false,true,false],[false,false,false,true]]
+        //
+        //        leftMovableChesses = testMovable
+        //        rightMovableChesses = testMovable
+        //        downMovableChesses = testMovable
+        //        upMovableChesses = testMovable
+        
+        leftMovableChesses = getMovableChesses(moveDirection: .Left)
+        rightMovableChesses = getMovableChesses(moveDirection: .Right)
+        upMovableChesses = getMovableChesses(moveDirection: .Up)
+        downMovableChesses = getMovableChesses(moveDirection: .Down)
+        
+    }
+    
+    func getMovableChesses(moveDirection:direction) -> Array<Array<Bool>> {
+        var movableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+        
+        switch moveDirection {
+        case .Up:
+            for col in 0...3 {
+                let movableCol = colMovable(moveD: .Up,numCol: col)
+                for line in 0...3 {
+                    movableChesses[line][col] = movableCol[line]
+                }
+            }
+        case .Down:
+            for col in 0...3 {
+                let movableCol = colMovable(moveD: .Down,numCol: col)
+                for line in 0...3 {
+                    movableChesses[line][col] = movableCol[line]
+                }
+            }
+        case .Left:
+            for line in 0...3 {
+                movableChesses[line] = lineMovable(num: line,moveD: .Left)
+            }
+        case .Right:
+            for line in 0...3 {
+                movableChesses[line] = lineMovable(num: line,moveD: .Right)
+            }
+        default:
+            break
+        }
+        print(movableChesses)
+        return movableChesses
+    }
+    
+    func lineMovable(num:Int,moveD:direction) -> Array<Bool> {
+        var movableChesses = [false,false,false,false]
+        
+        switch moveD {
+        case .Left:
+            movableChesses[0] = false
+            for col in 1...3 {
+                movableChesses[col] = canMove(a: board[num][col - 1], b: board[num][col])
+                if movableChesses[col] {
+                    for afterCol in col...3 {
+                        movableChesses[afterCol] = true
+                    }
+                    break
+                }
+            }
+        case .Right:
+            movableChesses[3] = false
+            for col in 0...2 {
+                let actualCol = 2 - col
+                movableChesses[actualCol] = canMove(a: board[num][actualCol + 1], b: board[num][actualCol])
+                if movableChesses[actualCol] {
+                    for beforeCol in 0...actualCol {
+                        movableChesses[beforeCol] = true
+                    }
+                    break
+                }
+            }
+        default:
+            break
+        }
+        return movableChesses
+    }
+    
+    func colMovable(moveD:direction,numCol:Int) -> Array<Bool> {
+        var movableChesses = [false,false,false,false]
+        
+        switch moveD {
+        case .Up:
+            movableChesses[0] = false
+            for line in 1...3 {
+                movableChesses[line] = canMove(a: board[line-1][numCol], b: board[line][numCol])
+                if movableChesses[line] {
+                    for afterCol in line...3 {
+                        movableChesses[afterCol] = true
+                    }
+                    break
+                }
+            }
+        case .Down:
+            for line in 0...2 {
+                movableChesses[3] = false
+                let actualLine = 2-line
+                movableChesses[actualLine] = canMove(a: board[actualLine][numCol], b: board[actualLine+1][numCol])
+                if movableChesses[actualLine] {
+                    for beforeCol in 0...actualLine {
+                        movableChesses[beforeCol] = true
+                    }
+                    break
+                }
+            }
+        default:
+            break
+        }
+        return movableChesses
+    }
 }
+
