@@ -10,16 +10,16 @@ import UIKit
 
 class BoardModel: NSObject {
     
-    typealias finishClosure = (Void) -> Void
-    var doFinish:finishClosure?
-    var doStart:finishClosure?
+
+    typealias finishClosure = (CGPoint) -> Void
+    var doAddNewChessClosure:finishClosure?
     
-    var leftMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
-    var rightMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
-    var upMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
-    var downMovableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    var leftMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+    var rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+    var upMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+    var downMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
-    var addedPosition = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+    var addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
     enum direction {
         case Up
@@ -57,9 +57,7 @@ class BoardModel: NSObject {
     }
     
     func move(direction:direction) {
-        if doStart != nil {
-            doStart!()
-        }
+
         switch direction {
         case .Down:
             moveDown()
@@ -82,9 +80,7 @@ class BoardModel: NSObject {
         movedLine = []
         addedLine = []
         addedCol = []
-        if (doFinish != nil){
-            doFinish!()
-        }
+
         evaluateBoard()
     }
     
@@ -224,7 +220,7 @@ class BoardModel: NSObject {
     
     func addChess() -> Bool {
         if hasSpace() {
-            
+        
             var location = 0
             switch moveDirection {
             case .Left,.Up:
@@ -241,6 +237,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(addedLine.count - 1))
                     newChess(line: addedLine[rnd], col: location)
+                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
                 }
                 return true
             } else if !addedCol.isEmpty {
@@ -249,6 +246,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(addedCol.count - 1))
                     newChess(line: location, col: rnd)
+                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
                 }
                 return true
             } else if !movedLine.isEmpty {
@@ -257,6 +255,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(movedLine.count - 1))
                     newChess(line: movedLine[rnd], col: location)
+                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
                 }
                 return true
             } else if !movedCol.isEmpty {
@@ -265,6 +264,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(movedCol.count - 1))
                     newChess(line: location, col: rnd)
+                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
                 }
                 return true
             } else {
@@ -300,18 +300,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func initClosure(startClosure:finishClosure?,finishClosure:finishClosure?){
-        doFinish = finishClosure
-        doStart = startClosure
-    }
-    
     func evaluateBoard() {
-        //        let testMovable = [[true,false,false,false],[false,true,false,false],[false,false,true,false],[false,false,false,true]]
-        //
-        //        leftMovableChesses = testMovable
-        //        rightMovableChesses = testMovable
-        //        downMovableChesses = testMovable
-        //        upMovableChesses = testMovable
         
         leftMovableChesses = getMovableChesses(moveDirection: .Left)
         rightMovableChesses = getMovableChesses(moveDirection: .Right)
@@ -321,7 +310,7 @@ class BoardModel: NSObject {
     }
     
     func getMovableChesses(moveDirection:direction) -> Array<Array<Bool>> {
-        var movableChesses = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+        var movableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
         
         switch moveDirection {
         case .Up:
@@ -420,7 +409,7 @@ class BoardModel: NSObject {
     }
     
     func resetAdded() {
-        addedPosition = [[false,false,false,false],[false,false,false,false],[false,false,false,false],[false,false,false,false]]
+        addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     }
 }
 

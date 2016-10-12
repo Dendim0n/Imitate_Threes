@@ -30,6 +30,17 @@ class JustForTestVC: UIViewController {
             Void in
             self.sync()
         }
+        chessModel.doAddNewChessClosure = {
+            point in
+//            let x = Int(point.x)
+//            let y = Int(point.y)
+//            print("add:\(point.x),\(point.y)")
+//            
+//            self.gameBoard.chesses[x][y].transform = CGAffineTransform.init(translationX: 0, y: 150)
+//            UIView.animate(withDuration: 0.3, animations: { 
+//                self.gameBoard.chesses[x][y].transform = CGAffineTransform.init(translationX: 0, y: 0)
+//            })
+        }
         view.addSubview(gameBoard)
         gameBoard.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
@@ -112,24 +123,24 @@ class JustForTestVC: UIViewController {
             guard currentTranslationPercent < 0 else {
                 return
             }
-            transform = CGAffineTransform(translationX: 0, y: max(point.y,CGFloat(-vertical)))
+            transform = CGAffineTransform(translationX: 0, y: min(0,max(point.y,CGFloat(-vertical))))
             movableChesses = chessModel.upMovableChesses
         case .Down:
             currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
             guard currentTranslationPercent > 0 else {
                 return
             }
-            transform = CGAffineTransform(translationX: 0, y: min(point.y,CGFloat(vertical)))
+            transform = CGAffineTransform(translationX: 0, y: max(0,min(point.y,CGFloat(vertical))))
             movableChesses = chessModel.downMovableChesses
         case .Left:
             currentTranslationPercent = Double(max(point.x,CGFloat(-horizontal))) / horizontal
             guard currentTranslationPercent < 0 else {
                 return
             }
-            transform = CGAffineTransform(translationX: max(point.x,CGFloat(-horizontal)), y: 0)
+            transform = CGAffineTransform(translationX: min(0,max(point.x,CGFloat(-horizontal))), y: 0)
             movableChesses = chessModel.leftMovableChesses
         case .Right:
-            currentTranslationPercent = Double(max(point.x,CGFloat(-horizontal))) / horizontal
+            currentTranslationPercent = Double(max(0,max(point.x,CGFloat(-horizontal)))) / horizontal
             guard currentTranslationPercent > 0 else {
                 return
             }
