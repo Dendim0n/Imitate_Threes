@@ -48,6 +48,7 @@ class JustForTestVC: UIViewController {
                 
 //                weakSelf?.currentPoint = gesture.translation(in: weakSelf?.gameBoard)
             } else if (gesture.state == UIGestureRecognizerState.ended) {
+                print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
                 if self.currentTranslationPercent > 0.6 || self.currentTranslationPercent < -0.6 {
                     weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
@@ -107,25 +108,37 @@ class JustForTestVC: UIViewController {
         let vertical = Double(chessFrame.size.height) + padding
         switch self.swipeDirection {
         case .Up:
+            currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
+            guard currentTranslationPercent < 0 else {
+                return
+            }
             transform = CGAffineTransform(translationX: 0, y: max(point.y,CGFloat(-vertical)))
-            currentTranslationPercent = Double(transform.ty) / vertical
             movableChesses = chessModel.upMovableChesses
         case .Down:
+            currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
+            guard currentTranslationPercent > 0 else {
+                return
+            }
             transform = CGAffineTransform(translationX: 0, y: min(point.y,CGFloat(vertical)))
-            currentTranslationPercent = Double(transform.ty) / vertical
             movableChesses = chessModel.downMovableChesses
         case .Left:
+            currentTranslationPercent = Double(max(point.x,CGFloat(-horizontal))) / horizontal
+            guard currentTranslationPercent < 0 else {
+                return
+            }
             transform = CGAffineTransform(translationX: max(point.x,CGFloat(-horizontal)), y: 0)
-            currentTranslationPercent = Double(transform.tx) / horizontal
             movableChesses = chessModel.leftMovableChesses
         case .Right:
+            currentTranslationPercent = Double(max(point.x,CGFloat(-horizontal))) / horizontal
+            guard currentTranslationPercent > 0 else {
+                return
+            }
             transform = CGAffineTransform(translationX: min(point.x,CGFloat(horizontal)), y: 0)
-            currentTranslationPercent = Double(transform.tx) / horizontal
             movableChesses = chessModel.rightMovableChesses
         default:
             return
         }
-        
+        print(currentTranslationPercent)
         gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
         
     }
