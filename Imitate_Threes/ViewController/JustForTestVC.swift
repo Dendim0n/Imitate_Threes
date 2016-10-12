@@ -23,9 +23,7 @@ class JustForTestVC: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        displayLink = CADisplayLink.init(target: self, selector: #selector(moveChesses))
-        
+
         chessModel.initBoard()
         weak var weakSelf = self
         gameBoard.finishedClosure = {
@@ -42,41 +40,43 @@ class JustForTestVC: UIViewController {
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
                 weakSelf?.swipeDirection = .None
+                self.displayLink = CADisplayLink.init(target: self, selector: #selector(self.moveChesses))
                 weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             } else if (gesture.state == UIGestureRecognizerState.changed) {
-                
-                
-//                weakSelf?.currentPoint = gesture.translation(in: weakSelf?.gameBoard)
+
             } else if (gesture.state == UIGestureRecognizerState.ended) {
                 print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
                 if self.currentTranslationPercent > 0.6 || self.currentTranslationPercent < -0.6 {
-                    weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
                     
-//                    let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
-//                    let padding = 10.0
-//                    let horizontal = Double((chessFrame?.size.width)!) + padding
-//                    let vertical = Double((chessFrame?.size.height)!) + padding
-//                    
-//                    switch self.swipeDirection {
-//                    case .Up:
-//                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
-//                        weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
-//                    case .Down:
-//                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
-//                        weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
-//                    case .Left:
-//                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
-//                        weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
-//                    case .Right:
-//                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
-//                        weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
-//                    default:
-//                        break
-//                    }
-//                    weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
-                    self.sync()
-                    self.gameBoard.moveChessesToOrigin(animated: false)
+                    DispatchQueue.global().async {
+                        weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
+                    }
+                    
+                    let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
+                    let padding = 10.0
+                    let horizontal = Double((chessFrame?.size.width)!) + padding
+                    let vertical = Double((chessFrame?.size.height)!) + padding
+                    
+                    switch self.swipeDirection {
+                    case .Up:
+                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
+                        weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
+                    case .Down:
+                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
+                        weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
+                    case .Left:
+                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
+                        weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
+                    case .Right:
+                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
+                        weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
+                    default:
+                        break
+                    }
+                    weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+//                    self.sync()
+//                    self.gameBoard.moveChessesToOrigin(animated: false)
                     
                 } else {
                     weakSelf?.gameBoard.moveChessesToOrigin(animated: true)

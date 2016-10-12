@@ -2,4 +2,54 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Imitate_Threes/ViewController/JustForTestVC.swift"
+            timestampString = "497969284.553615"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "moveChesses()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Imitate_Threes.JustForTestVC.moveChesses () -&gt; ()"
+                  moduleName = "Imitate_Threes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/renqiming/Desktop/GitHub_Repos/Imitate_Threes/Imitate_Threes/ViewController/JustForTestVC.swift"
+                  timestampString = "497962305.248238"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "15">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Imitate_Threes.JustForTestVC.moveChesses () -&gt; ()"
+                  moduleName = "Imitate_Threes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/renqiming/Desktop/GitHub_Repos/Imitate_Threes/Imitate_Threes/ViewController/JustForTestVC.swift"
+                  timestampString = "497962305.25163"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "4745">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

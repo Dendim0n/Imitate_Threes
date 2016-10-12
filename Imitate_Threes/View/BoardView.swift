@@ -18,7 +18,7 @@ class BoardView: UIView {
     
     var chesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
     
-//    [[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()]]
+    //    [[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()]]
     
     var hiddenChesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
     
@@ -65,54 +65,55 @@ class BoardView: UIView {
             for j in 0...3 {
                 chesses[i][j] = ChessView.init(frame: hiddenChesses[i][j].frame)
                 print(hiddenChesses[i][j].frame)
-//                chesses[i][j].backgroundColor = UIColor.black
-//                chesses[i][j].alpha = 0.5
+                //                chesses[i][j].backgroundColor = UIColor.black
+                //                chesses[i][j].alpha = 0.5
                 addSubview(chesses[i][j])
                 
                 chesses[i][j].snp.makeConstraints { (make) in
                     make.edges.equalTo(hiddenChesses[i][j])
                 }
-
+                
             }
         }
     }
     
     func moveRealChesses(transform:CGAffineTransform,movableChesses:Array<Array<Bool>>,finished:Bool){
         if !finished {
-        for line in 0...3 {
-            for col in 0...3 {
-                if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
-                    chesses[line][col].transform = transform
-                }
-            }
-        }
-        } else {
             for line in 0...3 {
                 for col in 0...3 {
                     if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
-                        UIView.animate(withDuration: 0.2, animations: {
-                            self.chesses[line][col].transform = transform
-                        }, completion: { (Bool) in
-                            
-                        })
-                        UIView.animate(withDuration: 0.3, animations: { 
-                            
-                            }, completion: { (Bool) in
-                                self.moveChessesToOrigin(animated: false)
-                                self.finishedClosure?()
-                        })
-                        
+                        chesses[line][col].transform = transform
                     }
                 }
             }
+        } else {
+            UIView.beginAnimations("finishAnimation", context: nil)
+            UIView.setAnimationDelegate(self)
+            UIView.setAnimationDelay(0)
+            UIView.setAnimationDuration(0.2)
+            for line in 0...3 {
+                for col in 0...3 {
+                    if movableChesses[line][col] && self.chesses[line][col].chessNum != 0 {
+                        self.chesses[line][col].transform = transform
+                    }
+                }
+            }
+            UIView.setAnimationDidStop(#selector(animStop))
+            UIView.commitAnimations()
         }
+    }
+    
+    func animStop() {
+        print("animStopped")
+        self.moveChessesToOrigin(animated: false)
+        self.finishedClosure?()
     }
     
     func moveChessesToOrigin(animated:Bool) {
         for line in 0...3 {
             for col in 0...3 {
                 if animated {
-                    UIView.animate(withDuration: 0.3, animations: { 
+                    UIView.animate(withDuration: 0.3, animations: {
                         self.chesses[line][col].transform = CGAffineTransform.init(translationX: 0, y: 0)
                     })
                 } else {
