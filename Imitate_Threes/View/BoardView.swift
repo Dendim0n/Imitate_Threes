@@ -31,10 +31,11 @@ class BoardView: UIView {
     func commonInit() {
         for i in 0...3 {
             for j in 0...3 {
-                hiddenChesses[i][j].backgroundColor = UIColor.clear
+                hiddenChesses[i][j].backgroundColor = UIColor.white
             }
         }
         let mainStackView = UIStackView.init()
+        self.backgroundColor = UIColor.lightGray
         addSubview(mainStackView)
         mainStackView.alignment = UIStackViewAlignment.fill
         mainStackView.axis = UILayoutConstraintAxis.vertical

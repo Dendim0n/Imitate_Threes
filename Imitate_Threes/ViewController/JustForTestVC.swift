@@ -10,54 +10,47 @@ import UIKit
 
 class JustForTestVC: UIViewController {
     
-//    var displayLink = CADisplayLink()
-    
-    
+    var displayLink = CADisplayLink()
     var swipe = UISwipeGestureRecognizer.init()
-    let testModel = BoardModel()
-    let testBoard = BoardView.init()
+    let chessModel = BoardModel()
+    let gameBoard = BoardView.init()
     var swipeDirection = BoardModel.direction.None
-
-//    var currentPoint = CGPoint.init(x: 0, y: 0)
-    
+    var currentPoint = CGPoint.init(x: 0, y: 0)
     var currentTranslationPercent = 0.0
     
     override func viewDidLoad() {
         
-//        displayLink = CADisplayLink.init(target: self, selector: #selector(moveChesses))
-//        displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
-//        
         super.viewDidLoad()
         
-        testModel.initBoard()
+        displayLink = CADisplayLink.init(target: self, selector: #selector(moveChesses))
+        
+        chessModel.initBoard()
         weak var weakSelf = self
         
-        view.addSubview(testBoard)
-        testBoard.snp.makeConstraints { (make) in
+        view.addSubview(gameBoard)
+        gameBoard.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
             make.top.equalToSuperview().offset(50)
             make.bottom.equalToSuperview().offset(-50)
         }
-        testBoard.addPanGesture { (gesture) in
+        gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
                 weakSelf?.swipeDirection = .None
-                
+                weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             } else if (gesture.state == UIGestureRecognizerState.changed) {
-                weakSelf?.swipeDirection = (weakSelf?.determineSwipeDirection(translation: gesture.translation(in: weakSelf?.testBoard)))!
-//                weakSelf?.currentPoint = gesture.translation(in: weakSelf?.testBoard)
-                weakSelf?.moveChesses(point: gesture.translation(in: weakSelf?.testBoard))
-//                print("translation.x is \(gesture.translation(in: weakSelf?.testBoard))")
+                
+                
+//                weakSelf?.currentPoint = gesture.translation(in: weakSelf?.gameBoard)
             } else if (gesture.state == UIGestureRecognizerState.ended) {
-                
+                weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
                 if self.currentTranslationPercent > 0.6 || self.currentTranslationPercent < -0.6 {
-                    weakSelf?.testModel.move(direction: (weakSelf?.swipeDirection)!)
+                    weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
                     weakSelf?.sync()
-                    weakSelf?.testBoard.moveChessesToOrigin(animated: false)
+                    weakSelf?.gameBoard.moveChessesToOrigin(animated: false)
                 } else {
-                    weakSelf?.testBoard.moveChessesToOrigin(animated: true)
+                    weakSelf?.gameBoard.moveChessesToOrigin(animated: true)
                 }
-                
             }
         }
         
@@ -66,14 +59,18 @@ class JustForTestVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        testBoard.setRealChess()
+        gameBoard.setRealChess()
         sync()
     }
     
-    func moveChesses(point:CGPoint) {
-//        let point = self.currentPoint
-//        print(point)
-        let chessFrame = testBoard.chesses[0][0].frame
+    func moveChesses() { //point:CGPoint
+        
+        let panGesture = gameBoard.gestureRecognizers?[0] as! UIPanGestureRecognizer
+        
+        swipeDirection = determineSwipeDirection(translation: panGesture.translation(in: gameBoard))
+        let point = panGesture.translation(in: gameBoard)
+        
+        let chessFrame = gameBoard.chesses[0][0].frame
         var transform:CGAffineTransform
         var movableChesses = Array<Array<Bool>>()
         let padding = 10.0
@@ -83,31 +80,31 @@ class JustForTestVC: UIViewController {
         case .Up:
             transform = CGAffineTransform(translationX: 0, y: max(point.y,CGFloat(-vertical)))
             currentTranslationPercent = Double(transform.ty) / vertical
-            movableChesses = testModel.upMovableChesses
+            movableChesses = chessModel.upMovableChesses
         case .Down:
             transform = CGAffineTransform(translationX: 0, y: min(point.y,CGFloat(vertical)))
             currentTranslationPercent = Double(transform.ty) / vertical
-            movableChesses = testModel.downMovableChesses
+            movableChesses = chessModel.downMovableChesses
         case .Left:
             transform = CGAffineTransform(translationX: max(point.x,CGFloat(-horizontal)), y: 0)
             currentTranslationPercent = Double(transform.tx) / horizontal
-            movableChesses = testModel.leftMovableChesses
+            movableChesses = chessModel.leftMovableChesses
         case .Right:
             transform = CGAffineTransform(translationX: min(point.x,CGFloat(horizontal)), y: 0)
             currentTranslationPercent = Double(transform.tx) / horizontal
-            movableChesses = testModel.rightMovableChesses
+            movableChesses = chessModel.rightMovableChesses
         default:
             return
         }
         
-        testBoard.moveRealChesses(transform: transform, movableChesses: movableChesses)
+        gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses)
         
     }
     
     func sync() {
         for i in 0...3 {
             for j in 0...3 {
-                testBoard.chesses[i][j].setNumber(number: testModel.board[i][j])
+                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j])
             }
         }
     }
