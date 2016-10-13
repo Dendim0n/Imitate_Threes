@@ -10,6 +10,9 @@ import UIKit
 
 class ChessView: UIView {
     
+    var line = 0
+    var col = 0
+    
     var lblChessNumber = UILabel.init()
     var chessNum = 0
     
@@ -34,7 +37,7 @@ class ChessView: UIView {
         }
     }
     
-    func setNumber(number:Int,added:Bool) {
+    func setNumber(number:Int,added:Bool,direction: BoardModel.direction) {
         chessNum = number
         if number == 0 {
             lblChessNumber.text = ""
@@ -69,7 +72,7 @@ class ChessView: UIView {
         //        [UIView commitAnimations];
         
         let newChess = ChessView.init(frame: self.frame)
-        newChess.setNumber(number: number,added: false)
+//        newChess.setNumber(number: number,added: false)
         
         //        var context = UIGraphicsGetCurrentContext()
         //        UIView.beginAnimations(nil, context: context)
