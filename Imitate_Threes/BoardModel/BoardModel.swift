@@ -301,12 +301,12 @@ class BoardModel: NSObject {
     }
     
     func evaluateBoard() {
-        
-        leftMovableChesses = getMovableChesses(moveDirection: .Left)
-        rightMovableChesses = getMovableChesses(moveDirection: .Right)
-        upMovableChesses = getMovableChesses(moveDirection: .Up)
-        downMovableChesses = getMovableChesses(moveDirection: .Down)
-        
+        DispatchQueue.global().async {
+            self.leftMovableChesses = self.getMovableChesses(moveDirection: .Left)
+            self.rightMovableChesses = self.getMovableChesses(moveDirection: .Right)
+            self.upMovableChesses = self.getMovableChesses(moveDirection: .Up)
+            self.downMovableChesses = self.getMovableChesses(moveDirection: .Down)
+        }
     }
     
     func getMovableChesses(moveDirection:direction) -> Array<Array<Bool>> {

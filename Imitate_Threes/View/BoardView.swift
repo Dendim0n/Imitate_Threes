@@ -68,7 +68,8 @@ class BoardView: UIView {
                 //                chesses[i][j].backgroundColor = UIColor.black
                 //                chesses[i][j].alpha = 0.5
                 addSubview(chesses[i][j])
-                
+                chesses[i][j].line = i
+                chesses[i][j].col = j
                 chesses[i][j].snp.makeConstraints { (make) in
                     make.edges.equalTo(hiddenChesses[i][j])
                 }

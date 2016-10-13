@@ -62,33 +62,34 @@ class JustForTestVC: UIViewController {
                     
                     DispatchQueue.global().async {
                         weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
+                        DispatchQueue.main.async(execute: { 
+                            
+                            let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
+                            let padding = 10.0
+                            let horizontal = Double((chessFrame?.size.width)!) + padding
+                            let vertical = Double((chessFrame?.size.height)!) + padding
+                            
+                            switch self.swipeDirection {
+                            case .Up:
+                                weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
+                                weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
+                            case .Down:
+                                weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
+                                weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
+                            case .Left:
+                                weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
+                                weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
+                            case .Right:
+                                weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
+                                weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
+                            default:
+                                break
+                            }
+                            weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+                            //                    self.sync()
+                            //                    self.gameBoard.moveChessesToOrigin(animated: false)
+                        })
                     }
-                    
-                    let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
-                    let padding = 10.0
-                    let horizontal = Double((chessFrame?.size.width)!) + padding
-                    let vertical = Double((chessFrame?.size.height)!) + padding
-                    
-                    switch self.swipeDirection {
-                    case .Up:
-                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
-                        weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
-                    case .Down:
-                        weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
-                        weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
-                    case .Left:
-                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
-                        weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
-                    case .Right:
-                        weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
-                        weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
-                    default:
-                        break
-                    }
-                    weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
-//                    self.sync()
-//                    self.gameBoard.moveChessesToOrigin(animated: false)
-                    
                 } else {
                     weakSelf?.gameBoard.moveChessesToOrigin(animated: true)
                 }
@@ -157,7 +158,7 @@ class JustForTestVC: UIViewController {
     func sync() {
         for i in 0...3 {
             for j in 0...3 {
-                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: false)
+                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: false,direction: swipeDirection)
             }
         }
         chessModel.resetAdded()
