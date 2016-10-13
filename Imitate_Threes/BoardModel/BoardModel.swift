@@ -30,12 +30,17 @@ class BoardModel: NSObject {
         case None
     }
     
+    enum moveType {
+        case Line
+        case Col
+    }
+    
     var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     
     var movedLine = Array<Int>()
     var movedCol = Array<Int>()
-    var plusLine = Array<Int>()
-    var plusCol = Array<Int>()
+    var addedLine = Array<Int>()
+    var addedCol = Array<Int>()
     
     var moveDirection:direction = .None
     
@@ -78,8 +83,8 @@ class BoardModel: NSObject {
         }
         movedCol = []
         movedLine = []
-        plusLine = []
-        plusCol = []
+        addedLine = []
+        addedCol = []
         
         evaluateBoard()
         doAdded?()
@@ -118,6 +123,8 @@ class BoardModel: NSObject {
             return false
         }
         
+        
+        
         var location = 0
         switch moveDirection {
         case .Left,.Up:
@@ -128,20 +135,20 @@ class BoardModel: NSObject {
             return false
         }
         
-        if !plusLine.isEmpty {
-            if plusLine.count == 1 {
-                newChess(line: plusLine[0], col: location)
+        if !addedLine.isEmpty {
+            if addedLine.count == 1 {
+                newChess(line: addedLine[0], col: location)
             } else {
-                let rnd = Int(arc4random() % UInt32(plusLine.count - 1))
-                newChess(line: plusLine[rnd], col: location)
+                let rnd = Int(arc4random() % UInt32(addedLine.count - 1))
+                newChess(line: addedLine[rnd], col: location)
                 //                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
             }
             return true
-        } else if !plusCol.isEmpty {
-            if plusCol.count == 1 {
-                newChess(line: location, col: plusCol[0])
+        } else if !addedCol.isEmpty {
+            if addedCol.count == 1 {
+                newChess(line: location, col: addedCol[0])
             } else {
-                let rnd = Int(arc4random() % UInt32(plusCol.count - 1))
+                let rnd = Int(arc4random() % UInt32(addedCol.count - 1))
                 newChess(line: location, col: rnd)
                 //                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
             }
@@ -189,8 +196,8 @@ class BoardModel: NSObject {
                         board[line+1][col] = 0
                         addedPosition[line][col] = true
                         plus = true
-                        if !plusCol.contains(col) {
-                            plusCol.append(col)
+                        if !addedCol.contains(col) {
+                            addedCol.append(col)
                         }
                     }
                 }
@@ -216,8 +223,8 @@ class BoardModel: NSObject {
                         addedPosition[actualLine][col] = true
                         board[actualLine-1][col] = 0
                         plus = true
-                        if !plusCol.contains(col) {
-                            plusCol.append(col)
+                        if !addedCol.contains(col) {
+                            addedCol.append(col)
                         }
                     }
                 }
@@ -242,8 +249,8 @@ class BoardModel: NSObject {
                         addedPosition[line][col] = true
                         board[line][col+1] = 0
                         plus = true
-                        if !plusLine.contains(line) {
-                            plusLine.append(line)
+                        if !addedLine.contains(line) {
+                            addedLine.append(line)
                         }
                     }
                 }
@@ -269,8 +276,8 @@ class BoardModel: NSObject {
                         addedPosition[line][actualCol] = true
                         board[line][actualCol-1] = 0
                         plus = true
-                        if !plusLine.contains(line) {
-                            plusLine.append(line)
+                        if !addedLine.contains(line) {
+                            addedLine.append(line)
                         }
                     }
                 }
