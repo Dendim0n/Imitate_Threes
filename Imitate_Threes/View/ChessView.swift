@@ -15,6 +15,7 @@ class ChessView: UIView {
     
     var lblChessNumber = UILabel.init()
     var chessNum = 0
+    var lastNum = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,6 +59,48 @@ class ChessView: UIView {
         } else {
             self.backgroundColor = UIColor.white
         }
+        
+        
+        if lastNum == 0 {
+            
+            let padding = CGFloat(10)
+            let offsetY = self.frame.size.height + padding
+            let offsetX = self.frame.size.width + padding
+            var transform = CGAffineTransform()
+            switch direction {
+            case .Up:
+                guard self.line == 3 else {
+                    return
+                }
+                transform = CGAffineTransform.init(translationX: 0, y: offsetY)
+            case .Down:
+                guard self.line == 0 else {
+                    return
+                }
+                transform = CGAffineTransform.init(translationX: 0, y: -offsetY)
+            case .Left:
+                guard self.col == 3 else {
+                    return
+                }
+                transform = CGAffineTransform.init(translationX: offsetX, y: 0)
+            case .Right:
+                guard self.col == 0 else {
+                    return
+                }
+                transform = CGAffineTransform.init(translationX: -offsetX, y: 0)
+            default:
+                return
+            }
+            self.transform = transform
+            UIView.animate(withDuration: 0.3, animations: {
+                self.transform = CGAffineTransform.init(translationX: 0, y: 0)
+            }) { (Bool) in
+                //            self.addFinishedClosure?()
+            }
+        }
+        lastNum = number
+        
+        
     }
     
     func flipToNewNumber(number:Int) {
@@ -72,7 +115,7 @@ class ChessView: UIView {
         //        [UIView commitAnimations];
         
         let newChess = ChessView.init(frame: self.frame)
-//        newChess.setNumber(number: number,added: false)
+        //        newChess.setNumber(number: number,added: false)
         
         //        var context = UIGraphicsGetCurrentContext()
         //        UIView.beginAnimations(nil, context: context)

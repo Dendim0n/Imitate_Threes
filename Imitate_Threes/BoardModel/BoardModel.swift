@@ -11,8 +11,9 @@ import UIKit
 class BoardModel: NSObject {
     
 
-    typealias finishClosure = (CGPoint) -> Void
-    var doAddNewChessClosure:finishClosure?
+    typealias finishClosure = (Void) -> Void
+    var doAdded:finishClosure?
+    var doMoved:finishClosure?
     
     var leftMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     var rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
@@ -71,6 +72,10 @@ class BoardModel: NSObject {
             break;
         }
         moveDirection = direction
+        doMoved?()
+    }
+    
+    func addNewChess() {
         if addChess() {
             print("chess add")
         } else {
@@ -80,8 +85,9 @@ class BoardModel: NSObject {
         movedLine = []
         addedLine = []
         addedCol = []
-
+        
         evaluateBoard()
+        doAdded?()
     }
     
     func moveUp() {
@@ -237,7 +243,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(addedLine.count - 1))
                     newChess(line: addedLine[rnd], col: location)
-                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
+//                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
                 }
                 return true
             } else if !addedCol.isEmpty {
@@ -246,7 +252,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(addedCol.count - 1))
                     newChess(line: location, col: rnd)
-                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
+//                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
                 }
                 return true
             } else if !movedLine.isEmpty {
@@ -255,7 +261,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(movedLine.count - 1))
                     newChess(line: movedLine[rnd], col: location)
-                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
+//                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
                 }
                 return true
             } else if !movedCol.isEmpty {
@@ -264,7 +270,7 @@ class BoardModel: NSObject {
                 } else {
                     let rnd = Int(arc4random() % UInt32(movedCol.count - 1))
                     newChess(line: location, col: rnd)
-                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
+//                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
                 }
                 return true
             } else {

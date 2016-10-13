@@ -29,17 +29,15 @@ class JustForTestVC: UIViewController {
         gameBoard.finishedClosure = {
             Void in
             self.sync()
+            self.chessModel.addNewChess()
         }
-        chessModel.doAddNewChessClosure = {
-            point in
-//            let x = Int(point.x)
-//            let y = Int(point.y)
-//            print("add:\(point.x),\(point.y)")
-//            
-//            self.gameBoard.chesses[x][y].transform = CGAffineTransform.init(translationX: 0, y: 150)
-//            UIView.animate(withDuration: 0.3, animations: { 
-//                self.gameBoard.chesses[x][y].transform = CGAffineTransform.init(translationX: 0, y: 0)
-//            })
+        chessModel.doAdded = {
+            Void in
+            self.sync()
+        }
+        chessModel.doMoved = {
+            Void in
+//            self.sync()
         }
         view.addSubview(gameBoard)
         gameBoard.snp.makeConstraints { (make) in
