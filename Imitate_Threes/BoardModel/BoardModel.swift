@@ -10,7 +10,7 @@ import UIKit
 
 class BoardModel: NSObject {
     
-
+    
     typealias finishClosure = (Void) -> Void
     var doAdded:finishClosure?
     var doMoved:finishClosure?
@@ -30,17 +30,12 @@ class BoardModel: NSObject {
         case None
     }
     
-    enum moveType {
-        case Line
-        case Col
-    }
-    
     var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     
     var movedLine = Array<Int>()
     var movedCol = Array<Int>()
-    var addedLine = Array<Int>()
-    var addedCol = Array<Int>()
+    var plusLine = Array<Int>()
+    var plusCol = Array<Int>()
     
     var moveDirection:direction = .None
     
@@ -58,7 +53,7 @@ class BoardModel: NSObject {
     }
     
     func move(direction:direction) {
-
+        
         switch direction {
         case .Down:
             moveDown()
@@ -83,117 +78,11 @@ class BoardModel: NSObject {
         }
         movedCol = []
         movedLine = []
-        addedLine = []
-        addedCol = []
+        plusLine = []
+        plusCol = []
         
         evaluateBoard()
         doAdded?()
-    }
-    
-    func moveUp() {
-        for col in 0...3 {
-            var added = false
-            for line in 0...2 {
-                if !added {
-                    if canAdd(a: board[line][col], b: board[line+1][col]) {
-                        board[line][col] += board[line+1][col]
-                        board[line+1][col] = 0
-                        addedPosition[line][col] = true
-                        added = true
-                        if !addedCol.contains(col) {
-                            addedCol.append(col)
-                        }
-                    }
-                }
-                if board[line][col] == 0 {
-                    board[line][col] = board[line+1][col]
-                    board[line+1][col] = 0
-                    if !movedCol.contains(col) {
-                        movedCol.append(col)
-                    }
-                }
-            }
-        }
-    }
-    
-    func moveDown() {
-        for col in 0...3 {
-            var added = false
-            for line in 0...2 {
-                let actualLine = 3-line
-                if !added {
-                    if canAdd(a: board[actualLine][col], b: board[actualLine-1][col]) {
-                        board[actualLine][col] += board[actualLine-1][col]
-                        addedPosition[actualLine][col] = true
-                        board[actualLine-1][col] = 0
-                        added = true
-                        if !addedCol.contains(col) {
-                            addedCol.append(col)
-                        }
-                    }
-                }
-                if board[actualLine][col] == 0 {
-                    board[actualLine][col] = board[actualLine-1][col]
-                    board[actualLine-1][col] = 0
-                    if !movedCol.contains(col) {
-                        movedCol.append(col)
-                    }
-                }
-            }
-        }
-    }
-    
-    func moveLeft() {
-        for line in 0...3 {
-            var added = false
-            for col in 0...2 {
-                if !added {
-                    if canAdd(a: board[line][col], b: board[line][col+1]) {
-                        board[line][col] += board[line][col+1]
-                        addedPosition[line][col] = true
-                        board[line][col+1] = 0
-                        added = true
-                        if !addedLine.contains(line) {
-                            addedLine.append(line)
-                        }
-                    }
-                }
-                if board[line][col] == 0 {
-                    board[line][col] = board[line][col+1]
-                    board[line][col+1] = 0
-                    if !movedLine.contains(line) {
-                        movedLine.append(line)
-                    }
-                }
-            }
-        }
-    }
-    
-    func moveRight() {
-        for line in 0...3 {
-            var added = false
-            for col in 0...2 {
-                let actualCol = 3-col
-                if !added {
-                    if canAdd(a: board[line][actualCol], b: board[line][actualCol-1]) {
-                        board[line][actualCol] += board[line][actualCol-1]
-                        addedPosition[line][actualCol] = true
-                        board[line][actualCol-1] = 0
-                        added = true
-                        if !addedLine.contains(line) {
-                            addedLine.append(line)
-                        }
-                    }
-                }
-                if board[line][actualCol] == 0 {
-                    board[line][actualCol] = board[line][actualCol-1]
-                    board[line][actualCol-1] = 0
-                    if !movedLine.contains(line) {
-                        movedLine.append(line)
-                    }
-                }
-            }
-        }
     }
     
     func canAdd(a:Int,b:Int) -> Bool {
@@ -225,60 +114,60 @@ class BoardModel: NSObject {
     }
     
     func addChess() -> Bool {
-        if hasSpace() {
+        guard hasSpace() else {
+            return false
+        }
         
-            var location = 0
-            switch moveDirection {
-            case .Left,.Up:
-                location = 3
-            case .Right,.Down:
-                location = 0
-            case .None:
-                return false
-            }
-            
-            if !addedLine.isEmpty {
-                if addedLine.count == 1 {
-                    newChess(line: addedLine[0], col: location)
-                } else {
-                    let rnd = Int(arc4random() % UInt32(addedLine.count - 1))
-                    newChess(line: addedLine[rnd], col: location)
-//                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
-                }
-                return true
-            } else if !addedCol.isEmpty {
-                if addedCol.count == 1 {
-                    newChess(line: location, col: addedCol[0])
-                } else {
-                    let rnd = Int(arc4random() % UInt32(addedCol.count - 1))
-                    newChess(line: location, col: rnd)
-//                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
-                }
-                return true
-            } else if !movedLine.isEmpty {
-                if movedLine.count == 1 {
-                    newChess(line: movedLine[0], col: location)
-                } else {
-                    let rnd = Int(arc4random() % UInt32(movedLine.count - 1))
-                    newChess(line: movedLine[rnd], col: location)
-//                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
-                }
-                return true
-            } else if !movedCol.isEmpty {
-                if movedCol.count == 1 {
-                    newChess(line: location, col: movedCol[0])
-                } else {
-                    let rnd = Int(arc4random() % UInt32(movedCol.count - 1))
-                    newChess(line: location, col: rnd)
-//                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
-                }
-                return true
+        var location = 0
+        switch moveDirection {
+        case .Left,.Up:
+            location = 3
+        case .Right,.Down:
+            location = 0
+        case .None:
+            return false
+        }
+        
+        if !plusLine.isEmpty {
+            if plusLine.count == 1 {
+                newChess(line: plusLine[0], col: location)
             } else {
-                return false
+                let rnd = Int(arc4random() % UInt32(plusLine.count - 1))
+                newChess(line: plusLine[rnd], col: location)
+                //                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
             }
+            return true
+        } else if !plusCol.isEmpty {
+            if plusCol.count == 1 {
+                newChess(line: location, col: plusCol[0])
+            } else {
+                let rnd = Int(arc4random() % UInt32(plusCol.count - 1))
+                newChess(line: location, col: rnd)
+                //                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
+            }
+            return true
+        } else if !movedLine.isEmpty {
+            if movedLine.count == 1 {
+                newChess(line: movedLine[0], col: location)
+            } else {
+                let rnd = Int(arc4random() % UInt32(movedLine.count - 1))
+                newChess(line: movedLine[rnd], col: location)
+                //                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
+            }
+            return true
+        } else if !movedCol.isEmpty {
+            if movedCol.count == 1 {
+                newChess(line: location, col: movedCol[0])
+            } else {
+                let rnd = Int(arc4random() % UInt32(movedCol.count - 1))
+                newChess(line: location, col: rnd)
+                //                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
+            }
+            return true
         } else {
             return false
         }
+        
     }
     
     func newChess(line:Int,col:Int) {
@@ -286,6 +175,113 @@ class BoardModel: NSObject {
         //        return arr[Int(arc4random() % UInt32(4))]
         if board[line][col] == 0 {
             board[line][col] = arr[Int(arc4random() % UInt32(4))]
+        }
+    }
+    
+    
+    func moveUp() {
+        for col in 0...3 {
+            var plus = false
+            for line in 0...2 {
+                if !plus {
+                    if canAdd(a: board[line][col], b: board[line+1][col]) {
+                        board[line][col] += board[line+1][col]
+                        board[line+1][col] = 0
+                        addedPosition[line][col] = true
+                        plus = true
+                        if !plusCol.contains(col) {
+                            plusCol.append(col)
+                        }
+                    }
+                }
+                if board[line][col] == 0 {
+                    board[line][col] = board[line+1][col]
+                    board[line+1][col] = 0
+                    if !movedCol.contains(col) {
+                        movedCol.append(col)
+                    }
+                }
+            }
+        }
+    }
+    
+    func moveDown() {
+        for col in 0...3 {
+            var plus = false
+            for line in 0...2 {
+                let actualLine = 3-line
+                if !plus {
+                    if canAdd(a: board[actualLine][col], b: board[actualLine-1][col]) {
+                        board[actualLine][col] += board[actualLine-1][col]
+                        addedPosition[actualLine][col] = true
+                        board[actualLine-1][col] = 0
+                        plus = true
+                        if !plusCol.contains(col) {
+                            plusCol.append(col)
+                        }
+                    }
+                }
+                if board[actualLine][col] == 0 {
+                    board[actualLine][col] = board[actualLine-1][col]
+                    board[actualLine-1][col] = 0
+                    if !movedCol.contains(col) {
+                        movedCol.append(col)
+                    }
+                }
+            }
+        }
+    }
+    
+    func moveLeft() {
+        for line in 0...3 {
+            var plus = false
+            for col in 0...2 {
+                if !plus {
+                    if canAdd(a: board[line][col], b: board[line][col+1]) {
+                        board[line][col] += board[line][col+1]
+                        addedPosition[line][col] = true
+                        board[line][col+1] = 0
+                        plus = true
+                        if !plusLine.contains(line) {
+                            plusLine.append(line)
+                        }
+                    }
+                }
+                if board[line][col] == 0 {
+                    board[line][col] = board[line][col+1]
+                    board[line][col+1] = 0
+                    if !movedLine.contains(line) {
+                        movedLine.append(line)
+                    }
+                }
+            }
+        }
+    }
+    
+    func moveRight() {
+        for line in 0...3 {
+            var plus = false
+            for col in 0...2 {
+                let actualCol = 3-col
+                if !plus {
+                    if canAdd(a: board[line][actualCol], b: board[line][actualCol-1]) {
+                        board[line][actualCol] += board[line][actualCol-1]
+                        addedPosition[line][actualCol] = true
+                        board[line][actualCol-1] = 0
+                        plus = true
+                        if !plusLine.contains(line) {
+                            plusLine.append(line)
+                        }
+                    }
+                }
+                if board[line][actualCol] == 0 {
+                    board[line][actualCol] = board[line][actualCol-1]
+                    board[line][actualCol-1] = 0
+                    if !movedLine.contains(line) {
+                        movedLine.append(line)
+                    }
+                }
+            }
         }
     }
     
