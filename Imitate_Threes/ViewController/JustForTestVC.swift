@@ -20,6 +20,9 @@ class JustForTestVC: UIViewController {
     var movableChesses = Array<Array<Bool>>()
     var transform = CGAffineTransform()
     
+    var plusChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -36,8 +39,11 @@ class JustForTestVC: UIViewController {
             self.sync()
         }
         chessModel.doMoved = {
-            Void in
-//            self.sync()
+            array in
+            //add flip-to-plus animation
+            
+            self.plusChesses = array
+
         }
         view.addSubview(gameBoard)
         gameBoard.snp.makeConstraints { (make) in
@@ -156,7 +162,7 @@ class JustForTestVC: UIViewController {
     func sync() {
         for i in 0...3 {
             for j in 0...3 {
-                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: false,direction: swipeDirection)
+                gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: plusChesses[i][j],direction: swipeDirection)
             }
         }
         chessModel.resetAdded()
