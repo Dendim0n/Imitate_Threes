@@ -2,7 +2,7 @@
 //  ChessView.swift
 //  Imitate_Threes
 //
-//  Created by 任岐鸣 on 2016/10/10.
+//  Created by 任岐鸣 on 2016/10/14.
 //  Copyright © 2016年 Ned. All rights reserved.
 //
 
@@ -10,10 +10,19 @@ import UIKit
 
 class ChessView: UIView {
     
+    enum whichIsOn {
+        case first
+        case second
+    }
+    
     var line = 0
     var col = 0
     
-    var lblChessNumber = UILabel.init()
+    var whichIsOnTheTop = whichIsOn.first
+    //    var lblChessNumber = UILabel.init()
+    var firstChess = subChessView()
+    var secondChess = subChessView()
+    
     var chessNum = 0
     var lastNum = 0
     
@@ -27,13 +36,20 @@ class ChessView: UIView {
     }
     
     func commonInit() {
-        lblChessNumber.font = UIFont.Font(FontName.Seravek, type: FontType.Bold, size: 24)
-        lblChessNumber.textAlignment = NSTextAlignment.center
-        addSubview(lblChessNumber)
+        
+        firstChess = subChessView.init(frame: self.frame)
+        secondChess = subChessView.init(frame: self.frame)
+        
+        addSubview(secondChess)
+        addSubview(firstChess)
+        
         self.layer.shadowRadius = 4
         self.layer.shadowOffset = CGSize.init(width: 4, height: 4)
         
-        lblChessNumber.snp.makeConstraints { (make) in
+        firstChess.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        secondChess.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -41,15 +57,27 @@ class ChessView: UIView {
     func setNumber(number:Int,added:Bool,direction: BoardModel.direction) {
         chessNum = number
         if number == 0 {
-            lblChessNumber.text = ""
+            firstChess.lblChessNumber.text = ""
+            secondChess.lblChessNumber.text = ""
             self.layer.shadowOpacity = 0
             self.alpha = 0
         } else {
-            lblChessNumber.text = "\(number)"
+            
+            
+            
             self.layer.shadowOpacity = 0.8
             self.alpha = 1
             if added {
+                //                lblChessNumber.alpha = 0
+                //                firstChess.lblChessNumber.alpha = 0
                 flipToNewNumber(number: number)
+            } else {
+                switch whichIsOnTheTop {
+                case .first:
+                    firstChess.lblChessNumber.text = "\(number)"
+                case .second:
+                    secondChess.lblChessNumber.text = "\(number)"
+                }
             }
         }
         if number == 1 {
@@ -105,39 +133,30 @@ class ChessView: UIView {
     
     func flipToNewNumber(number:Int) {
         
-        //        CGContextRef context = UIGraphicsGetCurrentContext();
-        //        [UIView beginAnimations:nil context:context];
-        //        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        //        [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:toView cache:NO];
-        //        [UIView setAnimationDuration:0.4];
-        
-        //        [UIView setAnimationDelegate:self];
-        //        [UIView commitAnimations];
-        
-        let newChess = ChessView.init(frame: self.frame)
-        //        newChess.setNumber(number: number,added: false)
-        
-//                var context = UIGraphicsGetCurrentContext()
-//                UIView.beginAnimations(nil, context: context)
-//                UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
-//                UIView.setAnimationTransition(UIViewAnimationTransition.flipFromLeft, for: newChess, cache: false)
-//                UIView.setAnimationDuration(0.1)
-//                UIView.setAnimationDelegate(self)
-//                UIView.commitAnimations()
-        
-        UIView.transition(from: self, to: newChess, duration: 0.1, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
-            
+        switch whichIsOnTheTop {
+        case .first:
+            secondChess.lblChessNumber.text = "\(number)"
+            UIView.transition(from: firstChess, to: secondChess, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
+                self.firstChess.lblChessNumber.text = "\(number)"
+                self.whichIsOnTheTop = .second
+                
+                self.secondChess.snp.remakeConstraints { (make) in
+                    make.edges.equalTo(self)
+                }
+                
+            }
+        case .second:
+            firstChess.lblChessNumber.text = "\(number)"
+            UIView.transition(from: secondChess, to: firstChess, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
+                self.secondChess.lblChessNumber.text = "\(number)"
+                self.whichIsOnTheTop = .first
+                
+                self.firstChess.snp.remakeConstraints { (make) in
+                    make.edges.equalTo(self)
+                }
+                
+            }
         }
-        
     }
-    
-    
-    /*å
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
     
 }

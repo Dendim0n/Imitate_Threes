@@ -46,7 +46,7 @@
 		4045620B1DAB41D8003A1412 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561EA1DAB41D8003A1412 /* LayoutConstraint.swift */; };
 		4045620C1DAB41D8003A1412 /* UILayoutGuide+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561EC1DAB41D8003A1412 /* UILayoutGuide+Extensions.swift */; };
 		4045620D1DAB41D8003A1412 /* UILayoutSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561ED1DAB41D8003A1412 /* UILayoutSupport+Extensions.swift */; };
-		404562131DAB423C003A1412 /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562121DAB423C003A1412 /* ChessView.swift */; };
+		404562131DAB423C003A1412 /* subChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562121DAB423C003A1412 /* subChessView.swift */; };
 		404562151DAB4253003A1412 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562141DAB4253003A1412 /* BoardView.swift */; };
 		404562171DAB4C41003A1412 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562161DAB4C41003A1412 /* BoardModel.swift */; };
 		4045621A1DAB50C2003A1412 /* JustForTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562191DAB50C2003A1412 /* JustForTestVC.swift */; };
@@ -98,6 +98,7 @@
 		4045627A1DAB75B3003A1412 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4045624B1DAB75B3003A1412 /* UIViewExtensions.swift */; };
 		4045627B1DAB75B3003A1412 /* UIWindowExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4045624C1DAB75B3003A1412 /* UIWindowExtensions.swift */; };
 		407135F91DACCB37006395AC /* UIViewController+CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */; };
+		407136021DB080CE006395AC /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136011DB080CE006395AC /* ChessView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,7 +144,7 @@
 		404561EB1DAB41D8003A1412 /* SnapKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapKit.h; sourceTree = "<group>"; };
 		404561EC1DAB41D8003A1412 /* UILayoutGuide+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILayoutGuide+Extensions.swift"; sourceTree = "<group>"; };
 		404561ED1DAB41D8003A1412 /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
-		404562121DAB423C003A1412 /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChessView.swift; path = View/ChessView.swift; sourceTree = "<group>"; };
+		404562121DAB423C003A1412 /* subChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = subChessView.swift; path = View/subChessView.swift; sourceTree = "<group>"; };
 		404562141DAB4253003A1412 /* BoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = View/BoardView.swift; sourceTree = "<group>"; };
 		404562161DAB4C41003A1412 /* BoardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardModel.swift; path = BoardModel/BoardModel.swift; sourceTree = "<group>"; };
 		404562191DAB50C2003A1412 /* JustForTestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JustForTestVC.swift; path = ViewController/JustForTestVC.swift; sourceTree = "<group>"; };
@@ -195,6 +196,7 @@
 		4045624B1DAB75B3003A1412 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		4045624C1DAB75B3003A1412 /* UIWindowExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtensions.swift; sourceTree = "<group>"; };
 		407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+CustomAlertView.swift"; path = "Classes/UIViewController+CustomAlertView.swift"; sourceTree = "<group>"; };
+		407136011DB080CE006395AC /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChessView.swift; path = View/ChessView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,7 +316,8 @@
 			isa = PBXGroup;
 			children = (
 				404562141DAB4253003A1412 /* BoardView.swift */,
-				404562121DAB423C003A1412 /* ChessView.swift */,
+				404562121DAB423C003A1412 /* subChessView.swift */,
+				407136011DB080CE006395AC /* ChessView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -501,7 +504,7 @@
 				4045620D1DAB41D8003A1412 /* UILayoutSupport+Extensions.swift in Sources */,
 				404562031DAB41D8003A1412 /* ConstraintPriorityTarget.swift in Sources */,
 				4045625C1DAB75B3003A1412 /* EZSwiftFunctions.swift in Sources */,
-				404562131DAB423C003A1412 /* ChessView.swift in Sources */,
+				404562131DAB423C003A1412 /* subChessView.swift in Sources */,
 				407135F91DACCB37006395AC /* UIViewController+CustomAlertView.swift in Sources */,
 				404562681DAB75B3003A1412 /* UIAlertControllerExtensions.swift in Sources */,
 				404562071DAB41D8003A1412 /* ConstraintView.swift in Sources */,
@@ -539,6 +542,7 @@
 				404561B01DAB4006003A1412 /* AppDelegate.swift in Sources */,
 				404561F11DAB41D8003A1412 /* ConstraintConstantTarget.swift in Sources */,
 				4045626D1DAB75B3003A1412 /* UIColorExtensions.swift in Sources */,
+				407136021DB080CE006395AC /* ChessView.swift in Sources */,
 				4045626A1DAB75B3003A1412 /* UIBarButtonItemExtensions.swift in Sources */,
 				404562531DAB75B3003A1412 /* BlockTap.swift in Sources */,
 				4045620C1DAB41D8003A1412 /* UILayoutGuide+Extensions.swift in Sources */,
