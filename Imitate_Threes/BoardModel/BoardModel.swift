@@ -123,8 +123,6 @@ class BoardModel: NSObject {
             return false
         }
         
-        
-        
         var location = 0
         switch moveDirection {
         case .Left,.Up:
@@ -136,46 +134,25 @@ class BoardModel: NSObject {
         }
         
         if !addedLine.isEmpty {
-            if addedLine.count == 1 {
-                newChess(line: addedLine[0], col: location)
-            } else {
-                let rnd = Int(arc4random() % UInt32(addedLine.count - 1))
-                newChess(line: addedLine[rnd], col: location)
-                //                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
-            }
+            let rnd = Int(arc4random_uniform(UInt32(addedLine.count)))
+            newChess(line: addedLine[rnd], col: location)
             return true
         } else if !addedCol.isEmpty {
-            if addedCol.count == 1 {
-                newChess(line: location, col: addedCol[0])
-            } else {
-                let rnd = Int(arc4random() % UInt32(addedCol.count - 1))
-                newChess(line: location, col: rnd)
-                //                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
-            }
+            let rnd = Int(arc4random_uniform(UInt32(addedCol.count)))
+            newChess(line: location, col: addedCol[rnd])
             return true
         } else if !movedLine.isEmpty {
-            if movedLine.count == 1 {
-                newChess(line: movedLine[0], col: location)
-            } else {
-                let rnd = Int(arc4random() % UInt32(movedLine.count - 1))
-                newChess(line: movedLine[rnd], col: location)
-                //                    self.doAddNewChessClosure!(CGPoint.init(x: rnd, y: location))
-            }
+            let rnd = Int(arc4random_uniform(UInt32(movedLine.count)))
+            newChess(line: movedLine[rnd], col: location)
             return true
         } else if !movedCol.isEmpty {
-            if movedCol.count == 1 {
-                newChess(line: location, col: movedCol[0])
-            } else {
-                let rnd = Int(arc4random() % UInt32(movedCol.count - 1))
-                newChess(line: location, col: rnd)
-                //                    self.doAddNewChessClosure!(CGPoint.init(x: location, y: rnd))
-            }
+            let rnd = Int(arc4random_uniform(UInt32(movedCol.count)))
+            newChess(line: location, col: movedCol[rnd])
             return true
-        } else {
-            return false
         }
-        
+        return false
     }
+    
     
     func newChess(line:Int,col:Int) {
         let arr = [1,2,3,6]
