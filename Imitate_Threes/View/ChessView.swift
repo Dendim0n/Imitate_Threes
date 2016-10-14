@@ -35,7 +35,7 @@ class ChessView: UIView {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         
         firstChess = subChessView.init(frame: self.frame)
         secondChess = subChessView.init(frame: self.frame)
@@ -62,9 +62,6 @@ class ChessView: UIView {
             self.layer.shadowOpacity = 0
             self.alpha = 0
         } else {
-            
-            
-            
             self.layer.shadowOpacity = 0.8
             self.alpha = 1
             if added {
@@ -90,7 +87,6 @@ class ChessView: UIView {
         
         
         if lastNum == 0 && chessNum != 0 {
-            
             let padding = CGFloat(10)
             let offsetY = self.frame.size.height + padding
             let offsetX = self.frame.size.width + padding
@@ -127,8 +123,6 @@ class ChessView: UIView {
             }
         }
         lastNum = number
-        
-        
     }
     
     func flipToNewNumber(number:Int) {

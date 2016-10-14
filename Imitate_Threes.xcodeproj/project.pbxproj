@@ -13,7 +13,6 @@
 		404561BA1DAB4006003A1412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 404561B91DAB4006003A1412 /* Assets.xcassets */; };
 		404561BD1DAB4006003A1412 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 404561BB1DAB4006003A1412 /* LaunchScreen.storyboard */; };
 		404561C81DAB40BA003A1412 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561C71DAB40BA003A1412 /* MainMenu.swift */; };
-		404561CB1DAB4166003A1412 /* Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CA1DAB4166003A1412 /* Scores.swift */; };
 		404561EE1DAB41D8003A1412 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CD1DAB41D8003A1412 /* Constraint.swift */; };
 		404561EF1DAB41D8003A1412 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CE1DAB41D8003A1412 /* ConstraintAttributes.swift */; };
 		404561F01DAB41D8003A1412 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CF1DAB41D8003A1412 /* ConstraintConfig.swift */; };
@@ -100,6 +99,11 @@
 		407135F91DACCB37006395AC /* UIViewController+CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */; };
 		407136021DB080CE006395AC /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136011DB080CE006395AC /* ChessView.swift */; };
 		407136041DB0D4C1006395AC /* scoreLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136031DB0D4C1006395AC /* scoreLayout.swift */; };
+		5988E0371DB12861003B38A7 /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E0361DB12861003B38A7 /* ScoreModel.swift */; };
+		5988E0391DB129C7003B38A7 /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E0381DB129C7003B38A7 /* ScoreCell.swift */; };
+		5988E03D1DB129FA003B38A7 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E03C1DB129FA003B38A7 /* SettingCell.swift */; };
+		5988E03F1DB12A07003B38A7 /* Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E03E1DB12A07003B38A7 /* Scores.swift */; };
+		5988E0431DB12A55003B38A7 /* ThanksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E0421DB12A55003B38A7 /* ThanksCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,7 +115,6 @@
 		404561BC1DAB4006003A1412 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		404561BE1DAB4006003A1412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		404561C71DAB40BA003A1412 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenu.swift; path = ViewController/MainMenu.swift; sourceTree = "<group>"; };
-		404561CA1DAB4166003A1412 /* Scores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scores.swift; sourceTree = "<group>"; };
 		404561CD1DAB41D8003A1412 /* Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraint.swift; sourceTree = "<group>"; };
 		404561CE1DAB41D8003A1412 /* ConstraintAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintAttributes.swift; sourceTree = "<group>"; };
 		404561CF1DAB41D8003A1412 /* ConstraintConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintConfig.swift; sourceTree = "<group>"; };
@@ -199,6 +202,11 @@
 		407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+CustomAlertView.swift"; path = "Classes/UIViewController+CustomAlertView.swift"; sourceTree = "<group>"; };
 		407136011DB080CE006395AC /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChessView.swift; path = View/ChessView.swift; sourceTree = "<group>"; };
 		407136031DB0D4C1006395AC /* scoreLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = scoreLayout.swift; path = Classes/scoreLayout.swift; sourceTree = "<group>"; };
+		5988E0361DB12861003B38A7 /* ScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScoreModel.swift; path = BoardModel/ScoreModel.swift; sourceTree = "<group>"; };
+		5988E0381DB129C7003B38A7 /* ScoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScoreCell.swift; path = View/ScoreCell.swift; sourceTree = "<group>"; };
+		5988E03C1DB129FA003B38A7 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingCell.swift; path = View/SettingCell.swift; sourceTree = "<group>"; };
+		5988E03E1DB12A07003B38A7 /* Scores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Scores.swift; path = ViewController/Scores.swift; sourceTree = "<group>"; };
+		5988E0421DB12A55003B38A7 /* ThanksCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksCell.swift; path = View/ThanksCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,8 +265,8 @@
 		404561C91DAB40C1003A1412 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5988E03E1DB12A07003B38A7 /* Scores.swift */,
 				404561C71DAB40BA003A1412 /* MainMenu.swift */,
-				404561CA1DAB4166003A1412 /* Scores.swift */,
 				404562191DAB50C2003A1412 /* GamePlay.swift */,
 			);
 			name = ViewController;
@@ -317,6 +325,9 @@
 		4045620F1DAB41EE003A1412 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5988E03C1DB129FA003B38A7 /* SettingCell.swift */,
+				5988E0421DB12A55003B38A7 /* ThanksCell.swift */,
+				5988E0381DB129C7003B38A7 /* ScoreCell.swift */,
 				404562141DAB4253003A1412 /* BoardView.swift */,
 				407136011DB080CE006395AC /* ChessView.swift */,
 				404562121DAB423C003A1412 /* subChessView.swift */,
@@ -328,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				404562161DAB4C41003A1412 /* BoardModel.swift */,
+				5988E0361DB12861003B38A7 /* ScoreModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -470,13 +482,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				404561CB1DAB4166003A1412 /* Scores.swift in Sources */,
 				404561FA1DAB41D8003A1412 /* ConstraintLayoutSupportDSL.swift in Sources */,
 				404562691DAB75B3003A1412 /* UIApplicationExtensions.swift in Sources */,
 				404561F51DAB41D8003A1412 /* ConstraintInsetTarget.swift in Sources */,
 				4045625E1DAB75B3003A1412 /* IntExtensions.swift in Sources */,
 				404561FD1DAB41D8003A1412 /* ConstraintMakerExtendable.swift in Sources */,
 				404562081DAB41D8003A1412 /* ConstraintViewDSL.swift in Sources */,
+				5988E0431DB12A55003B38A7 /* ThanksCell.swift in Sources */,
 				404562671DAB75B3003A1412 /* StringExtensions.swift in Sources */,
 				404561FF1DAB41D8003A1412 /* ConstraintMakerPriortizable.swift in Sources */,
 				404562561DAB75B3003A1412 /* CGFloatExtensions.swift in Sources */,
@@ -497,11 +509,13 @@
 				404562061DAB41D8003A1412 /* ConstraintView+Extensions.swift in Sources */,
 				404562541DAB75B3003A1412 /* BlockWebView.swift in Sources */,
 				404562051DAB41D8003A1412 /* ConstraintRelation.swift in Sources */,
+				5988E03F1DB12A07003B38A7 /* Scores.swift in Sources */,
 				404562721DAB75B3003A1412 /* UILabelExtensions.swift in Sources */,
 				4045621A1DAB50C2003A1412 /* GamePlay.swift in Sources */,
 				4045626C1DAB75B3003A1412 /* UIColoredView.swift in Sources */,
 				404561C81DAB40BA003A1412 /* MainMenu.swift in Sources */,
 				404562511DAB75B3003A1412 /* BlockPinch.swift in Sources */,
+				5988E0391DB129C7003B38A7 /* ScoreCell.swift in Sources */,
 				4045627A1DAB75B3003A1412 /* UIViewExtensions.swift in Sources */,
 				4045624E1DAB75B3003A1412 /* BlockButton.swift in Sources */,
 				404561B81DAB4006003A1412 /* Imitate_Threes.xcdatamodeld in Sources */,
@@ -516,6 +530,7 @@
 				404562711DAB75B3003A1412 /* UIImageViewExtensions.swift in Sources */,
 				404561F81DAB41D8003A1412 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				4045625F1DAB75B3003A1412 /* NSAttributedStringExtensions.swift in Sources */,
+				5988E03D1DB129FA003B38A7 /* SettingCell.swift in Sources */,
 				404562171DAB4C41003A1412 /* BoardModel.swift in Sources */,
 				404562601DAB75B3003A1412 /* NSBundleExtensions.swift in Sources */,
 				404562701DAB75B3003A1412 /* UIImageExtensions.swift in Sources */,
@@ -530,6 +545,7 @@
 				404561F91DAB41D8003A1412 /* ConstraintLayoutSupport.swift in Sources */,
 				404562771DAB75B3003A1412 /* UITextViewExtensions.swift in Sources */,
 				404562091DAB41D8003A1412 /* Debugging.swift in Sources */,
+				5988E0371DB12861003B38A7 /* ScoreModel.swift in Sources */,
 				4045620B1DAB41D8003A1412 /* LayoutConstraint.swift in Sources */,
 				404562761DAB75B3003A1412 /* UITextFieldExtensions.swift in Sources */,
 				404561F41DAB41D8003A1412 /* ConstraintInsets.swift in Sources */,

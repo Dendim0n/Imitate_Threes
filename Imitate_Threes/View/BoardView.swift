@@ -18,8 +18,6 @@ class BoardView: UIView {
     
     var chesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
     
-    //    [[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()],[UIView.init(),UIView.init(),UIView.init(),UIView.init()]]
-    
     var hiddenChesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
     
     override init(frame: CGRect) {
@@ -31,7 +29,7 @@ class BoardView: UIView {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         for i in 0...3 {
             for j in 0...3 {
                 hiddenChesses[i][j].backgroundColor = UIColor.white

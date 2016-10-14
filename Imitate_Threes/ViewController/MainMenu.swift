@@ -102,12 +102,15 @@ class MainMenu: UIViewController {
     }
     
     func goToMenu() {
-        
+        let vc = Scores.init()
+        self.presentVC(vc)
     }
     func goToHelp() {
-        
+//        let vc = .init()
+//        self.pushVC(vc)
     }
     func playGame() {
-        
+        let vc = GamePlay.init()
+        self.presentVC(vc)
     }
 }
