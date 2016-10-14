@@ -12,8 +12,8 @@
 		404561B81DAB4006003A1412 /* Imitate_Threes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 404561B61DAB4006003A1412 /* Imitate_Threes.xcdatamodeld */; };
 		404561BA1DAB4006003A1412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 404561B91DAB4006003A1412 /* Assets.xcassets */; };
 		404561BD1DAB4006003A1412 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 404561BB1DAB4006003A1412 /* LaunchScreen.storyboard */; };
-		404561C81DAB40BA003A1412 /* GameStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561C71DAB40BA003A1412 /* GameStartViewController.swift */; };
-		404561CB1DAB4166003A1412 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CA1DAB4166003A1412 /* GameViewController.swift */; };
+		404561C81DAB40BA003A1412 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561C71DAB40BA003A1412 /* MainMenu.swift */; };
+		404561CB1DAB4166003A1412 /* Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CA1DAB4166003A1412 /* Scores.swift */; };
 		404561EE1DAB41D8003A1412 /* Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CD1DAB41D8003A1412 /* Constraint.swift */; };
 		404561EF1DAB41D8003A1412 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CE1DAB41D8003A1412 /* ConstraintAttributes.swift */; };
 		404561F01DAB41D8003A1412 /* ConstraintConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404561CF1DAB41D8003A1412 /* ConstraintConfig.swift */; };
@@ -49,7 +49,7 @@
 		404562131DAB423C003A1412 /* subChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562121DAB423C003A1412 /* subChessView.swift */; };
 		404562151DAB4253003A1412 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562141DAB4253003A1412 /* BoardView.swift */; };
 		404562171DAB4C41003A1412 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562161DAB4C41003A1412 /* BoardModel.swift */; };
-		4045621A1DAB50C2003A1412 /* JustForTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562191DAB50C2003A1412 /* JustForTestVC.swift */; };
+		4045621A1DAB50C2003A1412 /* GamePlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562191DAB50C2003A1412 /* GamePlay.swift */; };
 		4045624D1DAB75B3003A1412 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4045621E1DAB75B3003A1412 /* ArrayExtensions.swift */; };
 		4045624E1DAB75B3003A1412 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4045621F1DAB75B3003A1412 /* BlockButton.swift */; };
 		4045624F1DAB75B3003A1412 /* BlockLongPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404562201DAB75B3003A1412 /* BlockLongPress.swift */; };
@@ -109,8 +109,8 @@
 		404561B91DAB4006003A1412 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		404561BC1DAB4006003A1412 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		404561BE1DAB4006003A1412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		404561C71DAB40BA003A1412 /* GameStartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStartViewController.swift; path = ViewController/GameStartViewController.swift; sourceTree = "<group>"; };
-		404561CA1DAB4166003A1412 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		404561C71DAB40BA003A1412 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenu.swift; path = ViewController/MainMenu.swift; sourceTree = "<group>"; };
+		404561CA1DAB4166003A1412 /* Scores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scores.swift; sourceTree = "<group>"; };
 		404561CD1DAB41D8003A1412 /* Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraint.swift; sourceTree = "<group>"; };
 		404561CE1DAB41D8003A1412 /* ConstraintAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintAttributes.swift; sourceTree = "<group>"; };
 		404561CF1DAB41D8003A1412 /* ConstraintConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintConfig.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		404562121DAB423C003A1412 /* subChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = subChessView.swift; path = View/subChessView.swift; sourceTree = "<group>"; };
 		404562141DAB4253003A1412 /* BoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardView.swift; path = View/BoardView.swift; sourceTree = "<group>"; };
 		404562161DAB4C41003A1412 /* BoardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardModel.swift; path = BoardModel/BoardModel.swift; sourceTree = "<group>"; };
-		404562191DAB50C2003A1412 /* JustForTestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JustForTestVC.swift; path = ViewController/JustForTestVC.swift; sourceTree = "<group>"; };
+		404562191DAB50C2003A1412 /* GamePlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GamePlay.swift; path = ViewController/GamePlay.swift; sourceTree = "<group>"; };
 		4045621E1DAB75B3003A1412 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		4045621F1DAB75B3003A1412 /* BlockButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
 		404562201DAB75B3003A1412 /* BlockLongPress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockLongPress.swift; sourceTree = "<group>"; };
@@ -255,9 +255,9 @@
 		404561C91DAB40C1003A1412 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				404561C71DAB40BA003A1412 /* GameStartViewController.swift */,
-				404561CA1DAB4166003A1412 /* GameViewController.swift */,
-				404562191DAB50C2003A1412 /* JustForTestVC.swift */,
+				404561C71DAB40BA003A1412 /* MainMenu.swift */,
+				404561CA1DAB4166003A1412 /* Scores.swift */,
+				404562191DAB50C2003A1412 /* GamePlay.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -316,8 +316,8 @@
 			isa = PBXGroup;
 			children = (
 				404562141DAB4253003A1412 /* BoardView.swift */,
-				404562121DAB423C003A1412 /* subChessView.swift */,
 				407136011DB080CE006395AC /* ChessView.swift */,
+				404562121DAB423C003A1412 /* subChessView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -467,7 +467,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				404561CB1DAB4166003A1412 /* GameViewController.swift in Sources */,
+				404561CB1DAB4166003A1412 /* Scores.swift in Sources */,
 				404561FA1DAB41D8003A1412 /* ConstraintLayoutSupportDSL.swift in Sources */,
 				404562691DAB75B3003A1412 /* UIApplicationExtensions.swift in Sources */,
 				404561F51DAB41D8003A1412 /* ConstraintInsetTarget.swift in Sources */,
@@ -494,9 +494,9 @@
 				404562541DAB75B3003A1412 /* BlockWebView.swift in Sources */,
 				404562051DAB41D8003A1412 /* ConstraintRelation.swift in Sources */,
 				404562721DAB75B3003A1412 /* UILabelExtensions.swift in Sources */,
-				4045621A1DAB50C2003A1412 /* JustForTestVC.swift in Sources */,
+				4045621A1DAB50C2003A1412 /* GamePlay.swift in Sources */,
 				4045626C1DAB75B3003A1412 /* UIColoredView.swift in Sources */,
-				404561C81DAB40BA003A1412 /* GameStartViewController.swift in Sources */,
+				404561C81DAB40BA003A1412 /* MainMenu.swift in Sources */,
 				404562511DAB75B3003A1412 /* BlockPinch.swift in Sources */,
 				4045627A1DAB75B3003A1412 /* UIViewExtensions.swift in Sources */,
 				4045624E1DAB75B3003A1412 /* BlockButton.swift in Sources */,

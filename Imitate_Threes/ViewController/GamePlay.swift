@@ -8,7 +8,7 @@
 
 import UIKit
 
-class JustForTestVC: UIViewController {
+class GamePlay: UIViewController {
     
     var displayLink = CADisplayLink()
     var swipe = UISwipeGestureRecognizer.init()
