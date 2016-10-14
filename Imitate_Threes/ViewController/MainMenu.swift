@@ -103,6 +103,7 @@ class MainMenu: UIViewController {
     
     func goToMenu() {
         let vc = Scores.init()
+        vc.view.backgroundColor = .white
         self.presentVC(vc)
     }
     func goToHelp() {
@@ -111,6 +112,7 @@ class MainMenu: UIViewController {
     }
     func playGame() {
         let vc = GamePlay.init()
+        vc.view.backgroundColor = .white
         self.presentVC(vc)
     }
 }
