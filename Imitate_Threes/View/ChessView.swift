@@ -61,7 +61,7 @@ class ChessView: UIView {
         }
         
         
-        if lastNum == 0 {
+        if lastNum == 0 && chessNum != 0 {
             
             let padding = CGFloat(10)
             let offsetY = self.frame.size.height + padding
@@ -117,22 +117,22 @@ class ChessView: UIView {
         let newChess = ChessView.init(frame: self.frame)
         //        newChess.setNumber(number: number,added: false)
         
-        //        var context = UIGraphicsGetCurrentContext()
-        //        UIView.beginAnimations(nil, context: context)
-        //        UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
-        //        UIView.setAnimationTransition(UIViewAnimationTransition.flipFromLeft, for: newChess, cache: false)
-        //        UIView.setAnimationDuration(0.1)
-        //        UIView.setAnimationDelegate(self)
-        //        UIView.commitAnimations()
+//                var context = UIGraphicsGetCurrentContext()
+//                UIView.beginAnimations(nil, context: context)
+//                UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
+//                UIView.setAnimationTransition(UIViewAnimationTransition.flipFromLeft, for: newChess, cache: false)
+//                UIView.setAnimationDuration(0.1)
+//                UIView.setAnimationDelegate(self)
+//                UIView.commitAnimations()
         
-        UIView.transition(from: self, to: newChess, duration: 0.1, options: UIViewAnimationOptions.curveEaseInOut) { (Bool) in
+        UIView.transition(from: self, to: newChess, duration: 0.1, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
             
         }
         
     }
     
     
-    /*
+    /*å
      // Only override draw() if you perform custom drawing.
      // An empty implementation adversely affects performance during animation.
      override func draw(_ rect: CGRect) {

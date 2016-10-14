@@ -12,8 +12,9 @@ class BoardModel: NSObject {
     
     
     typealias finishClosure = (Void) -> Void
+    typealias arrayClosure = (Array<Array<Bool>>) -> Void
     var doAdded:finishClosure?
-    var doMoved:finishClosure?
+    var doMoved:arrayClosure?
     
     var leftMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     var rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
@@ -72,7 +73,7 @@ class BoardModel: NSObject {
             break;
         }
         moveDirection = direction
-        doMoved?()
+        doMoved?(addedPosition)
     }
     
     func addNewChess() {
