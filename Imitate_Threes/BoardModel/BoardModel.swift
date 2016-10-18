@@ -92,7 +92,7 @@ class BoardModel: NSObject {
         doAdded?()
     }
     
-    func canAdd(a:Int,b:Int) -> Bool {
+    private func canAdd(a:Int,b:Int) -> Bool {
         if (a == 1 && b == 2) || (a == 2 && b == 1) {
             //            print("a:\(a),b:\(b),=\(a+b)")
             return true
@@ -105,7 +105,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func canMove(a:Int,b:Int) -> Bool {
+    private func canMove(a:Int,b:Int) -> Bool {
         if (a == 1 && b == 2) || (a == 2 && b == 1) {
             //            print("a:\(a),b:\(b),=\(a+b)")
             return true
@@ -120,7 +120,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func addChess() -> Bool {
+    private func addChess() -> Bool {
         guard hasSpace() else {
             return false
         }
@@ -154,9 +154,8 @@ class BoardModel: NSObject {
         }
         return false
     }
-    
-    
-    func newChess(line:Int,col:Int) {
+
+    private func newChess(line:Int,col:Int) {
         if board[line][col] == 0 {
             board[line][col] = newChesses[Int(arc4random() % UInt32(newChesses.count))]
         }
@@ -174,7 +173,7 @@ class BoardModel: NSObject {
         return n
     }
     
-    func moveUp() {
+    private func moveUp() {
         for col in 0...3 {
             var plus = false
             for line in 0...2 {
@@ -200,7 +199,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func moveDown() {
+    private func moveDown() {
         for col in 0...3 {
             var plus = false
             for line in 0...2 {
@@ -227,7 +226,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func moveLeft() {
+    private func moveLeft() {
         for line in 0...3 {
             var plus = false
             for col in 0...2 {
@@ -253,7 +252,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func moveRight() {
+    private func moveRight() {
         for line in 0...3 {
             var plus = false
             for col in 0...2 {
@@ -280,7 +279,7 @@ class BoardModel: NSObject {
         }
     }
     
-    func hasSpace() -> Bool {
+    private func hasSpace() -> Bool {
         for line in board {
             for chess in line {
                 if chess == 0 {
@@ -346,7 +345,7 @@ class BoardModel: NSObject {
         return movableChesses
     }
     
-    func lineMovable(num:Int,moveD:direction) -> Array<Bool> {
+    private func lineMovable(num:Int,moveD:direction) -> Array<Bool> {
         var movableChesses = [false,false,false,false]
         
         switch moveD {
@@ -379,7 +378,7 @@ class BoardModel: NSObject {
         return movableChesses
     }
     
-    func colMovable(moveD:direction,numCol:Int) -> Array<Bool> {
+    private func colMovable(moveD:direction,numCol:Int) -> Array<Bool> {
         var movableChesses = [false,false,false,false]
         
         switch moveD {
