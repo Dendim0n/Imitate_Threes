@@ -34,18 +34,22 @@ class BoardView: UIView {
     func commonInit() {
         for i in 0...3 {
             for j in 0...3 {
-                hiddenChesses[i][j].backgroundColor = UIColor.white
+                hiddenChesses[i][j].backgroundColor = UIColor.init(r: 187, g: 217, b: 217, a: 1)
             }
         }
         let mainStackView = UIStackView.init()
-        self.backgroundColor = UIColor.lightGray
+        self.backgroundColor = UIColor.init(r: 204, g: 229, b: 222, a: 1)
         addSubview(mainStackView)
         mainStackView.alignment = UIStackViewAlignment.fill
         mainStackView.axis = UILayoutConstraintAxis.vertical
         mainStackView.spacing = CGFloat(spacing)
         mainStackView.distribution = UIStackViewDistribution.fillEqually
         mainStackView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+//            make.edges.equalToSuperview()
+            make.left.equalToSuperview().offset(15)
+            make.right.equalToSuperview().offset(-15)
+            make.top.equalToSuperview().offset(15)
+            make.bottom.equalToSuperview().offset(-15)
         }
         for i in 0...3 {
             let lineStackView = UIStackView.init()

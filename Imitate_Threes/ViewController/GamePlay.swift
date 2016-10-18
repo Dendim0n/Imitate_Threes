@@ -22,11 +22,78 @@ class GamePlay: UIViewController {
     
     var plusChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
 
+    var btnMenu = UIButton.init()
+    var btnStatus = UIButton.init()
+    var nextChess = UIStackView.init()
+    var nextChessBG = UIView.init()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
+        setUI()
+        initBoard()
+    }
+    
+    func setUI() {
+        view.backgroundColor = .white
+        btnMenu.setTitle("Menu", for: UIControlState.normal)
+        btnStatus.setTitle("Stat", for: UIControlState.normal)
+        nextChessBG.backgroundColor = UIColor.init(r: 207, g: 230, b: 223, a: 1)
+        nextChessBG.setCornerRadius(radius: 3)
+        nextChess.alignment = .fill
+        nextChess.distribution = .fillEqually
+        nextChess.axis = .horizontal
+        nextChess.spacing = 10
+        btnMenu.backgroundColor = .gray
+        btnStatus.backgroundColor = .gray
+//        gameBoard.layer.borderWidth = 5
+//        gameBoard.layer.borderColor = UIColor.gray.cgColor
+        view.addSubview(btnMenu)
+        view.addSubview(btnStatus)
+        view.addSubview(nextChessBG)
+        view.addSubview(nextChess)
+        view.addSubview(gameBoard)
+        
+        showNextChesses()
+        
+        gameBoard.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(50)
+            make.right.equalToSuperview().offset(-50)
+            make.top.equalTo(nextChessBG.snp.bottom).offset(50)
+            make.bottom.equalToSuperview().offset(-50)
+        }
+        
+        btnMenu.snp.makeConstraints { (make) in
+            make.left.equalTo(gameBoard)
+            make.top.equalToSuperview().offset(40)
+            make.height.equalTo(30)
+            make.width.equalTo(50)
+        }
+        
+        btnStatus.snp.makeConstraints { (make) in
+            make.right.equalTo(gameBoard)
+            make.top.equalToSuperview().offset(40)
+            make.height.equalTo(30)
+            make.width.equalTo(50)
+        }
+        
+        nextChessBG.snp.makeConstraints { (make) in
+            make.bottom.equalTo(btnMenu).offset(20)
+            make.width.equalTo(40)
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(-10)
+        }
+        
+        nextChess.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nextChessBG).offset(-20)
+            make.left.equalTo(btnMenu.snp.right).offset(10)
+            make.right.equalTo(btnStatus.snp.left).offset(-10)
+            make.top.equalTo(btnMenu).offset(-10)
+        }
+        
+    }
+    
+    func initBoard() {
         chessModel.initBoard()
         weak var weakSelf = self
         gameBoard.finishedClosure = {
@@ -37,28 +104,23 @@ class GamePlay: UIViewController {
         chessModel.doAdded = {
             Void in
             self.sync()
+            self.showNextChesses()
         }
         chessModel.doMoved = {
             array in
             //add flip-to-plus animation
             
             self.plusChesses = array
-
+            
         }
-        view.addSubview(gameBoard)
-        gameBoard.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(50)
-            make.right.equalToSuperview().offset(-50)
-            make.top.equalToSuperview().offset(50)
-            make.bottom.equalToSuperview().offset(-50)
-        }
+        
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
                 weakSelf?.swipeDirection = .None
                 self.displayLink = CADisplayLink.init(target: self, selector: #selector(self.moveChesses))
                 weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             } else if (gesture.state == UIGestureRecognizerState.changed) {
-
+                
             } else if (gesture.state == UIGestureRecognizerState.ended) {
                 print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
@@ -66,7 +128,7 @@ class GamePlay: UIViewController {
                     
                     DispatchQueue.global().async {
                         weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
-                        DispatchQueue.main.async(execute: { 
+                        DispatchQueue.main.async(execute: {
                             
                             let chessFrame = weakSelf?.gameBoard.chesses[0][0].frame
                             let padding = 10.0
@@ -99,8 +161,7 @@ class GamePlay: UIViewController {
                 }
             }
         }
-        
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,6 +218,18 @@ class GamePlay: UIViewController {
         print(currentTranslationPercent)
         gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
         
+    }
+    
+    func showNextChesses() {
+        for view in nextChess.arrangedSubviews {
+//            nextChess.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        let chessesNum = chessModel.newChesses
+        for chessNum in chessesNum {
+            let newChess = NextChessView.init(num: chessNum)
+            nextChess.addArrangedSubview(newChess)
+        }
     }
     
     func sync() {

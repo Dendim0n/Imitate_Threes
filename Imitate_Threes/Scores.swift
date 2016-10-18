@@ -32,7 +32,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     }
     
     func setView() {
-        
+        view.backgroundColor = .white
         collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         collectionView?.delegate = self
         collectionView?.dataSource = self

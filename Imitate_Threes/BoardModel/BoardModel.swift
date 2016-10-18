@@ -23,6 +23,7 @@ class BoardModel: NSObject {
     
     var addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
+    var newChesses = [1,2,3,6]
     enum direction {
         case Up
         case Down
@@ -156,13 +157,22 @@ class BoardModel: NSObject {
     
     
     func newChess(line:Int,col:Int) {
-        let arr = [1,2,3,6]
-        //        return arr[Int(arc4random() % UInt32(4))]
         if board[line][col] == 0 {
-            board[line][col] = arr[Int(arc4random() % UInt32(4))]
+            board[line][col] = newChesses[Int(arc4random() % UInt32(newChesses.count))]
         }
     }
     
+    func getAmountOf(number:Int) -> Int {
+        var n = 0
+        for i in 0...3 {
+            for j in 0...3 {
+                if board[i][j] == number {
+                    n += 1
+                }
+            }
+        }
+        return n
+    }
     
     func moveUp() {
         for col in 0...3 {
@@ -293,6 +303,13 @@ class BoardModel: NSObject {
             self.rightMovableChesses = self.getMovableChesses(moveDirection: .Right)
             self.upMovableChesses = self.getMovableChesses(moveDirection: .Up)
             self.downMovableChesses = self.getMovableChesses(moveDirection: .Down)
+            
+            self.newChesses = [1,2,3,6]
+            if self.getAmountOf(number: 1) >= 3 {
+                self.newChesses = [2,3,6]
+            } else if self.getAmountOf(number: 2) >= 3 {
+                self.newChesses = [1,3,6]
+            }
         }
     }
     

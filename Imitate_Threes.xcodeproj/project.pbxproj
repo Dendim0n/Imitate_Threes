@@ -100,6 +100,7 @@
 		407135F91DACCB37006395AC /* UIViewController+CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */; };
 		407136021DB080CE006395AC /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136011DB080CE006395AC /* ChessView.swift */; };
 		407136041DB0D4C1006395AC /* scoreLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136031DB0D4C1006395AC /* scoreLayout.swift */; };
+		40A4C4961DB604380064F2A0 /* NextChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4C4951DB604380064F2A0 /* NextChessView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -199,6 +200,7 @@
 		407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+CustomAlertView.swift"; path = "Classes/UIViewController+CustomAlertView.swift"; sourceTree = "<group>"; };
 		407136011DB080CE006395AC /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChessView.swift; path = View/ChessView.swift; sourceTree = "<group>"; };
 		407136031DB0D4C1006395AC /* scoreLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = scoreLayout.swift; path = Classes/scoreLayout.swift; sourceTree = "<group>"; };
+		40A4C4951DB604380064F2A0 /* NextChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NextChessView.swift; path = View/NextChessView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +322,7 @@
 				404562141DAB4253003A1412 /* BoardView.swift */,
 				407136011DB080CE006395AC /* ChessView.swift */,
 				404562121DAB423C003A1412 /* subChessView.swift */,
+				40A4C4951DB604380064F2A0 /* NextChessView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				404562661DAB75B3003A1412 /* NSUserDefaultsExtension.swift in Sources */,
 				404561EE1DAB41D8003A1412 /* Constraint.swift in Sources */,
 				404561B01DAB4006003A1412 /* AppDelegate.swift in Sources */,
+				40A4C4961DB604380064F2A0 /* NextChessView.swift in Sources */,
 				404561F11DAB41D8003A1412 /* ConstraintConstantTarget.swift in Sources */,
 				4045626D1DAB75B3003A1412 /* UIColorExtensions.swift in Sources */,
 				407136021DB080CE006395AC /* ChessView.swift in Sources */,

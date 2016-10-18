@@ -21,6 +21,7 @@ class MainMenu: UIViewController {
     }
     
     func setUI() {
+        view.backgroundColor = .white
         let centerBoard = UIView.init()
         view.addSubview(centerBoard)
         centerBoard.backgroundColor = .darkGray
@@ -108,6 +109,7 @@ class MainMenu: UIViewController {
         
     }
     func playGame() {
-        
+        let vc = GamePlay.init()
+        presentVC(vc)
     }
 }

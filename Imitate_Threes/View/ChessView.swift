@@ -37,6 +37,8 @@ class ChessView: UIView {
     
     func commonInit() {
         
+        self.layer.cornerRadius = 4
+        
         firstChess = subChessView.init(frame: self.frame)
         secondChess = subChessView.init(frame: self.frame)
         

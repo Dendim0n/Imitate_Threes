@@ -36,7 +36,7 @@ class subChessView: UIView {
         }
     }
     
-    func setNumber(number:Int) {
+    func setNumber(_ number:Int) {
         chessNum = number
         if number == 0 {
             lblChessNumber.text = ""
