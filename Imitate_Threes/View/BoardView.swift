@@ -30,6 +30,7 @@ class BoardView: UIView {
     }
     
     private func commonInit() {
+        self.setCornerRadius(radius: 3)
         for i in 0...3 {
             for j in 0...3 {
                 hiddenChesses[i][j].backgroundColor = UIColor.init(r: 187, g: 217, b: 217, a: 1)

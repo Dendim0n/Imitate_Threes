@@ -29,6 +29,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         loadScores()
         setView()
         // Do any additional setup after loading the view.
+        collectionView?.scrollToItem(at: IndexPath.init(row: 1, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,6 +39,14 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     func setView() {
         view.backgroundColor = .white
+        
+        let btnBack = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(back))
+        btnBack.layer.cornerRadius = 3
+        btnBack.setTitle("Back", for: .normal)
+        btnBack.setTitleColor(.white, for: .normal)
+        btnBack.backgroundColor = .darkGray
+        view.addSubview(btnBack)
+        
         collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         collectionView?.delegate = self
         collectionView?.dataSource = self
@@ -45,8 +54,21 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         collectionView?.register(SettingCell.self, forCellWithReuseIdentifier: "settingCell")
         collectionView?.register(ThanksCell.self, forCellWithReuseIdentifier: "thanksCell")
         view.addSubview(collectionView!)
+        collectionView?.backgroundColor = .clear
         collectionView?.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+//            make.edges.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-50)
+//            make.height.equalTo((collectionView?.snp.width)!).multipliedBy(1.6)
+            make.top.equalTo(btnBack.snp.bottom).offset(50)
+        }
+        
+        btnBack.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(40)
+            make.height.equalTo(30)
+            make.width.equalTo(50)
         }
     }
     
@@ -87,5 +109,8 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         
     }
     
+    func back() {
+        dismissVC(completion: nil)
+    }
 
 }

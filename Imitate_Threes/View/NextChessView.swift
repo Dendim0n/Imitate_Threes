@@ -26,7 +26,7 @@ class NextChessView: UIView {
     
     func commonInit() {
         addSubview(chess)
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
 //        chess.layer.shadowRadius = 2
         chess.layer.shadowRadius = 2
         chess.layer.shadowOffset = CGSize.init(width: 2, height: 2)

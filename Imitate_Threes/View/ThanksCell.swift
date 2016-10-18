@@ -9,7 +9,17 @@
 import UIKit
 
 class ThanksCell: UICollectionViewCell {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+    }
+    func commonInit() {
     }
 }

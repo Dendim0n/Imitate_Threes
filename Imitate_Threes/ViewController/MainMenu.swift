@@ -9,6 +9,10 @@
 import UIKit
 
 class MainMenu: UIViewController {
+    
+    var centerBoard = BoardView.init()
+    
+    var firstInit = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,15 +26,11 @@ class MainMenu: UIViewController {
     
     func setUI() {
         view.backgroundColor = .white
-        let centerBoard = UIView.init()
+        
         view.addSubview(centerBoard)
-        centerBoard.backgroundColor = .darkGray
-        centerBoard.layer.cornerRadius = 5
-        centerBoard.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
-            make.height.equalTo(view.snp.width).multipliedBy(0.8)
-        }
+//        centerBoard.backgroundColor = .darkGray
+//        centerBoard.layer.cornerRadius = 5
+        
         
         let btnMenu = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(goToMenu))
         btnMenu.layer.cornerRadius = 3
@@ -66,6 +66,8 @@ class MainMenu: UIViewController {
         }
         view.addSubview(letterStack)
         
+        
+        
         btnMenu.snp.makeConstraints { (make) in
             make.left.equalTo(centerBoard)
             make.top.equalToSuperview().offset(40)
@@ -98,6 +100,40 @@ class MainMenu: UIViewController {
             make.right.equalTo(centerBoard)
             make.bottom.equalToSuperview().offset(-40)
             make.height.equalTo(40)
+        }
+        
+        centerBoard.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(35)
+            make.right.equalToSuperview().offset(-35)
+            make.top.equalTo(btnMenu.snp.bottom).offset(45)
+            make.bottom.equalTo(btnPlay.snp.top).offset(-45)
+            //            make.height.equalTo(view.snp.width).multipliedBy(1.6)
+        }
+        
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstInit {
+            centerBoard.setRealChess()
+            firstInit = false
+        }
+        let arr = [[1,2,3,6],[12,24,48,96],[192,384,768,0],[0,0,0,0]]
+        let delay = 0.1
+        
+        for i in 0...3 {
+            for j in 0...3 {
+                let chess = centerBoard.chesses[i][j]
+//                chess.removeFromSuperview()
+//                centerBoard.addSubview(chess)
+                chess.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+                chess.setNumber(number: arr[i][j],added: false,direction: .None)
+                UIView.animate(withDuration: 0.4, delay: delay*Double(i+j), usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                    chess.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }, completion: nil)
+            }
         }
         
     }

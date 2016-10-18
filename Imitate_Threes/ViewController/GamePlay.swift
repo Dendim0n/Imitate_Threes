@@ -39,15 +39,20 @@ class GamePlay: UIViewController {
         btnMenu.setTitle("Menu", for: UIControlState.normal)
         btnStatus.setTitle("Stat", for: UIControlState.normal)
         nextChessBG.backgroundColor = UIColor.init(r: 207, g: 230, b: 223, a: 1)
-        nextChessBG.setCornerRadius(radius: 3)
         nextChess.alignment = .fill
         nextChess.distribution = .fillEqually
         nextChess.axis = .horizontal
         nextChess.spacing = 10
-        btnMenu.backgroundColor = .gray
-        btnStatus.backgroundColor = .gray
+        nextChess.backgroundColor = .clear
+        
+        btnMenu.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
+        nextChessBG.setCornerRadius(radius: 5)
 //        gameBoard.layer.borderWidth = 5
 //        gameBoard.layer.borderColor = UIColor.gray.cgColor
+        btnMenu.layer.cornerRadius = 3
+        btnMenu.backgroundColor = .darkGray
+        btnStatus.layer.cornerRadius = 3
+        btnStatus.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         view.addSubview(btnStatus)
         view.addSubview(nextChessBG)
@@ -57,10 +62,10 @@ class GamePlay: UIViewController {
         showNextChesses()
         
         gameBoard.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(50)
-            make.right.equalToSuperview().offset(-50)
+            make.left.equalToSuperview().offset(40)
+            make.right.equalToSuperview().offset(-40)
             make.top.equalTo(nextChessBG.snp.bottom).offset(50)
-            make.bottom.equalToSuperview().offset(-50)
+            make.bottom.equalToSuperview().offset(-100)
         }
         
         btnMenu.snp.makeConstraints { (make) in
@@ -85,10 +90,10 @@ class GamePlay: UIViewController {
         }
         
         nextChess.snp.makeConstraints { (make) in
-            make.bottom.equalTo(nextChessBG).offset(-20)
+            make.bottom.equalTo(nextChessBG).offset(-15)
             make.left.equalTo(btnMenu.snp.right).offset(10)
             make.right.equalTo(btnStatus.snp.left).offset(-10)
-            make.top.equalTo(btnMenu).offset(-10)
+            make.top.equalTo(btnMenu).offset(-5)
         }
         
     }
@@ -273,6 +278,10 @@ class GamePlay: UIViewController {
                 }
             }
             return swipeDirection
+    }
+    
+    func back() {
+        dismissVC(completion: nil)
     }
     
 }

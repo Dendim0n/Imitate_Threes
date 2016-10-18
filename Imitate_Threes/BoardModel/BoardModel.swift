@@ -303,11 +303,16 @@ class BoardModel: NSObject {
             self.upMovableChesses = self.getMovableChesses(moveDirection: .Up)
             self.downMovableChesses = self.getMovableChesses(moveDirection: .Down)
             
-            self.newChesses = [1,2,3,6]
+//            let defaultChesses = [[1],[2],[1,2,3],[1,2,3,6],[12],[24],[48]]
+//            self.newChesses = [1,2,3,6]
             if self.getAmountOf(number: 1) >= 3 {
                 self.newChesses = [2,3,6]
             } else if self.getAmountOf(number: 2) >= 3 {
                 self.newChesses = [1,3,6]
+            } else if (self.getAmountOf(number: 1)>=2) && (self.getAmountOf(number: 2)>=2) {
+                self.newChesses = [[2],[1],[3],[3,6]].random()!
+            } else {
+                self.newChesses = [[1,2],[1,2,3],[1,2,3,6]].random()!
             }
         }
     }
