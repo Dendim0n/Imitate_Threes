@@ -100,6 +100,7 @@
 		407136021DB080CE006395AC /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136011DB080CE006395AC /* ChessView.swift */; };
 		407136041DB0D4C1006395AC /* scoreLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407136031DB0D4C1006395AC /* scoreLayout.swift */; };
 		40A4C4961DB604380064F2A0 /* NextChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4C4951DB604380064F2A0 /* NextChessView.swift */; };
+		40A4C4981DB7597A0064F2A0 /* TransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4C4971DB7597A0064F2A0 /* TransitionView.swift */; };
 		5988E0371DB12861003B38A7 /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E0361DB12861003B38A7 /* ScoreModel.swift */; };
 		5988E0391DB129C7003B38A7 /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E0381DB129C7003B38A7 /* ScoreCell.swift */; };
 		5988E03D1DB129FA003B38A7 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5988E03C1DB129FA003B38A7 /* SettingCell.swift */; };
@@ -204,6 +205,7 @@
 		407136011DB080CE006395AC /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChessView.swift; path = View/ChessView.swift; sourceTree = "<group>"; };
 		407136031DB0D4C1006395AC /* scoreLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = scoreLayout.swift; path = Classes/scoreLayout.swift; sourceTree = "<group>"; };
 		40A4C4951DB604380064F2A0 /* NextChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NextChessView.swift; path = View/NextChessView.swift; sourceTree = "<group>"; };
+		40A4C4971DB7597A0064F2A0 /* TransitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
 		5988E0361DB12861003B38A7 /* ScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScoreModel.swift; path = BoardModel/ScoreModel.swift; sourceTree = "<group>"; };
 		5988E0381DB129C7003B38A7 /* ScoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScoreCell.swift; path = View/ScoreCell.swift; sourceTree = "<group>"; };
 		5988E03C1DB129FA003B38A7 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingCell.swift; path = View/SettingCell.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				407135F81DACCB37006395AC /* UIViewController+CustomAlertView.swift */,
+				40A4C4971DB7597A0064F2A0 /* TransitionView.swift */,
 				407136031DB0D4C1006395AC /* scoreLayout.swift */,
 			);
 			name = Tools;
@@ -568,6 +571,7 @@
 				4045626D1DAB75B3003A1412 /* UIColorExtensions.swift in Sources */,
 				407136021DB080CE006395AC /* ChessView.swift in Sources */,
 				4045626A1DAB75B3003A1412 /* UIBarButtonItemExtensions.swift in Sources */,
+				40A4C4981DB7597A0064F2A0 /* TransitionView.swift in Sources */,
 				404562531DAB75B3003A1412 /* BlockTap.swift in Sources */,
 				4045620C1DAB41D8003A1412 /* UILayoutGuide+Extensions.swift in Sources */,
 				404562791DAB75B3003A1412 /* UIViewControllerExtensions.swift in Sources */,

@@ -21,5 +21,29 @@ class ThanksCell: UICollectionViewCell {
         super.draw(rect)
     }
     func commonInit() {
+        let lblTitle = UILabel.init()
+        lblTitle.textAlignment = .center
+        lblTitle.text = "Thanks"
+        
+        let lblList = UILabel.init()
+        lblList.numberOfLines = 0
+//        lblList.textAlignment = .left
+        lblList.text = "EZSwiftExtensions\nSnapKit"
+        
+        addSubview(lblTitle)
+        addSubview(lblList)
+        
+        lblTitle.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(70)
+        }
+        
+        lblList.snp.makeConstraints { (make) in
+            make.top.equalTo(lblTitle.snp.bottom).offset(20)
+            make.bottom.equalToSuperview().offset(-60)
+            make.left.equalToSuperview().offset(30)
+            make.right.equalToSuperview().offset(-30)
+        }
     }
 }

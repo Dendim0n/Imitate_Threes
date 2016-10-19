@@ -12,14 +12,18 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     var scores = Array<ScoreModel>()
     
+    var btnBack = UIButton.init()
+    
+    var titleView = TransitionView.init()
+    
     var collectionView:UICollectionView?
     var collectionLayout:UICollectionViewFlowLayout {
         get {
             let layout = UICollectionViewFlowLayout.init()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20
-            layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10)
-            layout.itemSize = CGSize.init(width: view.frame.size.width * 0.7, height: view.frame.size.height * 0.8)
+            layout.sectionInset = UIEdgeInsetsMake(0, view.frame.size.width * 0.15, 0, view.frame.size.width * 0.15)
+            layout.itemSize = CGSize.init(width: view.frame.size.width * 0.7, height: view.frame.size.height * 0.6)
             return layout
         }
     }
@@ -39,13 +43,12 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     func setView() {
         view.backgroundColor = .white
-        
-        let btnBack = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(back))
+        btnBack = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(back))
         btnBack.layer.cornerRadius = 3
         btnBack.setTitle("Back", for: .normal)
         btnBack.setTitleColor(.white, for: .normal)
         btnBack.backgroundColor = .darkGray
-        view.addSubview(btnBack)
+        
         
         collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         collectionView?.delegate = self
@@ -54,22 +57,34 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         collectionView?.register(SettingCell.self, forCellWithReuseIdentifier: "settingCell")
         collectionView?.register(ThanksCell.self, forCellWithReuseIdentifier: "thanksCell")
         view.addSubview(collectionView!)
+        view.addSubview(titleView)
+        view.addSubview(btnBack)
         collectionView?.backgroundColor = .clear
+        
         collectionView?.snp.makeConstraints { (make) in
 //            make.edges.equalToSuperview()
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-50)
-//            make.height.equalTo((collectionView?.snp.width)!).multipliedBy(1.6)
-            make.top.equalTo(btnBack.snp.bottom).offset(50)
+            make.bottom.equalToSuperview().offset(-70)
+            make.top.equalToSuperview().offset(100)
         }
-        
         btnBack.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(40)
-            make.top.equalToSuperview().offset(40)
+            make.left.equalTo(view).offset(40)
+            make.top.equalTo(view).offset(40)
             make.height.equalTo(30)
             make.width.equalTo(50)
         }
+        titleView.snp.makeConstraints { (make) in
+            make.top.equalTo(btnBack)
+            make.bottom.equalTo(btnBack)
+            make.right.equalToSuperview().offset(-40)
+            make.width.equalTo(180)
+        }
+        
+//        let testLabel = UILabel.init()
+//        testLabel.text = "test"
+//        testLabel.backgroundColor = .gray
+//        titleView.setView(testLabel)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -82,6 +97,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         var identifier = "scoreCell"
         var color = UIColor.black
         if indexPath.section == 1 {
+            let testLbl = UILabel.init()
+            testLbl.text = "test2"
+            testLbl.textAlignment = .center
+            titleView.transitionToView(testLbl, from: .top)
             switch indexPath.row {
             case 0:
                 identifier = "settingCell"
@@ -98,6 +117,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         cell.backgroundColor = color
+        cell.setCornerRadius(radius: 5)
         return cell
     }
     
