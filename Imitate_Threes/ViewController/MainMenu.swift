@@ -18,18 +18,10 @@ class MainMenu: UIViewController {
         super.viewDidLoad()
         setUI()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func setUI() {
         view.backgroundColor = .white
-        
         view.addSubview(centerBoard)
-//        centerBoard.backgroundColor = .darkGray
-//        centerBoard.layer.cornerRadius = 5
         
         
         let btnMenu = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(goToMenu))

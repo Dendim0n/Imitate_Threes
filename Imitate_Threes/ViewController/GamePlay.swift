@@ -21,14 +21,13 @@ class GamePlay: UIViewController {
     var transform = CGAffineTransform()
     
     var plusChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
-
+    
     var btnMenu = UIButton.init()
     var btnStatus = UIButton.init()
     var nextChess = UIStackView.init()
     var nextChessBG = UIView.init()
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         setUI()
         initBoard()
@@ -47,8 +46,8 @@ class GamePlay: UIViewController {
         
         btnMenu.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
         nextChessBG.setCornerRadius(radius: 5)
-//        gameBoard.layer.borderWidth = 5
-//        gameBoard.layer.borderColor = UIColor.gray.cgColor
+        //        gameBoard.layer.borderWidth = 5
+        //        gameBoard.layer.borderColor = UIColor.gray.cgColor
         btnMenu.layer.cornerRadius = 3
         btnMenu.backgroundColor = .darkGray
         btnStatus.layer.cornerRadius = 3
@@ -101,7 +100,6 @@ class GamePlay: UIViewController {
     func initBoard() {
         chessModel.initBoard()
         
-        
         weak var weakSelf = self
         gameBoard.finishedClosure = {
             Void in
@@ -111,7 +109,6 @@ class GamePlay: UIViewController {
         chessModel.doAdded = {
             Void in
             self.sync()
-//            self.showNextChesses()
         }
         chessModel.doEvaluated = {
             Void in
@@ -119,7 +116,6 @@ class GamePlay: UIViewController {
         }
         chessModel.doMoved = {
             array in
-            //add flip-to-plus animation
             self.plusChesses = array
         }
         chessModel.doLosed = {
@@ -132,8 +128,6 @@ class GamePlay: UIViewController {
                 weakSelf?.swipeDirection = .none
                 self.displayLink = CADisplayLink.init(target: self, selector: #selector(self.moveChesses))
                 weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
-            } else if (gesture.state == UIGestureRecognizerState.changed) {
-                
             } else if (gesture.state == UIGestureRecognizerState.ended) {
                 print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
@@ -175,10 +169,9 @@ class GamePlay: UIViewController {
                             }
                             if boardMovable {
                                 print(self.movableChesses)
-                            weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+                                weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
                             }
-                            //                    self.sync()
-                                                self.gameBoard.moveChessesToOrigin(animated: false)
+                            self.gameBoard.moveChessesToOrigin(animated: false)
                         })
                     }
                 } else {
@@ -186,7 +179,7 @@ class GamePlay: UIViewController {
                 }
             }
         }
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -240,13 +233,12 @@ class GamePlay: UIViewController {
         default:
             return
         }
-//        print(currentTranslationPercent)
         gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
         
     }
     
     func showNextChesses() {
-        DispatchQueue.main.sync { 
+        DispatchQueue.main.sync {
             for view in self.nextChess.arrangedSubviews {
                 //            nextChess.removeArrangedSubview(view)
                 view.removeFromSuperview()
@@ -265,7 +257,6 @@ class GamePlay: UIViewController {
                 gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: plusChesses[i][j],direction: swipeDirection)
             }
         }
-//        showNextChesses()
         chessModel.resetAdded()
     }
     

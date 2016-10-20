@@ -10,10 +10,18 @@ import UIKit
 
 class BoardModel: NSObject {
     
+    enum direction {
+        case up
+        case down
+        case left
+        case right
+        case none
+    }
     
     typealias finishClosure = (Void) -> Void
     typealias arrayClosure = (Array<Array<Bool>>) -> Void
     typealias loseClosure = (Int) -> Void
+    
     var doAdded:finishClosure?
     var doMoved:arrayClosure?
     var doLosed:loseClosure?
@@ -23,22 +31,9 @@ class BoardModel: NSObject {
     var rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     var upMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     var downMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
-    
     var addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
-    var newChesses = [1,2,3]
-    enum direction {
-        case up
-        case down
-        case left
-        case right
-        case none
-    }
-    
-    enum moveType {
-        case Line
-        case Col
-    }
+    var newChesses = [1,2]
     
     var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     
@@ -50,7 +45,6 @@ class BoardModel: NSObject {
     var moveDirection:direction = .none
     
     func initBoard() {
-        
         for _ in 1...6 {
             let line = Int(arc4random() % 4)
             let row = Int(arc4random() % 4)
@@ -58,12 +52,10 @@ class BoardModel: NSObject {
                 board[line][row] = arc4random() % 2 == 0 ? 1 : 2
             }
         }
-        //        board = [[1,2,1,2],[2,1,2,1],[0,0,0,0],[0,0,0,0]]
         evaluateBoard()
     }
     
     func move(direction:direction) {
-        
         switch direction {
         case .down:
             moveDown()
@@ -157,7 +149,7 @@ class BoardModel: NSObject {
         }
         return false
     }
-
+    
     private func newChess(line:Int,col:Int) {
         print("want to add new:\(newChesses)")
         if board[line][col] == 0 {
@@ -301,24 +293,6 @@ class BoardModel: NSObject {
     }
     
     func evaluateBoard() {
-//        DispatchQueue.global().async {
-//            self.leftMovableChesses = self.getMovableChesses(moveDirection: .left)
-//            self.rightMovableChesses = self.getMovableChesses(moveDirection: .right)
-//            self.upMovableChesses = self.getMovableChesses(moveDirection: .up)
-//            self.downMovableChesses = self.getMovableChesses(moveDirection: .down)
-//            
-////            let defaultChesses = [[1],[2],[1,2,3],[1,2,3,6],[12],[24],[48]]
-////            self.newChesses = [1,2,3,6]
-//            if self.getAmountOf(number: 1) >= 3 {
-//                self.newChesses = [2,3,6]
-//            } else if self.getAmountOf(number: 2) >= 3 {
-//                self.newChesses = [1,3,6]
-//            } else if (self.getAmountOf(number: 1)>=2) && (self.getAmountOf(number: 2)>=2) {
-//                self.newChesses = [[2],[1],[3],[3,6]].random()!
-//            } else {
-//                self.newChesses = [[1,2],[1,2,3],[1,2,3,6]].random()!
-//            }
-//        }
         
         let evaluteGroup = DispatchGroup()
         
@@ -364,32 +338,27 @@ class BoardModel: NSObject {
                     }
                     
                 case 2:
-//                    while self.newChesses.count < 2 {
-                        if numberOf1 >= 3 && numberOf2 < 3 {
-                            self.newChesses = [2,3]
-                        } else if numberOf2 >= 3 && numberOf1 < 3 {
-                            self.newChesses = [1,3]
-                        } else {
-                            self.newChesses = [3]
-                        }
-//                    }
+                    if numberOf1 >= 3 && numberOf2 < 3 {
+                        self.newChesses = [2,3]
+                    } else if numberOf2 >= 3 && numberOf1 < 3 {
+                        self.newChesses = [1,3]
+                    } else {
+                        self.newChesses = [3]
+                    }
                 case 3:
-//                    while self.newChesses.count < 2 {
-                        if numberOf1 >= 3 && numberOf2 < 3 {
-                            self.newChesses = [2,3]
-                        } else if numberOf2 >= 3 && numberOf1 < 3 {
-                            self.newChesses = [1,3]
-                        } else {
-                            self.newChesses = [1,2,3]
-                        }
-//                    }
+                    if numberOf1 >= 3 && numberOf2 < 3 {
+                        self.newChesses = [2,3]
+                    } else if numberOf2 >= 3 && numberOf1 < 3 {
+                        self.newChesses = [1,3]
+                    } else {
+                        self.newChesses = [1,2,3]
+                    }
                 default:
                     break
                 }
             } else {
                 let position = chessesAvaliable.index(of: biggest / 8)!
                 let subHighAvaliable = chessesAvaliable.subArray(fromIndex: 3,toIndex: position)
-//                self.newChesses.append(subHighAvaliable.random()!)
                 var rnd = arc4random() % 4 + 1
                 switch rnd {
                 case 1,2:
@@ -418,22 +387,20 @@ class BoardModel: NSObject {
                     }
                     
                 case 2:
-//                    while self.newChesses.count < 2 {
-                        if numberOf1 >= 3 && numberOf2 < 3 {
-                            self.newChesses.append(contentsOf: [2,3])
-                        } else if numberOf2 >= 3 && numberOf1 < 3 {
-                            self.newChesses = (contentsOf: [1,3])
-                        } else {
-                            let new = [1,2,3].random()!
-                            if !self.newChesses.contains(new) {
-                                self.newChesses.append(new)
-                            }
+                    if numberOf1 >= 3 && numberOf2 < 3 {
+                        self.newChesses.append(contentsOf: [2,3])
+                    } else if numberOf2 >= 3 && numberOf1 < 3 {
+                        self.newChesses = (contentsOf: [1,3])
+                    } else {
+                        let new = [1,2,3].random()!
+                        if !self.newChesses.contains(new) {
+                            self.newChesses.append(new)
                         }
-//                    }
+                    }
                 default:
                     break
                 }
-
+                
             }
             self.newChesses.sort()
             print("just make new:\(self.newChesses)")
@@ -493,7 +460,7 @@ class BoardModel: NSObject {
                     for afterCol in col...3 {
                         movableChesses[afterCol] = true
                     }
-                    if col == 3 {
+                    if col == 3 && board[num][col] == 0 {
                         movableChesses[col] = false
                     }
                     break
@@ -508,7 +475,7 @@ class BoardModel: NSObject {
                     for beforeCol in 0...actualCol {
                         movableChesses[beforeCol] = true
                     }
-                    if actualCol == 0 {
+                    if actualCol == 0 && board[num][actualCol] == 0 {
                         movableChesses[actualCol] = false
                     }
                     break
@@ -532,7 +499,7 @@ class BoardModel: NSObject {
                     for afterCol in line...3 {
                         movableChesses[afterCol] = true
                     }
-                    if line == 3 {
+                    if line == 3 && board[line][numCol] == 0 {
                         movableChesses[line] = false
                     }
                     break
@@ -547,7 +514,7 @@ class BoardModel: NSObject {
                     for beforeCol in 0...actualLine {
                         movableChesses[beforeCol] = true
                     }
-                    if actualLine == 0 {
+                    if actualLine == 0 && board[actualLine][numCol] == 0 {
                         movableChesses[actualLine] = false
                     }
                     break
@@ -596,7 +563,7 @@ class BoardModel: NSObject {
         var biggest = 0
         for i in 0...3 {
             for j in 0...3 {
-                    biggest = max(board[i][j],biggest)
+                biggest = max(board[i][j],biggest)
             }
         }
         return biggest
