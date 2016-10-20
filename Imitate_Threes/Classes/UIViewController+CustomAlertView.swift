@@ -11,8 +11,9 @@ import UIKit
 extension UIViewController {
     func showAlert(title:String,detailText:String,buttonTitles:Array<String>) {
         let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles)
-        alert.show()
-        
+        DispatchQueue.main.async { 
+            alert.show()
+        }
     }
 }
 

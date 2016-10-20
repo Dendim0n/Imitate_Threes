@@ -114,11 +114,13 @@ class GamePlay: UIViewController {
         chessModel.doMoved = {
             array in
             //add flip-to-plus animation
-            
             self.plusChesses = array
-            
         }
-        
+        chessModel.doLosed = {
+            score in
+            self.gameBoard.isUserInteractionEnabled = false
+            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"])
+        }
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
                 weakSelf?.swipeDirection = .None
