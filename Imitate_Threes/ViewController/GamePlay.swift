@@ -164,9 +164,21 @@ class GamePlay: UIViewController {
                             default:
                                 break
                             }
+                            var boardMovable = false
+                            for i in 0...3 {
+                                for j in 0...3 {
+                                    if self.movableChesses[i][j] == true { // && self.chessModel.board[i][j] != 0
+                                        boardMovable = true
+                                        break
+                                    }
+                                }
+                            }
+                            if boardMovable {
+                                print(self.movableChesses)
                             weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+                            }
                             //                    self.sync()
-                            //                    self.gameBoard.moveChessesToOrigin(animated: false)
+                                                self.gameBoard.moveChessesToOrigin(animated: false)
                         })
                     }
                 } else {

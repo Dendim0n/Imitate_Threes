@@ -493,6 +493,9 @@ class BoardModel: NSObject {
                     for afterCol in col...3 {
                         movableChesses[afterCol] = true
                     }
+                    if col == 3 {
+                        movableChesses[col] = false
+                    }
                     break
                 }
             }
@@ -504,6 +507,9 @@ class BoardModel: NSObject {
                 if movableChesses[actualCol] {
                     for beforeCol in 0...actualCol {
                         movableChesses[beforeCol] = true
+                    }
+                    if actualCol == 0 {
+                        movableChesses[actualCol] = false
                     }
                     break
                 }
@@ -526,6 +532,9 @@ class BoardModel: NSObject {
                     for afterCol in line...3 {
                         movableChesses[afterCol] = true
                     }
+                    if line == 3 {
+                        movableChesses[line] = false
+                    }
                     break
                 }
             }
@@ -537,6 +546,9 @@ class BoardModel: NSObject {
                 if movableChesses[actualLine] {
                     for beforeCol in 0...actualLine {
                         movableChesses[beforeCol] = true
+                    }
+                    if actualLine == 0 {
+                        movableChesses[actualLine] = false
                     }
                     break
                 }
