@@ -17,6 +17,7 @@ class BoardModel: NSObject {
     var doAdded:finishClosure?
     var doMoved:arrayClosure?
     var doLosed:loseClosure?
+    var doEvaluated:finishClosure?
     
     var leftMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     var rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
@@ -25,7 +26,7 @@ class BoardModel: NSObject {
     
     var addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
-    var newChesses = [1,2,3,6]
+    var newChesses = [1,2,3]
     enum direction {
         case Up
         case Down
@@ -158,6 +159,7 @@ class BoardModel: NSObject {
     }
 
     private func newChess(line:Int,col:Int) {
+        print("want to add new:\(newChesses)")
         if board[line][col] == 0 {
             board[line][col] = newChesses[Int(arc4random() % UInt32(newChesses.count))]
         }
@@ -319,38 +321,127 @@ class BoardModel: NSObject {
 //        }
         
         let evaluteGroup = DispatchGroup()
+        
         let queueMovableUp = DispatchQueue(label: "up")
         queueMovableUp.async(group:evaluteGroup) {
             self.upMovableChesses = self.getMovableChesses(moveDirection: .Up)
         }
+        
         let queueMovableDown = DispatchQueue(label: "down")
         queueMovableDown.async(group: evaluteGroup) {
             self.downMovableChesses = self.getMovableChesses(moveDirection: .Down)
         }
+        
         let queueMovableLeft = DispatchQueue(label: "left")
         queueMovableLeft.async(group: evaluteGroup) {
             self.leftMovableChesses = self.getMovableChesses(moveDirection: .Left)
         }
+        
         let queueMovableRight = DispatchQueue(label: "right")
         queueMovableRight.async(group: evaluteGroup) {
             self.rightMovableChesses = self.getMovableChesses(moveDirection: .Right)
         }
+        
         let nextChess = DispatchQueue(label: "next")
         nextChess.async(group: evaluteGroup) {
-            if self.getAmountOf(number: 1) >= 3 {
-                self.newChesses = [2,3,6]
-            } else if self.getAmountOf(number: 2) >= 3 {
-                self.newChesses = [1,3,6]
-            } else if (self.getAmountOf(number: 1)>=2) && (self.getAmountOf(number: 2)>=2) {
-                self.newChesses = [[2],[1],[3],[3,6]].random()!
+            let chessesAvaliable = [1,2,3,6,12,24,48,96,192,384,768,1536,3072]
+            self.newChesses = []
+            let numberOf1 = self.getAmountOf(number: 1)
+            let numberOf2 = self.getAmountOf(number: 2)
+            
+            let biggest = self.findBiggest()
+            
+            if biggest <= 24 {
+                let rnd = arc4random() % 3 + 1
+                switch rnd {
+                case 1:
+                    if numberOf1 >= 3 && numberOf2 < 3 {
+                        self.newChesses = [[2,3].random()!]
+                    } else if numberOf2 >= 3 && numberOf1 < 3 {
+                        self.newChesses = [[1,3].random()!]
+                    } else {
+                        self.newChesses = [[1,2,3].random()!]
+                    }
+                    
+                case 2:
+//                    while self.newChesses.count < 2 {
+                        if numberOf1 >= 3 && numberOf2 < 3 {
+                            self.newChesses = [2,3]
+                        } else if numberOf2 >= 3 && numberOf1 < 3 {
+                            self.newChesses = [1,3]
+                        } else {
+                            self.newChesses = [3]
+                        }
+//                    }
+                case 3:
+//                    while self.newChesses.count < 2 {
+                        if numberOf1 >= 3 && numberOf2 < 3 {
+                            self.newChesses = [2,3]
+                        } else if numberOf2 >= 3 && numberOf1 < 3 {
+                            self.newChesses = [1,3]
+                        } else {
+                            self.newChesses = [1,2,3]
+                        }
+//                    }
+                default:
+                    break
+                }
             } else {
-                self.newChesses = [[1,2],[1,2,3],[1,2,3,6]].random()!
+                let position = chessesAvaliable.index(of: biggest / 8)!
+                let subHighAvaliable = chessesAvaliable.subArray(fromIndex: 3,toIndex: position)
+                self.newChesses.append(subHighAvaliable.random()!)
+                var rnd = arc4random() % 4 + 1
+                switch rnd {
+                case 1,2,3:
+                    break
+                case 4:
+                    let count = self.newChesses.count
+                    while self.newChesses.count == count {
+                        let new = subHighAvaliable.random()!
+                        if !self.newChesses.contains(new) {
+                            self.newChesses.append(new)
+                        }
+                    }
+                default:
+                    break
+                }
+                
+                rnd = arc4random() % 2 + 1
+                switch rnd {
+                case 1:
+                    if numberOf1 >= 3 {
+                        self.newChesses.append([2,3].random()!)
+                    } else if numberOf2 >= 3 {
+                        self.newChesses.append([1,3].random()!)
+                    } else {
+                        self.newChesses.append([1,2,3].random()!)
+                    }
+                    
+                case 2:
+//                    while self.newChesses.count < 2 {
+                        if numberOf1 >= 3 {
+                            self.newChesses.append(contentsOf: [2,3])
+                        } else if numberOf2 >= 3 {
+                            self.newChesses = (contentsOf: [1,3])
+                        } else {
+                            let new = [1,2,3].random()!
+                            if !self.newChesses.contains(new) {
+                                self.newChesses.append(new)
+                            }
+                        }
+//                    }
+                default:
+                    break
+                }
+
             }
+            self.newChesses.sort()
+            print("just make new:\(self.newChesses)")
+            self.doEvaluated?()
         }
         evaluteGroup.notify(queue: DispatchQueue.global()) {
             if !self.movable() {
                 print("cant\(Thread.current)")
-                
                 self.doLosed!(self.getScore())
             } else {
                 print("movable")
@@ -387,7 +478,6 @@ class BoardModel: NSObject {
         default:
             break
         }
-//        print(movableChesses)
         return movableChesses
     }
     
@@ -462,12 +552,17 @@ class BoardModel: NSObject {
     }
     
     func getScore() -> Int {
+        var scoreDic:Dictionary<Double,Double> = [:]
+        for k in 1...20 {
+            scoreDic[Double(3)*pow(2.0, Double(k-1))] = pow(3.0, Double(k))
+        }
         var score:Double = 0.0
         for i in 0...3 {
             for j in 0...3 {
                 let chessPoint = Double(board[i][j])
                 if chessPoint >= 3 {
-                    score += pow(3, chessPoint/3)
+                    score += scoreDic[chessPoint]!
+                    print("Point:\(scoreDic[chessPoint])")
                 }
             }
         }
@@ -483,6 +578,16 @@ class BoardModel: NSObject {
             }
         }
         return false
+    }
+    
+    func findBiggest() -> Int {
+        var biggest = 0
+        for i in 0...3 {
+            for j in 0...3 {
+                    biggest = max(board[i][j],biggest)
+            }
+        }
+        return biggest
     }
 }
 

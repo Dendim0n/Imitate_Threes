@@ -59,7 +59,7 @@ class GamePlay: UIViewController {
         view.addSubview(nextChess)
         view.addSubview(gameBoard)
         
-        showNextChesses()
+        
         
         gameBoard.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(40)
@@ -100,6 +100,8 @@ class GamePlay: UIViewController {
     
     func initBoard() {
         chessModel.initBoard()
+        
+        
         weak var weakSelf = self
         gameBoard.finishedClosure = {
             Void in
@@ -109,6 +111,10 @@ class GamePlay: UIViewController {
         chessModel.doAdded = {
             Void in
             self.sync()
+//            self.showNextChesses()
+        }
+        chessModel.doEvaluated = {
+            Void in
             self.showNextChesses()
         }
         chessModel.doMoved = {
@@ -222,20 +228,22 @@ class GamePlay: UIViewController {
         default:
             return
         }
-        print(currentTranslationPercent)
+//        print(currentTranslationPercent)
         gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
         
     }
     
     func showNextChesses() {
-        for view in nextChess.arrangedSubviews {
-//            nextChess.removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
-        let chessesNum = chessModel.newChesses
-        for chessNum in chessesNum {
-            let newChess = NextChessView.init(num: chessNum)
-            nextChess.addArrangedSubview(newChess)
+        DispatchQueue.main.sync { 
+            for view in self.nextChess.arrangedSubviews {
+                //            nextChess.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
+            let chessesNum = self.chessModel.newChesses
+            for chessNum in chessesNum {
+                let newChess = NextChessView.init(num: chessNum)
+                self.nextChess.addArrangedSubview(newChess)
+            }
         }
     }
     
@@ -245,6 +253,7 @@ class GamePlay: UIViewController {
                 gameBoard.chesses[i][j].setNumber(number: chessModel.board[i][j],added: plusChesses[i][j],direction: swipeDirection)
             }
         }
+//        showNextChesses()
         chessModel.resetAdded()
     }
     
