@@ -19,7 +19,7 @@ _For Exercise ONLY_
 
 ##TODO:
 
-1.Fix the anim problem when new chess added.
+1.`Done`Fix the anim problem when new chess added.
 
 2.Pan gesture recognizer need to optimize.
 
