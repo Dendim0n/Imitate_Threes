@@ -9,12 +9,21 @@ _For Exercise ONLY_
 
 2.GameBoard
 
+3.Algorithm of the next chess(need to test further).
+
+4.Most of the anims.
+
+5.The score of the GameBoard.
+
+6.Game lose check.
+
 ##TODO:
 
-1.Algorithm of the next chess
+1.Fix the anim problem when new chess added.
 
-2.Fix the problem when new chess added
+2.Pan gesture recognizer need to optimize.
 
-3.Stats and Score ViewController
+3.Stats and Score ViewController.
 
-4.Button Appearence Style
+4.Button Appearence Style.
+
