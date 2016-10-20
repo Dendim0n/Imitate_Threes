@@ -28,7 +28,7 @@ class ThanksCell: UICollectionViewCell {
         let lblList = UILabel.init()
         lblList.numberOfLines = 0
 //        lblList.textAlignment = .left
-        lblList.text = "EZSwiftExtensions\nSnapKit"
+        lblList.text = "GitHub:\nEZSwiftExtensions\nSnapKit\n\n"
         
         addSubview(lblTitle)
         addSubview(lblList)

@@ -39,14 +39,18 @@ class ScoreCell: UICollectionViewCell {
     func commonInit() {
         let gameBoard = BoardView.init(frame: self.frame)
         addSubview(gameBoard)
+//        let scoreTitle = UILabel.init()
+//        addSubview(scoreTitle)
         gameBoard.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         gameBoard.setRealChess()
         for i in 0...3 {
             for j in 0...3 {
-                gameBoard.chesses[i][j].lastNum = board[i][j]
-                gameBoard.chesses[i][j].setNumber(number:board[i][j],added:false,direction: BoardModel.direction.None)
+                let chess = gameBoard.chesses[i][j]
+                chess.lastNum = board[i][j]
+                chess.setNumber(number:board[i][j],added:false,direction: BoardModel.direction.none)
+                chess.addShadow(offset: CGSize.zero, radius: 0, color: UIColor.black, opacity: 1)       
             }
         }
         

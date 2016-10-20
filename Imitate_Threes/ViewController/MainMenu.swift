@@ -129,7 +129,7 @@ class MainMenu: UIViewController {
 //                chess.removeFromSuperview()
 //                centerBoard.addSubview(chess)
                 chess.transform = CGAffineTransform.init(scaleX: 0, y: 0)
-                chess.setNumber(number: arr[i][j],added: false,direction: .None)
+                chess.setNumber(number: arr[i][j],added: false,direction: .none)
                 UIView.animate(withDuration: 0.4, delay: delay*Double(i+j), usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                     chess.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                     }, completion: nil)

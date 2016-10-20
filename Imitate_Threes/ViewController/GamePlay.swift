@@ -14,7 +14,7 @@ class GamePlay: UIViewController {
     var swipe = UISwipeGestureRecognizer.init()
     let chessModel = BoardModel()
     let gameBoard = BoardView.init()
-    var swipeDirection = BoardModel.direction.None
+    var swipeDirection = BoardModel.direction.none
     var currentPoint = CGPoint.init(x: 0, y: 0)
     var currentTranslationPercent = 0.0
     var movableChesses = Array<Array<Bool>>()
@@ -129,7 +129,7 @@ class GamePlay: UIViewController {
         }
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
-                weakSelf?.swipeDirection = .None
+                weakSelf?.swipeDirection = .none
                 self.displayLink = CADisplayLink.init(target: self, selector: #selector(self.moveChesses))
                 weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             } else if (gesture.state == UIGestureRecognizerState.changed) {
@@ -137,7 +137,7 @@ class GamePlay: UIViewController {
             } else if (gesture.state == UIGestureRecognizerState.ended) {
                 print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
-                if self.currentTranslationPercent > 0.6 || self.currentTranslationPercent < -0.6 {
+                if (self.currentTranslationPercent > 0.6 && (self.swipeDirection == .down || self.swipeDirection == .right)) || (self.currentTranslationPercent < -0.6 && (self.swipeDirection == .up || self.swipeDirection == .left))  {
                     
                     DispatchQueue.global().async {
                         weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
@@ -149,16 +149,16 @@ class GamePlay: UIViewController {
                             let vertical = Double((chessFrame?.size.height)!) + padding
                             
                             switch self.swipeDirection {
-                            case .Up:
+                            case .up:
                                 weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
                                 weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
-                            case .Down:
+                            case .down:
                                 weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
                                 weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
-                            case .Left:
+                            case .left:
                                 weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
                                 weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
-                            case .Right:
+                            case .right:
                                 weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
                                 weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
                             default:
@@ -209,28 +209,28 @@ class GamePlay: UIViewController {
         let horizontal = Double(chessFrame.size.width) + padding
         let vertical = Double(chessFrame.size.height) + padding
         switch self.swipeDirection {
-        case .Up:
+        case .up:
             currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
             guard currentTranslationPercent < 0 else {
                 return
             }
             transform = CGAffineTransform(translationX: 0, y: min(0,max(point.y,CGFloat(-vertical))))
             movableChesses = chessModel.upMovableChesses
-        case .Down:
+        case .down:
             currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
             guard currentTranslationPercent > 0 else {
                 return
             }
             transform = CGAffineTransform(translationX: 0, y: max(0,min(point.y,CGFloat(vertical))))
             movableChesses = chessModel.downMovableChesses
-        case .Left:
+        case .left:
             currentTranslationPercent = Double(max(point.x,CGFloat(-horizontal))) / horizontal
             guard currentTranslationPercent < 0 else {
                 return
             }
             transform = CGAffineTransform(translationX: min(0,max(point.x,CGFloat(-horizontal))), y: 0)
             movableChesses = chessModel.leftMovableChesses
-        case .Right:
+        case .right:
             currentTranslationPercent = Double(max(0,max(point.x,CGFloat(-horizontal)))) / horizontal
             guard currentTranslationPercent > 0 else {
                 return
@@ -273,7 +273,7 @@ class GamePlay: UIViewController {
         BoardModel.direction {
             let gestureMinimumTranslation = 20.0
             
-            if swipeDirection != .None {
+            if swipeDirection != .none {
                 return swipeDirection
             }
             if (fabs(translation.x) > CGFloat(gestureMinimumTranslation)) {
@@ -288,16 +288,16 @@ class GamePlay: UIViewController {
                 
                 if gestureHorizontal {
                     if translation.x > 0.0 {
-                        return .Right
+                        return .right
                     } else {
-                        return .Left
+                        return .left
                     }
                 }
             } else if (fabs(translation.y) > CGFloat(gestureMinimumTranslation)) {
                 if translation.y > 0.0 {
-                    return .Down
+                    return .down
                 } else {
-                    return .Up
+                    return .up
                 }
             }
             return swipeDirection

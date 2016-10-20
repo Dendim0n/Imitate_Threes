@@ -98,7 +98,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         var color = UIColor.black
         if indexPath.section == 1 {
             let testLbl = UILabel.init()
-            testLbl.text = "test2"
+            testLbl.text = indexPath.row == 0 ? "Settings" : "Thanks"
             testLbl.textAlignment = .center
             titleView.transitionToView(testLbl, from: .top)
             switch indexPath.row {
@@ -112,6 +112,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
                 break
             }
         } else {
+            let testLbl = UILabel.init()
+            testLbl.text = "Game:\(indexPath.row)"
+            testLbl.textAlignment = .center
+            titleView.transitionToView(testLbl, from: .top)
             identifier = "scoreCell"
             color = .gray
         }
