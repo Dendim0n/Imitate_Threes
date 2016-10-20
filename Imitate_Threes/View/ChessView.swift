@@ -92,29 +92,38 @@ class ChessView: UIView {
             let padding = CGFloat(10)
             let offsetY = self.frame.size.height + padding
             let offsetX = self.frame.size.width + padding
-            var transform = CGAffineTransform()
+            var transform = CGAffineTransform.init(translationX: 1, y: 1)
             switch direction {
             case .Up:
                 guard self.line == 3 else {
+                    lastNum = number
                     return
+//                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: offsetY)
             case .Down:
                 guard self.line == 0 else {
+                    lastNum = number
                     return
+//                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: -offsetY)
             case .Left:
                 guard self.col == 3 else {
+                    lastNum = number
                     return
+//                    break
                 }
                 transform = CGAffineTransform.init(translationX: offsetX, y: 0)
             case .Right:
                 guard self.col == 0 else {
+                    lastNum = number
                     return
+//                    break
                 }
                 transform = CGAffineTransform.init(translationX: -offsetX, y: 0)
             default:
+                lastNum = number
                 return
             }
             self.transform = transform

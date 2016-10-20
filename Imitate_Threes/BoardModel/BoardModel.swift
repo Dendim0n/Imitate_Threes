@@ -389,12 +389,10 @@ class BoardModel: NSObject {
             } else {
                 let position = chessesAvaliable.index(of: biggest / 8)!
                 let subHighAvaliable = chessesAvaliable.subArray(fromIndex: 3,toIndex: position)
-                self.newChesses.append(subHighAvaliable.random()!)
+//                self.newChesses.append(subHighAvaliable.random()!)
                 var rnd = arc4random() % 4 + 1
                 switch rnd {
-                case 1,2,3:
-                    break
-                case 4:
+                case 1,2:
                     let count = self.newChesses.count
                     while self.newChesses.count == count {
                         let new = subHighAvaliable.random()!
@@ -402,6 +400,8 @@ class BoardModel: NSObject {
                             self.newChesses.append(new)
                         }
                     }
+                case 3,4:
+                    break
                 default:
                     break
                 }
@@ -409,9 +409,9 @@ class BoardModel: NSObject {
                 rnd = arc4random() % 2 + 1
                 switch rnd {
                 case 1:
-                    if numberOf1 >= 3 {
+                    if numberOf1 >= 3 && numberOf2 < 3 {
                         self.newChesses.append([2,3].random()!)
-                    } else if numberOf2 >= 3 {
+                    } else if numberOf2 >= 3 && numberOf1 < 3 {
                         self.newChesses.append([1,3].random()!)
                     } else {
                         self.newChesses.append([1,2,3].random()!)
@@ -419,9 +419,9 @@ class BoardModel: NSObject {
                     
                 case 2:
 //                    while self.newChesses.count < 2 {
-                        if numberOf1 >= 3 {
+                        if numberOf1 >= 3 && numberOf2 < 3 {
                             self.newChesses.append(contentsOf: [2,3])
-                        } else if numberOf2 >= 3 {
+                        } else if numberOf2 >= 3 && numberOf1 < 3 {
                             self.newChesses = (contentsOf: [1,3])
                         } else {
                             let new = [1,2,3].random()!

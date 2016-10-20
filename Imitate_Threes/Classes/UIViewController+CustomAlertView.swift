@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert(title:String,detailText:String,buttonTitles:Array<String>) {
-        let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles)
+    func showAlert(title:String,detailText:String,buttonTitles:Array<String>,buttonClosures:[(Void) -> Void]) {
+        let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles, buttonClosures:buttonClosures)
         DispatchQueue.main.async { 
             alert.show()
         }
@@ -26,7 +26,7 @@ class CustomAlertView: UIView {
     
     var overlayView = UIView()
     
-    init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?) {
+    init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?,buttonClosures:[(Void) -> Void]) {
         super.init(frame: frame)
         lblTitle.text = title
         lblDetail.text = detailText

@@ -125,7 +125,7 @@ class GamePlay: UIViewController {
         chessModel.doLosed = {
             score in
             self.gameBoard.isUserInteractionEnabled = false
-            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"])
+            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [])
         }
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
