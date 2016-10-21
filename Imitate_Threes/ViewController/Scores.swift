@@ -12,7 +12,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     var scores = Array<ScoreModel>()
     
-    var btnBack = UIButton.init()
+    var btnBack = ThreesButton.init()
     
     var titleView = TransitionView.init()
     
@@ -43,11 +43,13 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     func setView() {
         view.backgroundColor = .white
-        btnBack = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(back))
+        btnBack = ThreesButton.init(buttonColor: .gray)
+        btnBack.addTarget(self, action: #selector(back), for: .touchUpInside)
         btnBack.layer.cornerRadius = 3
-        btnBack.setTitle("Back", for: .normal)
+//        btnBack.setTitle("Back", for: .normal)
+        btnBack.lblTitle.text = "Back"
         btnBack.setTitleColor(.white, for: .normal)
-        btnBack.backgroundColor = .darkGray
+//        btnBack.backgroundColor = .darkGray
         
         
         collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionLayout)
@@ -69,10 +71,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             make.top.equalToSuperview().offset(100)
         }
         btnBack.snp.makeConstraints { (make) in
-            make.left.equalTo(view).offset(40)
-            make.top.equalTo(view).offset(40)
-            make.height.equalTo(30)
-            make.width.equalTo(50)
+            make.left.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(40)
+            make.height.equalTo(40)
+            make.width.equalTo(65)
         }
         titleView.snp.makeConstraints { (make) in
             make.top.equalTo(btnBack)

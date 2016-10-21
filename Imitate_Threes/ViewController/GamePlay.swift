@@ -22,8 +22,8 @@ class GamePlay: UIViewController {
     
     var plusChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
     
-    var btnMenu = UIButton.init()
-    var btnStatus = UIButton.init()
+    var btnMenu = ThreesButton.init(buttonColor: UIColor.gray)
+    var btnStatus = ThreesButton.init(buttonColor: UIColor.gray)
     var nextChess = UIStackView.init()
     var nextChessBG = UIView.init()
     
@@ -35,8 +35,10 @@ class GamePlay: UIViewController {
     
     func setUI() {
         view.backgroundColor = .white
-        btnMenu.setTitle("Menu", for: UIControlState.normal)
-        btnStatus.setTitle("Stat", for: UIControlState.normal)
+//        btnMenu.setTitle("Menu", for: UIControlState.normal)
+//        btnStatus.setTitle("Stat", for: UIControlState.normal)
+        btnMenu.lblTitle.text = "Menu"
+        btnStatus.lblTitle.text = "Stat"
         nextChessBG.backgroundColor = UIColor.init(r: 207, g: 230, b: 223, a: 1)
         nextChess.alignment = .fill
         nextChess.distribution = .fillEqually
@@ -45,13 +47,14 @@ class GamePlay: UIViewController {
         nextChess.backgroundColor = .clear
         
         btnMenu.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
-        nextChessBG.setCornerRadius(radius: 5)
+        btnStatus.addTarget(self, action: #selector(showA), for: UIControlEvents.touchUpInside)
+        nextChessBG.setCornerRadius(radius: 8)
         //        gameBoard.layer.borderWidth = 5
         //        gameBoard.layer.borderColor = UIColor.gray.cgColor
         btnMenu.layer.cornerRadius = 3
-        btnMenu.backgroundColor = .darkGray
+//        btnMenu.backgroundColor = .darkGray
         btnStatus.layer.cornerRadius = 3
-        btnStatus.backgroundColor = .darkGray
+//        btnStatus.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         view.addSubview(btnStatus)
         view.addSubview(nextChessBG)
@@ -70,26 +73,26 @@ class GamePlay: UIViewController {
         btnMenu.snp.makeConstraints { (make) in
             make.left.equalTo(gameBoard)
             make.top.equalToSuperview().offset(40)
-            make.height.equalTo(30)
-            make.width.equalTo(50)
+            make.height.equalTo(40)
+            make.width.equalTo(65)
         }
         
         btnStatus.snp.makeConstraints { (make) in
             make.right.equalTo(gameBoard)
             make.top.equalToSuperview().offset(40)
-            make.height.equalTo(30)
-            make.width.equalTo(50)
+            make.height.equalTo(40)
+            make.width.equalTo(65)
         }
         
         nextChessBG.snp.makeConstraints { (make) in
             make.bottom.equalTo(btnMenu).offset(20)
-            make.width.equalTo(40)
+            make.width.equalTo(50)
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(-10)
         }
         
         nextChess.snp.makeConstraints { (make) in
-            make.bottom.equalTo(nextChessBG).offset(-15)
+            make.bottom.equalTo(nextChessBG).offset(-18)
             make.left.equalTo(btnMenu.snp.right).offset(10)
             make.right.equalTo(btnStatus.snp.left).offset(-10)
             make.top.equalTo(btnMenu).offset(-5)
@@ -122,6 +125,7 @@ class GamePlay: UIViewController {
             score in
             self.gameBoard.isUserInteractionEnabled = false
             self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [])
+            self.saveScore(score)
         }
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
@@ -298,4 +302,11 @@ class GamePlay: UIViewController {
         dismissVC(completion: nil)
     }
     
+    func saveScore(_ score:Int) {
+//        let context = NSManaged
+    }
+    
+    func showA() {
+        showAlert(title: "test window", detailText: "test window", buttonTitles: ["Close"], buttonClosures: [])
+    }
 }

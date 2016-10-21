@@ -15,6 +15,8 @@ class ChessView: UIView {
         case second
     }
     
+    var scoreDic:Dictionary<Double,Double> = [1:0,2:0]
+    
     var line = 0
     var col = 0
     
@@ -22,6 +24,8 @@ class ChessView: UIView {
     //    var lblChessNumber = UILabel.init()
     var firstChess = subChessView()
     var secondChess = subChessView()
+    
+    var lblPoint = UILabel.init()
     
     var chessNum = 0
     var lastNum = 0
@@ -35,16 +39,25 @@ class ChessView: UIView {
         commonInit()
     }
     
+    init() {
+        super.init(frame: .zero)
+        commonInit()
+    }
+    
     private func commonInit() {
-        
+        for k in 1...20 {
+            scoreDic[Double(3)*pow(2.0, Double(k-1))] = pow(3.0, Double(k))
+        }
         self.layer.cornerRadius = 4
         
         firstChess = subChessView.init(frame: self.frame)
         secondChess = subChessView.init(frame: self.frame)
-        
+        lblPoint.font = UIFont.Font(FontName.Seravek, type: FontType.Bold, size: 12)
+        lblPoint.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+        lblPoint.textAlignment = .center
         addSubview(secondChess)
         addSubview(firstChess)
-        
+        addSubview(lblPoint)
         self.layer.shadowRadius = 4
         self.layer.shadowOffset = CGSize.init(width: 4, height: 4)
         
@@ -54,6 +67,12 @@ class ChessView: UIView {
         secondChess.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        lblPoint.snp.makeConstraints { (make) in
+            make.width.equalToSuperview()
+            make.height.equalTo(self.snp.width)
+            make.centerX.equalTo(self.snp.right)
+            make.centerY.equalTo(self.snp.top)
+        }
     }
     
     func setNumber(number:Int,added:Bool,direction: BoardModel.direction) {
@@ -61,14 +80,17 @@ class ChessView: UIView {
         if number == 0 {
             firstChess.lblChessNumber.text = ""
             secondChess.lblChessNumber.text = ""
+            lblPoint.text = ""
             self.layer.shadowOpacity = 0
             self.alpha = 0
         } else {
+            if number != 1 && number != 2 {
+                lblPoint.text = "\(Int(scoreDic[Double(number)]!))"
+            }
+            
             self.layer.shadowOpacity = 0.8
             self.alpha = 1
             if added {
-                //                lblChessNumber.alpha = 0
-                //                firstChess.lblChessNumber.alpha = 0
                 flipToNewNumber(number: number)
             } else {
                 switch whichIsOnTheTop {
@@ -98,28 +120,28 @@ class ChessView: UIView {
                 guard self.line == 3 else {
                     lastNum = number
                     return
-//                    break
+                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: offsetY)
             case .down:
                 guard self.line == 0 else {
                     lastNum = number
                     return
-//                    break
+                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: -offsetY)
             case .left:
                 guard self.col == 3 else {
                     lastNum = number
                     return
-//                    break
+                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: offsetX, y: 0)
             case .right:
                 guard self.col == 0 else {
                     lastNum = number
                     return
-//                    break
+                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: -offsetX, y: 0)
             default:
@@ -164,6 +186,10 @@ class ChessView: UIView {
                 
             }
         }
+    }
+    
+    func showPoint() {
+        lblPoint.transform = CGAffineTransform.init(scaleX: 1, y: 1)
     }
     
 }

@@ -20,22 +20,24 @@ public func ==<T: Equatable>(lhs: [T]?, rhs: [T]?) -> Bool {
 
 extension Array {
     
+//    public func get(at range:ClosedRange<Int>) -> Array {
+//        guard range.lowerBound > 0 && range.upperBound < self.count else {
+//            
+//            
+//            return self.get(at: max(by: range.lowerBound)...min(self.count-1,range.upperBound))
+//        }
+//        var subArray = Array()
+//        for index in range.lowerBound...range.upperBound {
+//            subArray.append(self[index])
+//        }
+//        return subArray
+//    }
+    
     ///EZSE: Get a sub array from range of index
     public func subArray(fromIndex:Int,toIndex:Int) -> Array {
         var subArray = Array()
         for index in fromIndex...toIndex {
             subArray.append(self[index])
-        }
-        return subArray
-    }
-    
-    ///EZSE: Get a sub array from elements that meet specific condition
-    public func subArray(_ condition: (Element) -> Bool) -> Array {
-        var subArray = Array()
-        for element in self {
-            if condition(element) {
-                subArray.append(element)
-            }
         }
         return subArray
     }

@@ -24,17 +24,21 @@ class MainMenu: UIViewController {
         view.addSubview(centerBoard)
         
         
-        let btnMenu = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(goToMenu))
+        let btnMenu = ThreesButton.init(buttonColor: .gray)
+        btnMenu.addTarget(self, action: #selector(goToMenu), for: UIControlEvents.touchUpInside)
         btnMenu.layer.cornerRadius = 3
-        btnMenu.setTitle("Menu", for: .normal)
+//        btnMenu.setTitle("Menu", for: .normal)
+        btnMenu.lblTitle.text = "Menu"
         btnMenu.setTitleColor(.white, for: .normal)
-        btnMenu.backgroundColor = .darkGray
+//        btnMenu.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         
-        let btnHelp = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(goToHelp))
+        let btnHelp = ThreesButton.init(buttonColor: UIColor.gray)
+        btnHelp.addTarget(self, action: #selector(goToMenu), for: UIControlEvents.touchUpInside)
         btnHelp.layer.cornerRadius = 3
-        btnHelp.backgroundColor = .darkGray
-        btnHelp.setTitle("Help", for: .normal)
+//        btnHelp.backgroundColor = .darkGray
+//        btnHelp.setTitle("Help", for: .normal)
+        btnHelp.lblTitle.text = "Help"
         btnHelp.setTitleColor(.white, for: .normal)
         view.addSubview(btnHelp)
         
@@ -63,40 +67,42 @@ class MainMenu: UIViewController {
         btnMenu.snp.makeConstraints { (make) in
             make.left.equalTo(centerBoard)
             make.top.equalToSuperview().offset(40)
-            make.height.equalTo(30)
-            make.width.equalTo(50)
+            make.height.equalTo(40)
+            make.width.equalTo(65)
         }
         
         btnHelp.snp.makeConstraints { (make) in
             make.right.equalTo(centerBoard)
             make.top.equalToSuperview().offset(40)
-            make.height.equalTo(30)
-            make.width.equalTo(50)
+            make.height.equalTo(40)
+            make.width.equalTo(65)
         }
         
         letterStack.snp.makeConstraints { (make) in
-            make.left.equalTo(btnMenu.snp.right).offset(20)
-            make.right.equalTo(btnHelp.snp.left).offset(-20)
+            make.left.equalTo(btnMenu.snp.right).offset(5)
+            make.right.equalTo(btnHelp.snp.left).offset(-5)
             make.top.equalTo(btnMenu)
             make.bottom.equalTo(btnMenu)
         }
         
-        let btnPlay = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(playGame))
-        btnPlay.backgroundColor = .darkGray
+        let btnPlay = ThreesButton.init(buttonColor: UIColor.init(r: 255, g: 102, b: 128))
+        btnPlay.addTarget(self, action: #selector(playGame), for: UIControlEvents.touchUpInside)
+//        btnPlay.backgroundColor = .darkGray
         btnPlay.layer.cornerRadius = 3
-        btnPlay.setTitle("Play", for: .normal)
+//        btnPlay.setTitle("Play", for: .normal)
+        btnPlay.lblTitle.text = "Play"
         btnPlay.setTitleColor(.white, for: .normal)
         view.addSubview(btnPlay)
         btnPlay.snp.makeConstraints { (make) in
             make.left.equalTo(centerBoard)
             make.right.equalTo(centerBoard)
             make.bottom.equalToSuperview().offset(-40)
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
         
         centerBoard.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(35)
-            make.right.equalToSuperview().offset(-35)
+            make.left.equalToSuperview().offset(30)
+            make.right.equalToSuperview().offset(-30)
             make.top.equalTo(btnMenu.snp.bottom).offset(45)
             make.bottom.equalTo(btnPlay.snp.top).offset(-45)
             //            make.height.equalTo(view.snp.width).multipliedBy(1.6)

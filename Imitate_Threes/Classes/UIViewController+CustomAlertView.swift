@@ -42,18 +42,23 @@ class CustomAlertView: UIView {
     
     
     private func setView() {
-        let window = UIApplication.shared.keyWindow
+        let bgViewForStack = UIView.init()
+        let window = UIApplication.shared.keyWindow!
         stackButton.alignment = UIStackViewAlignment.fill
         stackButton.axis = UILayoutConstraintAxis.horizontal
         stackButton.spacing = CGFloat(1)
         stackButton.distribution = UIStackViewDistribution.fillEqually
         stackButton.backgroundColor = UIColor.blue
-        overlayView = UIView.init(frame: (window?.bounds)!)
-        self.clipsToBounds = true
+//        self.roundCorners(.allCorners, radius: 10)
+        overlayView = UIView.init(frame: window.bounds)
+        self.clipsToBounds = false
+        bgViewForStack.roundCorners([.bottomLeft,.bottomRight], radius: 10)
+        bgViewForStack.clipsToBounds = true
         
         addSubview(lblTitle)
         addSubview(lblDetail)
-        addSubview(stackButton)
+        addSubview(bgViewForStack)
+        /*bgViewForStack.*/addSubview(stackButton)
         lblTitle.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(20)
@@ -62,46 +67,53 @@ class CustomAlertView: UIView {
             make.center.equalToSuperview()
         }
         stackButton.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-5)
+            make.width.equalToSuperview().multipliedBy(0.9)
             make.centerX.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
+//        stackButton.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
         for btnTitle in btnTitles {
-            let button = UIButton.init(x: 0, y: 0, w: 0, h: 0, target: self, action: #selector(CustomAlertView.hide))
-            button.backgroundColor = UIColor.blue
-            button.setTitle(btnTitle, for: UIControlState.normal)
+            let button = ThreesButton.init(buttonColor: UIColor.init(r: 41, g: 142, b: 11))
+            button.addTarget(self, action: #selector(CustomAlertView.hide), for: UIControlEvents.touchUpInside)
+            button.titleLabel?.text = btnTitle
+            button.setTitleColor(.white, for: .normal)
+            button.setCornerRadius(radius: 8)
             stackButton.addArrangedSubview(button)
         }
     }
     
     func show() {
         let alertDimension:CGFloat = 250
-        let window = UIApplication.shared.keyWindow
-        let alertViewFrame = CGRect.init(x: (window?.bounds.size.width)!/2 - alertDimension/2, y: (window?.bounds.size.height)!/2 - alertDimension/2, width: alertDimension, height: alertDimension)
+        let window = UIApplication.shared.keyWindow!
+        let alertViewFrame = CGRect.init(x: window.bounds.size.width/2 - alertDimension/2, y: window.bounds.size.height, width: alertDimension, height: alertDimension)
         self.frame = alertViewFrame
         
         overlayView.backgroundColor = UIColor.black
         overlayView.alpha = 0.0
-        window?.addSubview(overlayView)
+        window.addSubview(overlayView)
         
-        self.backgroundColor = UIColor.yellow
-        self.alpha = 0.0
-        self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        self.backgroundColor = UIColor.white
+        self.alpha = 1.0
+        
+        self.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
         self.layer.cornerRadius = 10
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize.init(width: 0, height: 5)
-        self.layer.shadowOpacity = 0.3
+        self.layer.shadowOffset = CGSize.init(width: 5, height: 5)
+        self.layer.shadowOpacity = 0.6
         self.layer.shadowRadius = 10.0
-        window?.addSubview(self)
+        window.addSubview(self)
         weak var weakSelf = self
         UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
             weakSelf?.overlayView.alpha = 0.3
             weakSelf?.alpha = 1.0
             }, completion: nil)
         
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 14, initialSpringVelocity: 5, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
             weakSelf?.transform = CGAffineTransform(scaleX: 1, y: 1)
+            weakSelf?.frame = CGRect.init(x: window.bounds.size.width/2 - alertDimension/2, y: window.bounds.size.height/2 - alertDimension/2, width: alertDimension, height: alertDimension)
             }, completion: nil)
     }
     
@@ -113,7 +125,11 @@ class CustomAlertView: UIView {
             }, completion: nil)
         
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 11, initialSpringVelocity: 5, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-            weakSelf?.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-            }, completion: nil)
+            weakSelf?.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
+            }, completion: {
+                Bool in
+                weakSelf?.overlayView.removeFromSuperview()
+                self.removeFromSuperview()
+        })
     }
 }
