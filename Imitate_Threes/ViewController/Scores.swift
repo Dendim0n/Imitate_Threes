@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
     
-    var scores = Array<ScoreModel>()
+    var scores = [Array<Array<Int>>]()
     
     var btnBack = ThreesButton.init()
     
@@ -33,7 +34,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         loadScores()
         setView()
         // Do any additional setup after loading the view.
-        collectionView?.scrollToItem(at: IndexPath.init(row: 1, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+//        collectionView?.scrollToItem(at: IndexPath.init(row: 1, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,8 +91,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        let num = [scores.count,2]
-        let num = [2,2]
+        let num = [scores.count,2]
         return num[section]
     }
     
@@ -123,6 +123,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         cell.backgroundColor = color
+        if identifier == "scoreCell" {
+            (cell as! ScoreCell).board = scores[indexPath.row]
+            (cell as! ScoreCell).commonInit()
+        }
         cell.setCornerRadius(radius: 5)
         return cell
     }
@@ -132,7 +136,36 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     }
     
     func loadScores() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
         
+        let fetchRequest = NSFetchRequest<Score>.init(entityName: "Score")
+        
+        do {
+            let results = try managedContext.execute(fetchRequest) as! NSAsynchronousFetchResult<Score>
+            print(results.finalResult?[0].board as! Array<Array<Int>>)
+            var resultOfBoards = [Array<Array<Int>>]()
+            for result in results.finalResult! {
+                resultOfBoards.append(result.board as! Array<Array<Int>>)
+            }
+            scores = resultOfBoards
+            
+            collectionView?.reloadData()
+        } catch let error as NSError {
+            print(error)
+        }
+        
+
+//        let str1 = "{\"result\":1,\"TT_VEHICLE_WR_VINVALID\":[{\"returnXMLType\":1,\"sRtn\":\"\\u0000TT_VEHICLE_WR_VINVALID\\u0000LSKG5GC17BA2100511297.00                                           6297.00                                           2014-01-08 00:00:00                               2014-04-08 00:00:00\"}]}"
+//        print(str1)
+//        let data = str1.data(using: String.Encoding.utf8)
+//        let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+//        let dic = jsonObj!
+//        let vehicle = dic["TT_VEHICLE_WR_VINVALID"]
+//        print(vehicle)
+//        for obj in (vehicle as! NSArray) {
+//            print((obj as! NSMutableDictionary)["sRtn"]!)
+//        }
     }
     
     func back() {

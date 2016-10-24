@@ -54,13 +54,13 @@ class CoreDataTools: NSObject {
     func save() {
         try? managedObjectMainContext.save()
     }
-//    func load() -> Array<Score> {
-//        let request = NSFetchRequest<Score>.init(entityName: "Score")
-////        request.predicate = NSPredicate.
+    func load() -> Array<Score> {
+        let request = NSFetchRequest<Score>.init(entityName: "Score")
+//        request.predicate = NSPredicate.
 //        request.sortDescriptors = [NSSortDescriptor.init(key: "score", ascending: true)]
-//        let result = try? managedObjectMainContext.execute(request)
-//        return result.
-//    }
+        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<Score>
+        return (result?.finalResult)!
+    }
     func delete() {
         
     }

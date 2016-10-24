@@ -10,30 +10,30 @@ import UIKit
 
 class ScoreCell: UICollectionViewCell {
     
-    var board = [[1,2,3,1],[2,3,1,2],[3,1,2,3],[1,2,3,1]]
+    var board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     var score = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+//        commonInit()
     }
     
-    func setModel(boardScore:ScoreModel) {
-        board = boardScore.chessArray
-        score = boardScore.score
-    }
+//    func setModel(boardScore:ScoreModel) {
+//        board = boardScore.chessArray
+//        score = boardScore.score
+//    }
     
-    init(boardScore:ScoreModel, frame:CGRect) {
-        super.init(frame: frame)
-        board = boardScore.chessArray
-        score = boardScore.score
-        commonInit()
-    }
+//    init(boardScore:Score, frame:CGRect) {
+//        super.init(frame: frame)
+//        board = boardScore.board as! Array<Array<Int>>
+//        score = Int(boardScore.score)
+//        commonInit()
+//    }
     
     required init?(coder aDecoder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
         super.init(coder: aDecoder)
-        commonInit()
+//        commonInit()
     }
     
     func commonInit() {

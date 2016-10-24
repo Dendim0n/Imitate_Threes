@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class GamePlay: UIViewController {
     
@@ -172,7 +173,7 @@ class GamePlay: UIViewController {
                                 }
                             }
                             if boardMovable {
-                                print(self.movableChesses)
+//                                print(self.movableChesses)
                                 weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
                             }
                             self.gameBoard.moveChessesToOrigin(animated: false)
@@ -304,6 +305,14 @@ class GamePlay: UIViewController {
     
     func saveScore(_ score:Int) {
 //        let context = NSManaged
+        let s = NSNumber.init(integerLiteral: score)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        let entity = NSEntityDescription.entity(forEntityName: "Score", in: managedContext)
+        let score = NSManagedObject.init(entity: entity!, insertInto: managedContext)
+        score.setValue(s, forKey: "score")
+        score.setValue(chessModel.board, forKey: "board")
+        try? managedContext.save()
     }
     
     func showA() {
