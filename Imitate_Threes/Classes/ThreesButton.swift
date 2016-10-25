@@ -46,7 +46,6 @@ class ThreesButton: UIButton {
             make.centerX.equalToSuperview()
         }
         
-//        lblTitle.backgroundColor = UIColor.init(r: 255, g: 102, b: 128)
         lblTitle.textColor = .white
         lblTitle.textAlignment = .center
         lblTitle.font = UIFont.Font(FontName.Seravek, type: FontType.Bold, size: 24)

@@ -18,9 +18,9 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     var titleView = TransitionView.init()
     
     var collectionView:UICollectionView?
-    var collectionLayout:UICollectionViewFlowLayout {
+    var collectionLayout:scoreLayout {
         get {
-            let layout = UICollectionViewFlowLayout.init()
+            let layout = scoreLayout.init()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20
             layout.sectionInset = UIEdgeInsetsMake(0, view.frame.size.width * 0.15, 0, view.frame.size.width * 0.15)
@@ -28,15 +28,15 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             return layout
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadScores()
         setView()
         // Do any additional setup after loading the view.
-//        collectionView?.scrollToItem(at: IndexPath.init(row: 1, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+        //        collectionView?.scrollToItem(at: IndexPath.init(row: 1, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,10 +47,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         btnBack = ThreesButton.init(buttonColor: .gray)
         btnBack.addTarget(self, action: #selector(back), for: .touchUpInside)
         btnBack.layer.cornerRadius = 3
-//        btnBack.setTitle("Back", for: .normal)
+        //        btnBack.setTitle("Back", for: .normal)
         btnBack.lblTitle.text = "Back"
         btnBack.setTitleColor(.white, for: .normal)
-//        btnBack.backgroundColor = .darkGray
+        //        btnBack.backgroundColor = .darkGray
         
         
         collectionView = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionLayout)
@@ -65,7 +65,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         collectionView?.backgroundColor = .clear
         
         collectionView?.snp.makeConstraints { (make) in
-//            make.edges.equalToSuperview()
+            //            make.edges.equalToSuperview()
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-70)
@@ -84,10 +84,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             make.width.equalTo(180)
         }
         
-//        let testLabel = UILabel.init()
-//        testLabel.text = "test"
-//        testLabel.backgroundColor = .gray
-//        titleView.setView(testLabel)
+        //        let testLabel = UILabel.init()
+        //        testLabel.text = "test"
+        //        testLabel.backgroundColor = .gray
+        //        titleView.setView(testLabel)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -97,7 +97,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var identifier = "scoreCell"
-        var color = UIColor.black
+        //        var color = UIColor.black
         if indexPath.section == 1 {
             let testLbl = UILabel.init()
             testLbl.text = indexPath.row == 0 ? "Settings" : "Thanks"
@@ -106,10 +106,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             switch indexPath.row {
             case 0:
                 identifier = "settingCell"
-                color = .red
+            //                color = .red
             case 1:
                 identifier = "thanksCell"
-                color = .yellow
+            //                color = .yellow
             default:
                 break
             }
@@ -119,10 +119,10 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             testLbl.textAlignment = .center
             titleView.transitionToView(testLbl, from: .top)
             identifier = "scoreCell"
-            color = .gray
+            //            color = .gray
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-        cell.backgroundColor = color
+        //        cell.backgroundColor = color
         if identifier == "scoreCell" {
             (cell as! ScoreCell).board = scores[indexPath.row]
             (cell as! ScoreCell).commonInit()
@@ -154,10 +154,9 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         } catch let error as NSError {
             print(error)
         }
-}
+    }
     
     func back() {
         dismissVC(completion: nil)
     }
-
 }

@@ -87,11 +87,8 @@ class MainMenu: UIViewController {
         
         let btnPlay = ThreesButton.init(buttonColor: UIColor.init(r: 255, g: 102, b: 128))
         btnPlay.addTarget(self, action: #selector(playGame), for: UIControlEvents.touchUpInside)
-//        btnPlay.backgroundColor = .darkGray
         btnPlay.layer.cornerRadius = 3
-//        btnPlay.setTitle("Play", for: .normal)
         btnPlay.lblTitle.text = "Play"
-        btnPlay.setTitleColor(.white, for: .normal)
         view.addSubview(btnPlay)
         btnPlay.snp.makeConstraints { (make) in
             make.left.equalTo(centerBoard)
