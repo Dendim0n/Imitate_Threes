@@ -1,5 +1,5 @@
 # Imitate_Threes
-An IMITATION of the popular game Threes
+An IMITATION of the popular game `Threes`
 
 _For Exercise ONLY_
 
@@ -9,7 +9,7 @@ _For Exercise ONLY_
 
 2.GameBoard
 
-3.Algorithm of the next chess(need to test further).
+3.Algorithm of the next chess(`Need to test further?`).
 
 4.Most of the anims.
 
@@ -17,13 +17,14 @@ _For Exercise ONLY_
 
 6.Game lose check.
 
+7.Game Data Save&Delete (CoreData)
+
 ##TODO:
 
 1.`Done`Fix the anim problem when new chess added.
 
-2.Pan gesture recognizer need to optimize.
+2.`Done`Pan gesture recognizer need to optimize.
 
 3.Stats and Score ViewController.
 
-4.Button Appearence Style.
-
+4.`Done`Button Appearence Style.
