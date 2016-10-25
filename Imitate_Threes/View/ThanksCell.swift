@@ -17,9 +17,6 @@ class ThanksCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         commonInit()
     }
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-    }
     func commonInit() {
         let lblTitle = UILabel.init()
         lblTitle.textAlignment = .center

@@ -19,6 +19,8 @@ extension UIViewController {
 
 class CustomAlertView: UIView {
     
+    typealias closure = (Void) -> Void
+    
     var lblTitle = UILabel()
     var lblDetail = UILabel()
     var stackButton = UIStackView()
@@ -26,12 +28,12 @@ class CustomAlertView: UIView {
     
     var overlayView = UIView()
     
-    init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?,buttonClosures:[(Void) -> Void]) {
+    init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?,buttonClosures:[closure]?) {
         super.init(frame: frame)
         lblTitle.text = title
         lblDetail.text = detailText
         btnTitles = buttonTitles!
-        
+        print(btnTitles)
         setView()
     }
     
@@ -78,7 +80,9 @@ class CustomAlertView: UIView {
         for btnTitle in btnTitles {
             let button = ThreesButton.init(buttonColor: UIColor.init(r: 41, g: 142, b: 11))
             button.addTarget(self, action: #selector(CustomAlertView.hide), for: UIControlEvents.touchUpInside)
-            button.titleLabel?.text = btnTitle
+            button.titleLabel!.text = btnTitle
+            button.titleLabel?.textColor = .white
+//            print(button.titleLabel?.frame)
             button.setTitleColor(.white, for: .normal)
             button.setCornerRadius(radius: 8)
             stackButton.addArrangedSubview(button)

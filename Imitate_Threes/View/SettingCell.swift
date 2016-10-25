@@ -17,10 +17,8 @@ class SettingCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         commonInit()
     }
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-    }
     func commonInit() {
+        self.backgroundColor = UIColor.init(r: 187, g: 217, b: 217, a: 1)
         self.isUserInteractionEnabled = true
         let btnClear = ThreesButton.init(buttonColor: UIColor.gray)
         btnClear.addTarget(self, action:  #selector(clearScores), for: UIControlEvents.touchUpInside)

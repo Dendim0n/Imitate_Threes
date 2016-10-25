@@ -15,6 +15,9 @@ class ThreesButton: UIButton {
     
     var popHeight:CGFloat = 0
     
+    typealias closure = (Void) -> Void
+    var doClosure:closure?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -47,6 +50,7 @@ class ThreesButton: UIButton {
         }
         
         lblTitle.textColor = .white
+        lblTitle.adjustsFontSizeToFitWidth = true
         lblTitle.textAlignment = .center
         lblTitle.font = UIFont.Font(FontName.Seravek, type: FontType.Bold, size: 24)
         lblTitle.layer.cornerRadius = 5
@@ -69,7 +73,7 @@ class ThreesButton: UIButton {
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(popHeight)
         }
-        
+        self.layoutIfNeeded()
         return true
     }
     
@@ -90,6 +94,7 @@ class ThreesButton: UIButton {
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
         }
+        self.layoutIfNeeded()
     }
     private func backgroundColor(_ color:UIColor) -> UIColor? {
         var hue:CGFloat = 0,saturation:CGFloat = 0,brightness:CGFloat = 0,alpha:CGFloat = 0
