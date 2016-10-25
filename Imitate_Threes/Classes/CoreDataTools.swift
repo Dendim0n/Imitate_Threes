@@ -9,14 +9,45 @@
 import UIKit
 import CoreData
 
+
 class CoreDataTools: NSObject {
     
-//    typealias Entity = AnyObject
-    
     static let sharedInstance = CoreDataTools()
-    var modelName = ""
+    var modelName = "Imitate_Threes"
     var storeFileName = "Imitate_Threes"
-    var storeType = "momd"
+    var storeType = "sqlite"
+    var storeExtension = "momd"
+    
+    
+    
+    
+    func save() {
+        if managedObjectMainContext.hasChanges {
+            try? managedObjectMainContext.save()
+        }
+    }
+    
+    func load<T:NSFetchRequestResult>(entityName:String) -> [T]? {
+        let request = NSFetchRequest<T>.init(entityName: "Score")
+        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<T>
+        return result?.finalResult
+    }
+    
+    func delete<T:NSManagedObject>(Object:T) {
+        managedObjectMainContext.delete(Object)
+    }
+    
+    func search<T:NSFetchRequestResult>(entityName:String,sort:[NSSortDescriptor]?,ascending:Bool,predicate:NSPredicate?) -> [T]? {
+        let request = NSFetchRequest<T>.init(entityName: entityName)
+        request.sortDescriptors = sort
+        request.predicate = predicate
+        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<T>
+        return result?.finalResult
+    }
+    
+    
+    
+    
     
     var managedObjectMainContext:NSManagedObjectContext {
         get {
@@ -33,39 +64,21 @@ class CoreDataTools: NSObject {
             
             let fileURL = applicationDocumentsDirectory().appendingPathComponent(storeFileName).appendingPathExtension(storeType)
             
-//            if !FileManager.default.fileExists(atPath: fileURL.absoluteString) {
-//                <#code#>
-//            }
-            _ = try? storeCoordinator.addPersistentStore(ofType: storeType, configurationName: storeFileName, at: fileURL, options: options)
-
+            _ = try? storeCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: fileURL, options: options)
+            
             return storeCoordinator
         }
     }
     
     var managedObjectModel:NSManagedObjectModel {
         get {
-            let fileURL = Bundle.main.url(forResource: storeFileName, withExtension: storeType)
-                
-//                applicationDocumentsDirectory().appendingPathComponent(modelName).appendingPathExtension("momd")
+            let fileURL = Bundle.main.url(forResource: storeFileName, withExtension: storeExtension)
             let model = NSManagedObjectModel.init(contentsOf: fileURL!)!
             return model
         }
     }
-    func save() {
-        try? managedObjectMainContext.save()
-    }
-    func load() -> Array<Score> {
-        let request = NSFetchRequest<Score>.init(entityName: "Score")
-//        request.predicate = NSPredicate.
-//        request.sortDescriptors = [NSSortDescriptor.init(key: "score", ascending: true)]
-        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<Score>
-        return (result?.finalResult)!
-    }
-    func delete() {
-        
-    }
     
-    private func applicationDocumentsDirectory() -> URL {
+    func applicationDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last!
     }
     

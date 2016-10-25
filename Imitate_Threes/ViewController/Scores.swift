@@ -154,19 +154,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         } catch let error as NSError {
             print(error)
         }
-        
-
-//        let str1 = "{\"result\":1,\"TT_VEHICLE_WR_VINVALID\":[{\"returnXMLType\":1,\"sRtn\":\"\\u0000TT_VEHICLE_WR_VINVALID\\u0000LSKG5GC17BA2100511297.00                                           6297.00                                           2014-01-08 00:00:00                               2014-04-08 00:00:00\"}]}"
-//        print(str1)
-//        let data = str1.data(using: String.Encoding.utf8)
-//        let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-//        let dic = jsonObj!
-//        let vehicle = dic["TT_VEHICLE_WR_VINVALID"]
-//        print(vehicle)
-//        for obj in (vehicle as! NSArray) {
-//            print((obj as! NSMutableDictionary)["sRtn"]!)
-//        }
-    }
+}
     
     func back() {
         dismissVC(completion: nil)
