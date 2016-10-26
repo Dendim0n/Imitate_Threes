@@ -101,16 +101,18 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
                 break
             }
         } else {
-            let testLbl = UILabel.init()
-            testLbl.text = "Game:\(indexPath.row)"
-            testLbl.textAlignment = .center
-            titleView.transitionToView(testLbl, from: .top)
+            
             identifier = "scoreCell"
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         if identifier == "scoreCell" {
             (cell as! ScoreCell).board = scores[indexPath.row]
             (cell as! ScoreCell).commonInit()
+//            (cell as! ScoreCell).setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/cell.frame.height), view: cell)
+            let testLbl = UILabel.init()
+            testLbl.text = "Score:\(getScore(board: scores[indexPath.row]))"
+            testLbl.textAlignment = .center
+            titleView.transitionToView(testLbl, from: .top)
         }
         cell.setCornerRadius(radius: 5)
         return cell
@@ -121,28 +123,35 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     }
     
     func loadScores() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        
-        let fetchRequest = NSFetchRequest<Score>.init(entityName: "Score")
-        
-        do {
-            let results = try managedContext.execute(fetchRequest) as! NSAsynchronousFetchResult<Score>
-            print(results.finalResult?[0].board as! Array<Array<Int>>)
-            var resultOfBoards = [Array<Array<Int>>]()
-            for result in results.finalResult! {
-                resultOfBoards.append(result.board as! Array<Array<Int>>)
-            }
-            scores = resultOfBoards
-            
-            collectionView?.reloadData()
-        } catch let error as NSError {
-            print(error)
+        let scoresArr:[Score] = CoreDataTools.sharedInstance.search(entityName: "Score", sort: nil, ascending: true, predicate: nil)!
+        var resultOfBoards = [Array<Array<Int>>]()
+        for result in scoresArr {
+            resultOfBoards.append(result.board as! Array<Array<Int>>)
         }
+        scores = resultOfBoards
+        collectionView?.reloadData()
     }
     
     func back() {
         dismissVC(completion: nil)
+    }
+    
+    func getScore(board:Array<Array<Int>>) -> Int {
+        var scoreDic:Dictionary<Double,Double> = [:]
+        for k in 1...20 {
+            scoreDic[Double(3)*pow(2.0, Double(k-1))] = pow(3.0, Double(k))
+        }
+        var score:Double = 0.0
+        for i in 0...3 {
+            for j in 0...3 {
+                let chessPoint = Double(board[i][j])
+                if chessPoint >= 3 {
+                    score += scoreDic[chessPoint]!
+                    print("Point:\(scoreDic[chessPoint])")
+                }
+            }
+        }
+        return Int(score)
     }
     
 }

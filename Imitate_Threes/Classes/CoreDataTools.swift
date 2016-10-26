@@ -13,12 +13,11 @@ import CoreData
 class CoreDataTools: NSObject {
     
     static let sharedInstance = CoreDataTools()
-    var modelName = "Imitate_Threes"
-    var storeFileName = "Imitate_Threes"
-    var storeType = "sqlite"
-    var storeExtension = "momd"
     
-    
+    static let modelName = "Imitate_Threes"
+    static let storeFileName = "Imitate_Threes"
+    static let storeType = "sqlite"
+    static let storeExtension = "momd"
     
     
     func save() {
@@ -27,14 +26,15 @@ class CoreDataTools: NSObject {
         }
     }
     
-    func load<T:NSFetchRequestResult>(entityName:String) -> [T]? {
-        let request = NSFetchRequest<T>.init(entityName: "Score")
-        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<T>
-        return result?.finalResult
-    }
+//    func load<T:NSFetchRequestResult>(entityName:String) -> [T]? {
+//        let request = NSFetchRequest<T>.init(entityName: "Score")
+//        let result = try? managedObjectMainContext.execute(request) as! NSAsynchronousFetchResult<T>
+//        return result?.finalResult
+//    }
     
     func delete<T:NSManagedObject>(Object:T) {
         managedObjectMainContext.delete(Object)
+        save()
     }
     
     func search<T:NSFetchRequestResult>(entityName:String,sort:[NSSortDescriptor]?,ascending:Bool,predicate:NSPredicate?) -> [T]? {
@@ -45,41 +45,28 @@ class CoreDataTools: NSObject {
         return result?.finalResult
     }
     
-    
-    
-    
-    
-    var managedObjectMainContext:NSManagedObjectContext {
-        get {
+    lazy var managedObjectMainContext:NSManagedObjectContext = {
             let mainContext = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.mainQueueConcurrencyType)
-            mainContext.persistentStoreCoordinator = persistentStoreCoordinator
+            mainContext.persistentStoreCoordinator = self.persistentStoreCoordinator
             return mainContext
-        }
-    }
+    }()
     
-    var persistentStoreCoordinator:NSPersistentStoreCoordinator {
-        get {
-            let storeCoordinator = NSPersistentStoreCoordinator.init(managedObjectModel: managedObjectModel)
+    lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
+            let storeCoordinator = NSPersistentStoreCoordinator.init(managedObjectModel: self.managedObjectModel)
             let options = [NSMigratePersistentStoresAutomaticallyOption:true,NSInferMappingModelAutomaticallyOption:true]
-            
-            let fileURL = applicationDocumentsDirectory().appendingPathComponent(storeFileName).appendingPathExtension(storeType)
-            
+            let fileURL = self.applicationDocumentsDirectory.appendingPathComponent(storeFileName).appendingPathExtension(storeType)
             _ = try? storeCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: fileURL, options: options)
-            
             return storeCoordinator
-        }
-    }
+    }()
     
-    var managedObjectModel:NSManagedObjectModel {
-        get {
+    lazy var managedObjectModel:NSManagedObjectModel = {
             let fileURL = Bundle.main.url(forResource: storeFileName, withExtension: storeExtension)
             let model = NSManagedObjectModel.init(contentsOf: fileURL!)!
             return model
-        }
-    }
+    }()
     
-    func applicationDocumentsDirectory() -> URL {
+    lazy var applicationDocumentsDirectory:URL = {
         return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last!
-    }
+    }()
     
 }

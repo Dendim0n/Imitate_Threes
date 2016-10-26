@@ -83,6 +83,9 @@ class ThreesButton: UIButton {
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         touchEnding()
+        if doClosure != nil {
+            doClosure!()
+        }
     }
     override func cancelTracking(with event: UIEvent?) {
         touchEnding()

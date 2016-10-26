@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert(title:String,detailText:String,buttonTitles:Array<String>,buttonClosures:[(Void) -> Void]) {
-        let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles, buttonClosures:buttonClosures)
+    func showAlert(title:String,detailText:String,buttonTitles:Array<String>,buttonClosures:[CustomAlertView.closure?]?) {
+        let alert = CustomAlertView.init(frame: CGRect.zero, title: title, detailText: detailText, buttonTitles: buttonTitles, buttonClosures:buttonClosures as! [CustomAlertView.closure]?)
         DispatchQueue.main.async { 
             alert.show()
         }
@@ -26,6 +26,8 @@ class CustomAlertView: UIView {
     var stackButton = UIStackView()
     var btnTitles = Array<String>()
     
+    var closures:[closure]?
+    
     var overlayView = UIView()
     
     init(frame:CGRect,title:String,detailText:String,buttonTitles:Array<String>?,buttonClosures:[closure]?) {
@@ -33,6 +35,7 @@ class CustomAlertView: UIView {
         lblTitle.text = title
         lblDetail.text = detailText
         btnTitles = buttonTitles!
+        closures = buttonClosures
         print(btnTitles)
         setView()
     }
@@ -77,16 +80,38 @@ class CustomAlertView: UIView {
 //        stackButton.snp.makeConstraints { (make) in
 //            make.edges.equalToSuperview()
 //        }
-        for btnTitle in btnTitles {
+        if btnTitles.count > (closures?.count)! {
+            var minClosureCount = (closures?.count)! - 1
+            if minClosureCount < 0 {
+                minClosureCount = 0
+            }
+            for _ in minClosureCount...btnTitles.count - 1 {
+                let nilClosure = {}
+                closures?.append(nilClosure)
+            }
+        }
+        for i in 0...btnTitles.count - 1 {
             let button = ThreesButton.init(buttonColor: UIColor.init(r: 41, g: 142, b: 11))
             button.addTarget(self, action: #selector(CustomAlertView.hide), for: UIControlEvents.touchUpInside)
-            button.titleLabel!.text = btnTitle
-            button.titleLabel?.textColor = .white
-//            print(button.titleLabel?.frame)
+            button.lblTitle.text = btnTitles[i]
+            button.lblTitle.textColor = .white
+            //            print(button.titleLabel?.frame)
             button.setTitleColor(.white, for: .normal)
             button.setCornerRadius(radius: 8)
+            button.doClosure = closures?[i]
             stackButton.addArrangedSubview(button)
         }
+//        for btnTitle in btnTitles {
+//            let button = ThreesButton.init(buttonColor: UIColor.init(r: 41, g: 142, b: 11))
+//            button.addTarget(self, action: #selector(CustomAlertView.hide), for: UIControlEvents.touchUpInside)
+//            button.lblTitle.text = btnTitle
+//            button.lblTitle.textColor = .white
+////            print(button.titleLabel?.frame)
+//            button.setTitleColor(.white, for: .normal)
+//            button.setCornerRadius(radius: 8)
+//            
+//            stackButton.addArrangedSubview(button)
+//        }
     }
     
     func show() {

@@ -34,7 +34,7 @@ class MainMenu: UIViewController {
         view.addSubview(btnMenu)
         
         let btnHelp = ThreesButton.init(buttonColor: UIColor.gray)
-        btnHelp.addTarget(self, action: #selector(goToMenu), for: UIControlEvents.touchUpInside)
+        btnHelp.addTarget(self, action: #selector(goToHelp), for: UIControlEvents.touchUpInside)
         btnHelp.layer.cornerRadius = 3
 //        btnHelp.backgroundColor = .darkGray
 //        btnHelp.setTitle("Help", for: .normal)
@@ -141,6 +141,7 @@ class MainMenu: UIViewController {
     func goToHelp() {
 //        let vc = .init()
 //        self.pushVC(vc)
+        showAlert(title: "这就很尴尬了", detailText: "我以为你会玩。。", buttonTitles: ["那好吧~"], buttonClosures: [{}])
     }
     func playGame() {
         let vc = GamePlay.init()

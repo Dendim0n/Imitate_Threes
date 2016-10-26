@@ -55,6 +55,30 @@ class BoardModel: NSObject {
         evaluateBoard()
     }
     
+    func resetBoard() {
+        board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+        for _ in 1...6 {
+            let line = Int(arc4random() % 4)
+            let row = Int(arc4random() % 4)
+            if board[line][row] == 0 {
+                board[line][row] = arc4random() % 2 == 0 ? 1 : 2
+            }
+        }
+        leftMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+        rightMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+        upMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+        downMovableChesses = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+        addedPosition = Array(repeatElement(Array(repeatElement(false, count: 4)), count: 4))
+        
+        newChesses = [1,2]
+        
+        movedLine = Array<Int>()
+        movedCol = Array<Int>()
+        addedLine = Array<Int>()
+        addedCol = Array<Int>()
+        evaluateBoard()
+    }
+    
     func move(direction:direction) {
         switch direction {
         case .down:
@@ -131,20 +155,18 @@ class BoardModel: NSObject {
         }
         
         if !addedLine.isEmpty {
-            let rnd = Int(arc4random_uniform(UInt32(addedLine.count)))
-            newChess(line: addedLine[rnd], col: location)
+            newChess(line: addedLine.random()!, col: location)
             return true
         } else if !addedCol.isEmpty {
-            let rnd = Int(arc4random_uniform(UInt32(addedCol.count)))
-            newChess(line: location, col: addedCol[rnd])
+            newChess(line: location, col: addedCol.random()!)
             return true
         } else if !movedLine.isEmpty {
-            let rnd = Int(arc4random_uniform(UInt32(movedLine.count)))
-            newChess(line: movedLine[rnd], col: location)
+            
+            newChess(line: movedLine.random()!, col: location)
             return true
         } else if !movedCol.isEmpty {
-            let rnd = Int(arc4random_uniform(UInt32(movedCol.count)))
-            newChess(line: location, col: movedCol[rnd])
+            
+            newChess(line: location, col: movedCol.random()!)
             return true
         }
         return false
@@ -406,6 +428,7 @@ class BoardModel: NSObject {
             print("just make new:\(self.newChesses)")
             self.doEvaluated?()
         }
+        printBoard()
         evaluteGroup.notify(queue: DispatchQueue.global()) {
             if !self.movable() {
                 print("cant\(Thread.current)")

@@ -13,8 +13,8 @@ class GamePlay: UIViewController {
     
     var displayLink = CADisplayLink()
     var swipe = UISwipeGestureRecognizer.init()
-    let chessModel = BoardModel()
-    let gameBoard = BoardView.init()
+    var chessModel = BoardModel()
+    var gameBoard = BoardView.init()
     var swipeDirection = BoardModel.direction.none
     var currentPoint = CGPoint.init(x: 0, y: 0)
     var currentTranslationPercent = 0.0
@@ -36,9 +36,9 @@ class GamePlay: UIViewController {
     
     func setUI() {
         view.backgroundColor = .white
-//        btnMenu.setTitle("Menu", for: UIControlState.normal)
-//        btnStatus.setTitle("Stat", for: UIControlState.normal)
-        btnMenu.lblTitle.text = "Menu"
+        //        btnMenu.setTitle("Menu", for: UIControlState.normal)
+        //        btnStatus.setTitle("Stat", for: UIControlState.normal)
+        btnMenu.lblTitle.text = "Back"
         btnStatus.lblTitle.text = "Stat"
         nextChessBG.backgroundColor = UIColor.init(r: 207, g: 230, b: 223, a: 1)
         nextChess.alignment = .fill
@@ -53,9 +53,9 @@ class GamePlay: UIViewController {
         //        gameBoard.layer.borderWidth = 5
         //        gameBoard.layer.borderColor = UIColor.gray.cgColor
         btnMenu.layer.cornerRadius = 3
-//        btnMenu.backgroundColor = .darkGray
+        //        btnMenu.backgroundColor = .darkGray
         btnStatus.layer.cornerRadius = 3
-//        btnStatus.backgroundColor = .darkGray
+        //        btnStatus.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         view.addSubview(btnStatus)
         view.addSubview(nextChessBG)
@@ -124,8 +124,14 @@ class GamePlay: UIViewController {
         }
         chessModel.doLosed = {
             score in
-            self.gameBoard.isUserInteractionEnabled = false
-            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [])
+            let tryAgainClosure = {
+                self.tryAgain()
+            }
+            let mainMenuClosure = {
+                self.back()
+            }
+//            self.gameBoard.isUserInteractionEnabled = false
+            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [tryAgainClosure,mainMenuClosure])
             self.saveScore(score)
         }
         gameBoard.addPanGesture { (gesture) in
@@ -173,7 +179,7 @@ class GamePlay: UIViewController {
                                 }
                             }
                             if boardMovable {
-//                                print(self.movableChesses)
+                                //                                print(self.movableChesses)
                                 weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
                             }
                             self.gameBoard.moveChessesToOrigin(animated: false)
@@ -303,8 +309,23 @@ class GamePlay: UIViewController {
         dismissVC(completion: nil)
     }
     
+    func tryAgain() {
+        
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            self.gameBoard.transform = CGAffineTransform.init(scaleX: 0, y: 0)
+        }) { (Bool) in
+            self.chessModel.resetBoard()
+            self.sync()
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.8, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            self.gameBoard.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }) { (Bool) in
+                
+        }
+    }
+    
     func saveScore(_ score:Int) {
-//        let context = NSManaged
+        //        let context = NSManaged
         let s = NSNumber.init(integerLiteral: score)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -313,9 +334,12 @@ class GamePlay: UIViewController {
         score.setValue(s, forKey: "score")
         score.setValue(chessModel.board, forKey: "board")
         try? managedContext.save()
+        
+        //        CoreDataTools.sharedInstance
+        
     }
     
     func showA() {
-        showAlert(title: "test window", detailText: "test window", buttonTitles: ["Close"], buttonClosures: [])
+        showAlert(title: "(⊙o⊙)…", detailText: "并没有统计数据。。", buttonTitles: ["Close"], buttonClosures: [])
     }
 }

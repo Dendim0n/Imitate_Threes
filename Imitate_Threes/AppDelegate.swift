@@ -14,41 +14,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    var managedObjectContext:NSManagedObjectContext {
-        get {
+    lazy var managedObjectContext:NSManagedObjectContext = {
+        
             let mainContext = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.mainQueueConcurrencyType)
-            mainContext.persistentStoreCoordinator = persistentStoreCoordinator
+            mainContext.persistentStoreCoordinator = self.persistentStoreCoordinator
             return mainContext
-        }
-    }
-    var managedObjectModel:NSManagedObjectModel {
-        get {
+        
+    }()
+    lazy var managedObjectModel:NSManagedObjectModel = {
+        
             let fileURL = Bundle.main.url(forResource: "Imitate_Threes", withExtension: "momd")
             let model = NSManagedObjectModel.init(contentsOf: fileURL!)!
             return model
-        }
-    }
-    var persistentStoreCoordinator:NSPersistentStoreCoordinator {
-        get {
-            let storeCoordinator = NSPersistentStoreCoordinator.init(managedObjectModel: managedObjectModel)
+        
+    }()
+    lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
+        
+            let storeCoordinator = NSPersistentStoreCoordinator.init(managedObjectModel: self.managedObjectModel)
             let options = [NSMigratePersistentStoresAutomaticallyOption:true,NSInferMappingModelAutomaticallyOption:true]
             
-            let storeURL = applicationDocumentsDirectory.appendingPathComponent("Imitate_Threes.sqlite")
+            let storeURL = self.applicationDocumentsDirectory.appendingPathComponent("Imitate_Threes.sqlite")
             
             _ = try? storeCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
             
             return storeCoordinator
-        }
-    }
+        
+    }()
     
-    var applicationDocumentsDirectory:URL {
-        get {
+    lazy var applicationDocumentsDirectory:URL = {
+        
             return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last!
-        }
-    }
+        
+    }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        let coreDataTools = CoreDataTools.sharedInstance
+//        coreDataTools.modelName = 
         return true
     }
     
