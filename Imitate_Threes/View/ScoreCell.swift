@@ -69,7 +69,7 @@ class ScoreCell: UICollectionViewCell {
         layer.addSublayer(lineLayer)
         layer.addSublayer(liftLayer)
         
-        setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/self.frame.height), view: self)
+        setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/self.frame.height))
     }
     
     override func draw(_ rect: CGRect) {
@@ -77,7 +77,7 @@ class ScoreCell: UICollectionViewCell {
         let angle:CGFloat = CGFloat(M_PI) / 24
         //        self.layer.anchorPoint = CGPoint.init(x: self.frame.size.width / 2, y: 5)
         print(self.frame)
-//        setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/self.frame.height), view: self)
+//        setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/self.frame.height))
         self.transform = CGAffineTransform.init(rotationAngle: angle)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
             self.transform = CGAffineTransform.init(rotationAngle: 0)
@@ -87,12 +87,4 @@ class ScoreCell: UICollectionViewCell {
         })
     
     }
-    
-    func setAnchorPoint(point:CGPoint,view:UIView){
-        let oldFrame = view.frame;
-        view.layer.anchorPoint = point;
-        view.frame = oldFrame;
-    }
-    
-    
 }

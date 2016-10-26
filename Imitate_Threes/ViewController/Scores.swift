@@ -18,16 +18,16 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
     var titleView = TransitionView.init()
     
     var collectionView:UICollectionView?
-    var collectionLayout:scoreLayout {
-        get {
+    lazy var collectionLayout:scoreLayout = {
+        
             let layout = scoreLayout.init()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20
-            layout.sectionInset = UIEdgeInsetsMake(0, view.frame.size.width * 0.15, 0, view.frame.size.width * 0.15)
-            layout.itemSize = CGSize.init(width: view.frame.size.width * 0.7, height: view.frame.size.height * 0.6)
+            layout.sectionInset = UIEdgeInsetsMake(0, self.view.frame.size.width * 0.15, 0, view.frame.size.width * 0.15)
+            layout.itemSize = CGSize.init(width: self.view.frame.size.width * 0.7, height: view.frame.size.height * 0.6)
             return layout
-        }
-    }
+        
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,13 +108,16 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         if identifier == "scoreCell" {
             (cell as! ScoreCell).board = scores[indexPath.row]
             (cell as! ScoreCell).commonInit()
-//            (cell as! ScoreCell).setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/cell.frame.height), view: cell)
+
             let testLbl = UILabel.init()
             testLbl.text = "Score:\(getScore(board: scores[indexPath.row]))"
             testLbl.textAlignment = .center
             titleView.transitionToView(testLbl, from: .top)
         }
+//        cell.setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/cell.frame.height))
+        cell.origin.y = 28.5
         cell.setCornerRadius(radius: 5)
+        print(collectionView.frame.height / 5)
         return cell
     }
     
@@ -147,7 +150,7 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
                 let chessPoint = Double(board[i][j])
                 if chessPoint >= 3 {
                     score += scoreDic[chessPoint]!
-                    print("Point:\(scoreDic[chessPoint])")
+//                    print("Point:\(scoreDic[chessPoint])")
                 }
             }
         }

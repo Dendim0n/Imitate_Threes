@@ -565,6 +565,12 @@ extension UIView {
         mask.path = path.cgPath
         self.layer.mask = mask
     }
+    
+    public func setAnchorPoint(point:CGPoint){
+        let oldFrame = self.frame;
+        self.layer.anchorPoint = point;
+        self.frame = oldFrame;
+    }
 
     /// EZSwiftExtensions
     public func roundView() {
