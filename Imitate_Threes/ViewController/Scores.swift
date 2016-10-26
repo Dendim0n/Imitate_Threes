@@ -23,8 +23,8 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             let layout = scoreLayout.init()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20
-            layout.sectionInset = UIEdgeInsetsMake(0, self.view.frame.size.width * 0.15, 0, view.frame.size.width * 0.15)
-            layout.itemSize = CGSize.init(width: self.view.frame.size.width * 0.7, height: view.frame.size.height * 0.6)
+            layout.sectionInset = UIEdgeInsetsMake(0, self.view.frame.size.width * 0.15, 0, self.view.frame.size.width * 0.15)
+            layout.itemSize = CGSize.init(width: self.view.frame.size.width * 0.7, height: self.view.frame.size.height * 0.6)
             return layout
         
     }()
