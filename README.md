@@ -3,13 +3,15 @@ An IMITATION of the popular game `Threes`
 
 _For Exercise ONLY_
 
+!![image](demo.gif)
+
 ##Done:
 
 1.MainMenu
 
 2.GameBoard
 
-3.Algorithm of the next chess(`Need to test further?`).
+3.Algorithm of the next chess(`Need to optimize further?`).
 
 4.Most of the anims.
 
@@ -25,6 +27,4 @@ _For Exercise ONLY_
 
 2.`Done`Pan gesture recognizer need to optimize.
 
-3.Stats and Score ViewController.
-
-4.`Done`Button Appearence Style.
+3.`Done`Button Appearence Style.
