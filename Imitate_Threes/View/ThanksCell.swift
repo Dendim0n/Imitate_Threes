@@ -18,14 +18,19 @@ class ThanksCell: UICollectionViewCell {
         commonInit()
     }
     func commonInit() {
+        self.backgroundColor = UIColor.init(colorLiteralRed: 252/255.0, green: 76/255.0, blue: 109/255.0, alpha: 1)
+
         let lblTitle = UILabel.init()
         lblTitle.textAlignment = .center
         lblTitle.text = "Thanks"
+        lblTitle.textColor = .white
+        lblTitle.font = UIFont.Font(FontName.Seravek, type: FontType.Bold, size: 24)
         
         let lblList = UILabel.init()
         lblList.numberOfLines = 0
 //        lblList.textAlignment = .left
         lblList.text = "GitHub:\nEZSwiftExtensions\nSnapKit\n\n"
+        lblList.textColor = .white
         
         addSubview(lblTitle)
         addSubview(lblList)
