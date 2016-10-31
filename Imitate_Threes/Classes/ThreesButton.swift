@@ -87,9 +87,11 @@ class ThreesButton: UIButton {
             doClosure!()
         }
     }
+    
     override func cancelTracking(with event: UIEvent?) {
         touchEnding()
     }
+    
     private func touchEnding() {
         lblTitle.snp.updateConstraints { (make) in
             make.height.equalToSuperview().offset(-popHeight)

@@ -42,7 +42,6 @@ class CustomAlertView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        commonInit()
     }
     
     
@@ -54,7 +53,6 @@ class CustomAlertView: UIView {
         stackButton.spacing = CGFloat(1)
         stackButton.distribution = UIStackViewDistribution.fillEqually
         stackButton.backgroundColor = UIColor.blue
-//        self.roundCorners(.allCorners, radius: 10)
         overlayView = UIView.init(frame: window.bounds)
         self.clipsToBounds = false
         bgViewForStack.roundCorners([.bottomLeft,.bottomRight], radius: 10)
@@ -77,9 +75,6 @@ class CustomAlertView: UIView {
             make.centerX.equalToSuperview()
             make.height.equalTo(50)
         }
-//        stackButton.snp.makeConstraints { (make) in
-//            make.edges.equalToSuperview()
-//        }
         if btnTitles.count > (closures?.count)! {
             var minClosureCount = (closures?.count)! - 1
             if minClosureCount < 0 {
@@ -101,17 +96,6 @@ class CustomAlertView: UIView {
             button.doClosure = closures?[i]
             stackButton.addArrangedSubview(button)
         }
-//        for btnTitle in btnTitles {
-//            let button = ThreesButton.init(buttonColor: UIColor.init(r: 41, g: 142, b: 11))
-//            button.addTarget(self, action: #selector(CustomAlertView.hide), for: UIControlEvents.touchUpInside)
-//            button.lblTitle.text = btnTitle
-//            button.lblTitle.textColor = .white
-////            print(button.titleLabel?.frame)
-//            button.setTitleColor(.white, for: .normal)
-//            button.setCornerRadius(radius: 8)
-//            
-//            stackButton.addArrangedSubview(button)
-//        }
     }
     
     func show() {

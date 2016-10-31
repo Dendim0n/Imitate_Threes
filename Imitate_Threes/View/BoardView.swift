@@ -16,9 +16,30 @@ class BoardView: UIView {
     
     let spacing = 10
     
-    var chesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
+    lazy var chesses:Array<Array<ChessView>> = {
+        var arr = Array<Array<ChessView>>()
+        for i in 0...3 {
+            var subArr = Array<ChessView>()
+            for j in 0...3 {
+                subArr.append(ChessView.init())
+            }
+            arr.append(subArr)
+        }
+        return arr
+    }()
     
-    var hiddenChesses = [[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()],[ChessView.init(),ChessView.init(),ChessView.init(),ChessView.init()]]
+    lazy var hiddenChesses:Array<Array<ChessView>> = {
+        var arr = Array<Array<ChessView>>()
+        for i in 0...3 {
+            var subArr = Array<ChessView>()
+            for j in 0...3 {
+                subArr.append(ChessView.init())
+            }
+            arr.append(subArr)
+        }
+        return arr
+    }()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +65,6 @@ class BoardView: UIView {
         mainStackView.spacing = CGFloat(spacing)
         mainStackView.distribution = UIStackViewDistribution.fillEqually
         mainStackView.snp.makeConstraints { (make) in
-//            make.edges.equalToSuperview()
             make.left.equalToSuperview().offset(15)
             make.right.equalToSuperview().offset(-15)
             make.top.equalToSuperview().offset(15)
@@ -67,9 +87,6 @@ class BoardView: UIView {
         for i in 0...3 {
             for j in 0...3 {
                 chesses[i][j] = ChessView.init(frame: hiddenChesses[i][j].frame)
-//                print(hiddenChesses[i][j].frame)
-                //                chesses[i][j].backgroundColor = UIColor.black
-                //                chesses[i][j].alpha = 0.5
                 addSubview(chesses[i][j])
                 chesses[i][j].line = i
                 chesses[i][j].col = j
@@ -123,7 +140,6 @@ class BoardView: UIView {
                 } else {
                     chesses[line][col].transform = CGAffineTransform.init(translationX: 0, y: 0)
                 }
-                
             }
         }
     }

@@ -120,28 +120,24 @@ class ChessView: UIView {
                 guard self.line == 3 else {
                     lastNum = number
                     return
-                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: offsetY)
             case .down:
                 guard self.line == 0 else {
                     lastNum = number
                     return
-                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: 0, y: -offsetY)
             case .left:
                 guard self.col == 3 else {
                     lastNum = number
                     return
-                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: offsetX, y: 0)
             case .right:
                 guard self.col == 0 else {
                     lastNum = number
                     return
-                    //                    break
                 }
                 transform = CGAffineTransform.init(translationX: -offsetX, y: 0)
             default:
@@ -151,9 +147,7 @@ class ChessView: UIView {
             self.transform = transform
             UIView.animate(withDuration: 0.3, animations: {
                 self.transform = CGAffineTransform.init(translationX: 0, y: 0)
-            }) { (Bool) in
-                //            self.addFinishedClosure?()
-            }
+            })
             lastNum = number
         } else {
             lastNum = number
@@ -168,7 +162,6 @@ class ChessView: UIView {
             UIView.transition(from: firstChess, to: secondChess, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
                 self.firstChess.lblChessNumber.text = "\(number)"
                 self.whichIsOnTheTop = .second
-                
                 self.secondChess.snp.remakeConstraints { (make) in
                     make.edges.equalTo(self)
                 }
@@ -179,7 +172,6 @@ class ChessView: UIView {
             UIView.transition(from: secondChess, to: firstChess, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromLeft) { (Bool) in
                 self.secondChess.lblChessNumber.text = "\(number)"
                 self.whichIsOnTheTop = .first
-                
                 self.firstChess.snp.remakeConstraints { (make) in
                     make.edges.equalTo(self)
                 }

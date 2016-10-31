@@ -23,21 +23,16 @@ class MainMenu: UIViewController {
         view.backgroundColor = .white
         view.addSubview(centerBoard)
         
-        
         let btnMenu = ThreesButton.init(buttonColor: .gray)
         btnMenu.addTarget(self, action: #selector(goToMenu), for: UIControlEvents.touchUpInside)
         btnMenu.layer.cornerRadius = 3
-//        btnMenu.setTitle("Menu", for: .normal)
         btnMenu.lblTitle.text = "Menu"
         btnMenu.setTitleColor(.white, for: .normal)
-//        btnMenu.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         
         let btnHelp = ThreesButton.init(buttonColor: UIColor.gray)
         btnHelp.addTarget(self, action: #selector(goToHelp), for: UIControlEvents.touchUpInside)
         btnHelp.layer.cornerRadius = 3
-//        btnHelp.backgroundColor = .darkGray
-//        btnHelp.setTitle("Help", for: .normal)
         btnHelp.lblTitle.text = "Help"
         btnHelp.setTitleColor(.white, for: .normal)
         view.addSubview(btnHelp)
@@ -48,7 +43,6 @@ class MainMenu: UIViewController {
         for letter in "THREES".characters {
             let label = UILabel.init()
             label.text = "\(letter)"
-//            Menlo Bold 30.0
             label.font = UIFont.Font(.Menlo, type: .Bold, size: 30)
             if letter.toString == "T" {
                 label.textColor = UIColor.init(colorLiteralRed: 86/255.0, green: 192/255.0, blue: 254/255.0, alpha: 1)
@@ -61,8 +55,6 @@ class MainMenu: UIViewController {
             letterStack.addArrangedSubview(label)
         }
         view.addSubview(letterStack)
-        
-        
         
         btnMenu.snp.makeConstraints { (make) in
             make.left.equalTo(centerBoard)
@@ -102,11 +94,7 @@ class MainMenu: UIViewController {
             make.right.equalToSuperview().offset(-30)
             make.top.equalTo(btnMenu.snp.bottom).offset(45)
             make.bottom.equalTo(btnPlay.snp.top).offset(-45)
-            //            make.height.equalTo(view.snp.width).multipliedBy(1.6)
         }
-        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,8 +109,6 @@ class MainMenu: UIViewController {
         for i in 0...3 {
             for j in 0...3 {
                 let chess = centerBoard.chesses[i][j]
-//                chess.removeFromSuperview()
-//                centerBoard.addSubview(chess)
                 chess.transform = CGAffineTransform.init(scaleX: 0, y: 0)
                 chess.setNumber(number: arr[i][j],added: false,direction: .none)
                 UIView.animate(withDuration: 0.4, delay: delay*Double(i+j), usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: UIViewAnimationOptions.allowUserInteraction, animations: {
@@ -139,8 +125,6 @@ class MainMenu: UIViewController {
         self.presentVC(vc)
     }
     func goToHelp() {
-//        let vc = .init()
-//        self.pushVC(vc)
         showAlert(title: "这就很尴尬了", detailText: "我以为你会玩。。", buttonTitles: ["那好吧~"], buttonClosures: [{}])
     }
     func playGame() {

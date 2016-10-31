@@ -51,9 +51,4 @@ class subChessView: UIView {
             self.backgroundColor = UIColor.white
         }
     }
-    func updateLabelConstraints() {
-        lblChessNumber.snp.removeConstraints()
-        lblChessNumber.frame = self.frame
-    }
-    
 }

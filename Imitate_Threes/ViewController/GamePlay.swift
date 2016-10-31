@@ -50,19 +50,13 @@ class GamePlay: UIViewController {
         btnMenu.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
         btnStatus.addTarget(self, action: #selector(showA), for: UIControlEvents.touchUpInside)
         nextChessBG.setCornerRadius(radius: 8)
-        //        gameBoard.layer.borderWidth = 5
-        //        gameBoard.layer.borderColor = UIColor.gray.cgColor
         btnMenu.layer.cornerRadius = 3
-        //        btnMenu.backgroundColor = .darkGray
         btnStatus.layer.cornerRadius = 3
-        //        btnStatus.backgroundColor = .darkGray
         view.addSubview(btnMenu)
         view.addSubview(btnStatus)
         view.addSubview(nextChessBG)
         view.addSubview(nextChess)
         view.addSubview(gameBoard)
-        
-        
         
         gameBoard.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(40)
@@ -107,20 +101,20 @@ class GamePlay: UIViewController {
         weak var weakSelf = self
         gameBoard.finishedClosure = {
             Void in
-            self.sync()
-            self.chessModel.addNewChess()
+            weakSelf?.sync()
+            weakSelf?.chessModel.addNewChess()
         }
         chessModel.doAdded = {
             Void in
-            self.sync()
+            weakSelf?.sync()
         }
         chessModel.doEvaluated = {
             Void in
-            self.showNextChesses()
+            weakSelf?.showNextChesses()
         }
         chessModel.doMoved = {
             array in
-            self.plusChesses = array
+            weakSelf?.plusChesses = array
         }
         chessModel.doLosed = {
             score in
@@ -130,19 +124,18 @@ class GamePlay: UIViewController {
             let mainMenuClosure = {
                 self.back()
             }
-//            self.gameBoard.isUserInteractionEnabled = false
-            self.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [tryAgainClosure,mainMenuClosure])
-            self.saveScore(score)
+            weakSelf?.showAlert(title: "You Lose!", detailText:"Score:\(score)" , buttonTitles: ["Try Again","Main Menu"],buttonClosures: [tryAgainClosure,mainMenuClosure])
+            weakSelf?.saveScore(score)
         }
         gameBoard.addPanGesture { (gesture) in
             if (gesture.state == UIGestureRecognizerState.began) {
                 weakSelf?.swipeDirection = .none
-                self.displayLink = CADisplayLink.init(target: self, selector: #selector(self.moveChesses))
+                self.displayLink = CADisplayLink.init(target: weakSelf!, selector: #selector(self.moveChesses))
                 weakSelf?.displayLink.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             } else if (gesture.state == UIGestureRecognizerState.ended) {
                 print("end")
                 weakSelf?.displayLink.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
-                if (self.currentTranslationPercent > 0.6 && (self.swipeDirection == .down || self.swipeDirection == .right)) || (self.currentTranslationPercent < -0.6 && (self.swipeDirection == .up || self.swipeDirection == .left))  {
+                if (weakSelf!.currentTranslationPercent > 0.6 && (weakSelf!.swipeDirection == .down || weakSelf!.swipeDirection == .right)) || (weakSelf!.currentTranslationPercent < -0.6 && (weakSelf!.swipeDirection == .up || weakSelf!.swipeDirection == .left))  {
                     
                     DispatchQueue.global().async {
                         weakSelf?.chessModel.move(direction: (weakSelf?.swipeDirection)!)
@@ -153,44 +146,42 @@ class GamePlay: UIViewController {
                             let horizontal = Double((chessFrame?.size.width)!) + padding
                             let vertical = Double((chessFrame?.size.height)!) + padding
                             
-                            switch self.swipeDirection {
+                            switch weakSelf!.swipeDirection {
                             case .up:
                                 weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(-vertical))
-                                weakSelf?.movableChesses = (weakSelf?.chessModel.upMovableChesses)!
+                                weakSelf?.movableChesses = weakSelf!.chessModel.upMovableChesses
                             case .down:
                                 weakSelf?.transform = CGAffineTransform(translationX: 0, y: CGFloat(vertical))
-                                weakSelf?.movableChesses = (weakSelf?.chessModel.downMovableChesses)!
+                                weakSelf?.movableChesses = weakSelf!.chessModel.downMovableChesses
                             case .left:
                                 weakSelf?.transform = CGAffineTransform(translationX: CGFloat(-horizontal), y: 0)
-                                weakSelf?.movableChesses = (weakSelf?.chessModel.leftMovableChesses)!
+                                weakSelf?.movableChesses = weakSelf!.chessModel.leftMovableChesses
                             case .right:
                                 weakSelf?.transform = CGAffineTransform(translationX: CGFloat(horizontal), y: 0)
-                                weakSelf?.movableChesses = (weakSelf?.chessModel.rightMovableChesses)!
+                                weakSelf?.movableChesses = weakSelf!.chessModel.rightMovableChesses
                             default:
                                 break
                             }
                             var boardMovable = false
                             for i in 0...3 {
                                 for j in 0...3 {
-                                    if self.movableChesses[i][j] == true { // && self.chessModel.board[i][j] != 0
+                                    if weakSelf!.movableChesses[i][j] == true {
                                         boardMovable = true
                                         break
                                     }
                                 }
                             }
                             if boardMovable {
-                                //                                print(self.movableChesses)
-                                weakSelf?.gameBoard.moveRealChesses(transform: (weakSelf?.transform)!, movableChesses: (weakSelf?.movableChesses)!, finished: true)
+                                weakSelf!.gameBoard.moveRealChesses(transform: weakSelf!.transform, movableChesses: weakSelf!.movableChesses, finished: true)
                             }
-                            self.gameBoard.moveChessesToOrigin(animated: false)
+                            weakSelf!.gameBoard.moveChessesToOrigin(animated: false)
                         })
                     }
                 } else {
-                    weakSelf?.gameBoard.moveChessesToOrigin(animated: true)
+                    weakSelf!.gameBoard.moveChessesToOrigin(animated: true)
                 }
             }
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -199,19 +190,16 @@ class GamePlay: UIViewController {
         sync()
     }
     
-    func moveChesses() { //point:CGPoint
+    func moveChesses() {
         
         let panGesture = gameBoard.gestureRecognizers?[0] as! UIPanGestureRecognizer
-        
         swipeDirection = determineSwipeDirection(translation: panGesture.translation(in: gameBoard))
         let point = panGesture.translation(in: gameBoard)
-        
         let chessFrame = gameBoard.chesses[0][0].frame
-        
-        
         let padding = 10.0
         let horizontal = Double(chessFrame.size.width) + padding
         let vertical = Double(chessFrame.size.height) + padding
+        
         switch self.swipeDirection {
         case .up:
             currentTranslationPercent = Double(max(point.y,CGFloat(-vertical))) / vertical
@@ -245,7 +233,6 @@ class GamePlay: UIViewController {
             return
         }
         gameBoard.moveRealChesses(transform: transform, movableChesses: movableChesses, finished: false)
-        
     }
     
     func showNextChesses() {
@@ -325,7 +312,7 @@ class GamePlay: UIViewController {
     }
     
     func saveScore(_ score:Int) {
-        //        let context = NSManaged
+        
         let s = NSNumber.init(integerLiteral: score)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
@@ -334,8 +321,6 @@ class GamePlay: UIViewController {
         score.setValue(s, forKey: "score")
         score.setValue(chessModel.board, forKey: "board")
         try? managedContext.save()
-        
-        //        CoreDataTools.sharedInstance
         
     }
     

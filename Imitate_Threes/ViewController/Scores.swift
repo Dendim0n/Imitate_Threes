@@ -35,11 +35,6 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
         setView()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func setView() {
         view.backgroundColor = .white
         btnBack = ThreesButton.init(buttonColor: .gray)
@@ -114,7 +109,6 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
             testLbl.textAlignment = .center
             titleView.transitionToView(testLbl, from: .top)
         }
-//        cell.setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/cell.frame.height))
         cell.origin.y = 28.5
         cell.setCornerRadius(radius: 5)
         print(collectionView.frame.height / 5)
@@ -150,7 +144,6 @@ class Scores: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionVi
                 let chessPoint = Double(board[i][j])
                 if chessPoint >= 3 {
                     score += scoreDic[chessPoint]!
-//                    print("Point:\(scoreDic[chessPoint])")
                 }
             }
         }

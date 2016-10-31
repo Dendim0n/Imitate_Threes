@@ -15,11 +15,9 @@ class ScoreCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //        commonInit()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        //        commonInit()
     }
     
     
@@ -28,7 +26,6 @@ class ScoreCell: UICollectionViewCell {
         let gameBoard = BoardView.init(frame: self.frame)
         addSubview(gameBoard)
         gameBoard.snp.makeConstraints { (make) in
-            //            make.edges.equalToSuperview()
             make.top.equalToSuperview().offset(25)
             make.bottom.equalToSuperview()
             make.left.equalToSuperview()
@@ -54,7 +51,6 @@ class ScoreCell: UICollectionViewCell {
         let point = UIBezierPath.init(ovalIn: liftPoint)
         liftLayer.path = point.cgPath
         
-        
         let lineLayer = CAShapeLayer()
         lineLayer.strokeColor = UIColor.gray.cgColor
         let line = UIBezierPath()
@@ -75,9 +71,7 @@ class ScoreCell: UICollectionViewCell {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         let angle:CGFloat = CGFloat(M_PI) / 24
-        //        self.layer.anchorPoint = CGPoint.init(x: self.frame.size.width / 2, y: 5)
         print(self.frame)
-//        setAnchorPoint(point: CGPoint.init(x: 0.5, y: 5/self.frame.height))
         self.transform = CGAffineTransform.init(rotationAngle: angle)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
             self.transform = CGAffineTransform.init(rotationAngle: 0)

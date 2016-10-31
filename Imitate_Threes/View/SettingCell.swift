@@ -23,18 +23,14 @@ class SettingCell: UICollectionViewCell {
         let btnClear = ThreesButton.init(buttonColor: UIColor.gray)
         btnClear.addTarget(self, action:  #selector(clearScores), for: UIControlEvents.touchUpInside)
         btnClear.lblTitle.text = "Clear Scores"
-        print(btnClear.titleLabel?.text)
         addSubview(btnClear)
         btnClear.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.height.equalTo(50)
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-//        btnClear.frame = self.frame
-//        btnClear.frame.origin = CGPoint.zero
     }
     func clearScores() {
-        print("123321")
         let scores:[Score] = CoreDataTools.sharedInstance.search(entityName: "Score", sort: nil, ascending: true, predicate: nil)!
         for score in scores {
             CoreDataTools.sharedInstance.delete(Object: score)

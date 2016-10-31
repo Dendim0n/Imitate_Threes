@@ -20,16 +20,16 @@ class TransitionView: UIView {
         case alpha
     }
     
-    
-    
     init() {
         super.init(frame: CGRect.zero)
         commonInit()
     }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
