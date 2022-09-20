@@ -5,7 +5,7 @@ _For Exercise ONLY_
 
 !![image](demo.gif)
 
-##Done:
+## Done:
 
 1.MainMenu
 
@@ -21,7 +21,7 @@ _For Exercise ONLY_
 
 7.Game Data Save&Delete (CoreData)
 
-##TODO:
+## TODO:
 
 1.`Done`Fix the anim problem when new chess added.
 
